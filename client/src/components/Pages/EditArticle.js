@@ -8,6 +8,8 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
 import { ToastAction } from "../ui/toast";
+import { Label } from "../ui/label";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 const api = axios.create({
   baseURL: "http://localhost:3344/news/",
@@ -15,7 +17,6 @@ const api = axios.create({
 function EditArticle({ contentValue, setContentValue }) {
   const navigate = useNavigate();
   const { toast } = useToast();
-
   let handleDelete = (e) => {
     e.preventDefault();
     api
@@ -48,7 +49,7 @@ function EditArticle({ contentValue, setContentValue }) {
         }
       )
       .then(function (response) {
-        console.log(response);
+        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -63,6 +64,13 @@ function EditArticle({ contentValue, setContentValue }) {
       navigate("/");
     }, 3000);
   };
+
+  let checked = () => {
+    if (isPublished === true) {
+      return "true";
+    }
+    return "false";
+  };
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [imgUrl, setImgUrl] = useState();
@@ -73,6 +81,8 @@ function EditArticle({ contentValue, setContentValue }) {
   const [isPublished, setIsPublished] = useState(false);
   const [queryParameter] = useSearchParams();
   let id = queryParameter.get("id");
+
+  let status = isPublished ? true : false;
   React.useEffect(() => {
     api.get(`${id}`).then((res) => {
       setTitle(res.data.title);
@@ -87,6 +97,7 @@ function EditArticle({ contentValue, setContentValue }) {
 
     return () => {};
   }, []);
+  console.log(status);
 
   return (
     <div className="flex flex-col container gap-1 mx-auto">
@@ -190,8 +201,19 @@ function EditArticle({ contentValue, setContentValue }) {
         <img className="w-1/3 my-6" src={imgUrl} />
       </div>
 
-      <label htmlFor="isPublished">Published?</label>
-      <input
+      <RadioGroup defaultValue="true" onValueChange={setIsPublished}>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="false" id="archived" />
+          <Label htmlFor="archived">Archived</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="true" id="published" />
+          <Label htmlFor="published">Published</Label>
+        </div>
+      </RadioGroup>
+
+      {/* <label htmlFor="isPublished">Published?</label> */}
+      {/* <input
         type="text"
         id="isPublished"
         name="isPublished"
@@ -201,7 +223,28 @@ function EditArticle({ contentValue, setContentValue }) {
           // @ts-ignore
           setIsPublished(e.target.value);
         }}
+      /> */}
+
+      {/* <input
+        type="radio"
+        name="isPublished"
+        value="false"
+        id="Unpublished"
+        checked={!isPublished}
+        onChange={onOptionChange}
       />
+      <label htmlFor="Unpublished">Not Published</label>
+
+      <input
+        type="radio"
+        name="isPublished"
+        value="true"
+        id="Published"
+        // checked={isPublished === "true"}
+        checked={isPublished}
+        onChange={onOptionChange}
+      /> */}
+      {/* <label htmlFor="Published">Published</label> */}
 
       <div className="mx-auto container ">
         <form>

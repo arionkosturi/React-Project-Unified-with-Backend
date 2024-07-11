@@ -1,7 +1,13 @@
 // @ts-nocheck
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  BrowserRouter,
+  Route,
+  Switch,
+} from "react-router-dom";
 import "./index.css";
 import "@radix-ui/themes/styles.css";
 import Home from "./components/Home";
@@ -12,12 +18,13 @@ import Paginate from "./components/Paginate";
 import Testing from "./components/Pages/Testing";
 import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
+import Login from "./components/Pages/Login";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-
     errorElement: <NotFoundPage />,
   },
   {
@@ -39,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/article",
     element: <Article />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

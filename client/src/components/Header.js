@@ -1,13 +1,20 @@
+// @ts-nocheck
 import React from "react";
 import { FaRegNewspaper } from "react-icons/fa";
 import AddArticle from "./Pages/AddArticle";
 import { useSearchParams, useLocation } from "react-router-dom";
+import { Button } from "./ui/button";
 export default function Header() {
   const [queryParameter] = useSearchParams();
   let editMode = queryParameter.get("id");
   const location = useLocation();
   let createMode = location.pathname;
-
+  let handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
   return (
     <div className="container mx-auto ">
       <div className="flex justify-between items-center py-4">
@@ -30,6 +37,12 @@ export default function Header() {
           )}
           {}
         </nav>
+        <Button
+          className="flex hover:bg-slate-50 m-4 shadow border py-1 px-2"
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );
