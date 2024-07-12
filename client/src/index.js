@@ -19,6 +19,11 @@ import Testing from "./components/Pages/Testing";
 import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
 import Login from "./components/Pages/Login";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const router = createBrowserRouter([
@@ -55,6 +60,9 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
