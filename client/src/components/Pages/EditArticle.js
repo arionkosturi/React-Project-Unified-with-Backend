@@ -70,7 +70,7 @@ function EditArticle({ contentValue, setContentValue }) {
       return "true";
     }
     return "false";
-  };
+  }; 
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [imgUrl, setImgUrl] = useState();

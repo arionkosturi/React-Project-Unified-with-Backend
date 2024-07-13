@@ -18,7 +18,6 @@ function Home() {
   return (
     <>
       <Header />
-      <Paginate currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <Articles
         isPublished={isPublished}
         setIsPublished={setIsPublished}

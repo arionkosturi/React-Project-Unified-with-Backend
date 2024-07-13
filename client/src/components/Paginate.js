@@ -11,7 +11,7 @@ import {
 } from "./ui/pagination";
 import AddArticle from "./Pages/AddArticle";
 
-function Paginate({ currentPage, setCurrentPage }) {
+function Paginate({ currentPage, setCurrentPage, isPreviousData, articles }) {
   return (
     <>
       <Pagination className="">
@@ -22,6 +22,7 @@ function Paginate({ currentPage, setCurrentPage }) {
               onClick={() => {
                 if (currentPage > 0)
                   setCurrentPage((prevPage) => +prevPage - 1);
+                console.log(currentPage);
               }}
             />
           </PaginationItem>
@@ -30,7 +31,10 @@ function Paginate({ currentPage, setCurrentPage }) {
             <PaginationNext
               className="text-purple-800 hover:text-purple-500"
               onClick={() => {
+                if (articles.length < 9) return;
                 setCurrentPage((prevPage) => +prevPage + 1);
+
+                console.log(articles);
               }}
             />
           </PaginationItem>
