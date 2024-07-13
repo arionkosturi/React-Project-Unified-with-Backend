@@ -10,17 +10,23 @@ import DeleteAlert from "../DeleteAlert";
 import { useNavigate } from "react-router-dom";
 import { useFetchArticles, useMutateArticle } from "../hooks/useFetchArticles";
 import Header from "../Header";
-import { useMutation, QueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+  MutationCache,
+} from "@tanstack/react-query";
 import Paginate from "../Paginate";
 
-const queryClient = new QueryClient();
-
 function Testing() {
+  const queryClient = useQueryClient();
+
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
   const { data: articles, isLoading, isError } = useFetchArticles(currentPage);
   const navigate = useNavigate();
-  const [isPublished, setIsPublished] = useState("");
+  // const [isPublished, setIsPublished] = useState("");
   return (
     <>
       <Header />
@@ -56,23 +62,25 @@ function Testing() {
             </div>
             {/* Actions */}
             <section className="flex flex-col gap-1 align-top justify-items-end">
-              <CheckPublished
-                handlePublish={() => {
-                  let id = article._id;
-                  mutate({ id, isPublished: !article.isPublished });
-                  console.log(
-                    `clicked ${article.title} - ${article.isPublished}`
-                  );
-                }}
-                isPublished={
-                  article.isPublished === true ? "Published" : "Archived"
-                }
-                className={
-                  article.isPublished === true
-                    ? "border w-24 h-9 mt-2 px-2 bg-green-400"
-                    : "border w-24 h-9 mt-2 px-2 bg-red-400"
-                }
-              />
+              <QueryClientProvider client={queryClient}>
+                <CheckPublished
+                  handlePublish={() => {
+                    let articleId = article._id;
+                    mutate({
+                      articleId,
+                      isPublished: !article.isPublished,
+                    });
+                  }}
+                  isPublished={
+                    article.isPublished === true ? "Published" : "Archived"
+                  }
+                  className={
+                    article.isPublished === true
+                      ? "border w-24 h-9 mt-2 px-2 bg-green-400"
+                      : "border w-24 h-9 mt-2 px-2 bg-red-400"
+                  }
+                />
+              </QueryClientProvider>
               <button
                 // onClick={handleEdit}
                 className="border w-24 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 "

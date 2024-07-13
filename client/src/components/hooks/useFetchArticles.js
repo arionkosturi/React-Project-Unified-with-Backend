@@ -1,5 +1,12 @@
 // @ts-nocheck
-import { useMutation, useMutationState, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+  useMutation,
+  useMutationState,
+  useQuery,
+} from "@tanstack/react-query";
 import { apiClient } from "../api/apiClient";
 import { useToast } from "../ui/use-toast";
 
@@ -16,8 +23,7 @@ export const useFetchArticles = (currentPage) => {
       const { data } = await fetchArticles(currentPage);
       return data;
     },
-    queryKey: ["all articles", { currentPage }],
-    keepPreviousData: true,
+    queryKey: ["articles", { currentPage }],
   });
 };
 
@@ -80,16 +86,19 @@ export const useAddArticle = () => {
 };
 //Mutate Article
 const mutateSingleArticle = async (id) => {
-  console.log(id.id);
-  return await apiClient.patch(`${id.id}`);
+  let { title, isPublished } = id;
+  return await apiClient.patch(`${id.articleId}`, { title, isPublished });
 };
 // Mutate Article
-export const useMutateArticle = (id, article) => {
-  // const [queryParameter] = useSearchParams();
-  // let id = queryParameter.get("id");
+export const useMutateArticle = (article) => {
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: mutateSingleArticle,
     mutationKey: ["single article"],
+    mutationFn: mutateSingleArticle,
+    onSettled: () => {
+      console.log("settled");
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+    },
   });
 };

@@ -22,7 +22,6 @@ function Paginate({ currentPage, setCurrentPage, isPreviousData, articles }) {
               onClick={() => {
                 if (currentPage > 0)
                   setCurrentPage((prevPage) => +prevPage - 1);
-                console.log(currentPage);
               }}
             />
           </PaginationItem>
@@ -33,8 +32,6 @@ function Paginate({ currentPage, setCurrentPage, isPreviousData, articles }) {
               onClick={() => {
                 if (articles.length < 9) return;
                 setCurrentPage((prevPage) => +prevPage + 1);
-
-                console.log(articles);
               }}
             />
           </PaginationItem>
