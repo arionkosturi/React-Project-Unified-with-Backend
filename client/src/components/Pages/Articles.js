@@ -1,23 +1,22 @@
 // @ts-nocheck
 import axios from "axios";
 import React, { useState } from "react";
-import { useToast } from "./ui/use-toast";
-import { Toaster } from "./ui/toaster";
-import { ToastAction } from "./ui/toast";
-import CheckPublished from "./CheckPublished";
-import CheckHighlighted from "./CheckHighlited";
+import { useToast } from "../ui/use-toast";
+import { Toaster } from "../ui/toaster";
+import { ToastAction } from "../ui/toast";
+import CheckPublished from "../CheckPublished";
+import CheckHighlighted from "../CheckHighlited";
 import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
-import DeleteAlert from "./DeleteAlert";
-import Alert from "./Alert";
+import Alert from "../Alert";
 import { useNavigate } from "react-router-dom";
 import {
   useFetchArticles,
   useMutateArticle,
   useDeleteArticle,
-} from "./hooks/useFetchArticles";
-import Header from "./Header";
+} from "../hooks/useFetchArticles";
+import Header from "../Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Paginate from "./Paginate";
+import Paginate from "../Paginate";
 
 function Articles() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -83,7 +82,7 @@ function Articles() {
               <Alert
                 handleFunction={handlePublish}
                 alertTriggerButton={
-                  <button>
+                  <div>
                     <CheckPublished
                       isPublished={
                         article.isPublished === true ? "Published" : "Archived"
@@ -94,7 +93,7 @@ function Articles() {
                           : "border w-32 h-9 mt-2 px-2 bg-red-400 hover:bg-red-500 flex justify-center gap-2"
                       }
                     />
-                  </button>
+                  </div>
                 }
                 alertTitle="Jeni i sigurt?"
                 alertMessage={
@@ -107,7 +106,7 @@ function Articles() {
               <Alert
                 handleFunction={handleHighlighted}
                 alertTriggerButton={
-                  <button>
+                  <div>
                     <CheckHighlighted
                       isHighlighted={
                         article.isHighlighted === true ? "Featured" : "Feature"
@@ -118,7 +117,7 @@ function Articles() {
                           : "border w-32 h-9 mt-2 px-2 bg-amber-400 hover:bg-amber-500 flex justify-center gap-2"
                       }
                     />
-                  </button>
+                  </div>
                 }
                 alertTitle="Jeni i sigurt?"
                 alertMessage={
@@ -137,8 +136,14 @@ function Articles() {
               </button>
 
               {/* Delete Button */}
-              <DeleteAlert
-                handleDelete={handleDelete}
+              <Alert
+                handleFunction={handleDelete}
+                alertTriggerButton={
+                  <div className="w-32 hover:text-slate-100 text-white border h-9  flex bg-red-500 hover:bg-red-600 gap-2 justify-center ">
+                    <p className="py-1 ms-2 flex ">Delete</p>
+                    <FaTrash className="mt-2 me-2" />
+                  </div>
+                }
                 alertTitle="Jeni i sigurt?"
                 alertMessage="Jeni duke fshire artikullin nga serveri. Jeni te sigurt per kete veprim?"
               />

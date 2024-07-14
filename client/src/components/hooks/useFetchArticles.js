@@ -102,11 +102,12 @@ export const useMutateArticle = (article) => {
     mutationFn: mutateSingleArticle,
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
+      queryClient.invalidateQueries({ queryKey: ["single article"] });
     },
   });
 };
 
-//Mutate Article
+//Delete Article
 const deleteSingleArticle = async (id) => {
   return await apiClient.delete(`${id}`);
 };

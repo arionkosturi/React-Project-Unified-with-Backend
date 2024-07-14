@@ -1,7 +1,11 @@
 import React from "react";
 import Header from "../Header";
-import { useSingleArticle } from "../hooks/useFetchArticles";
+import { useMutateArticle, useSingleArticle } from "../hooks/useFetchArticles";
+import { FaInfoCircle } from "react-icons/fa";
+import Alert from "../Alert";
 function Article() {
+  const { mutate } = useMutateArticle();
+
   const { data: article, isLoading, isError, error } = useSingleArticle();
   if (isLoading) {
     return <div>Loading...</div>;
@@ -10,23 +14,37 @@ function Article() {
   if (error) {
     return <div>Error fetching data.</div>;
   }
-
+  let handlePublish = () => {
+    let articleId = article._id;
+    mutate({
+      articleId,
+      isPublished: !article.isPublished,
+    });
+  };
   return (
     <>
       <Header />
       <div>
-        <section className={" container mx-auto dark:bg-gray-900 "}>
-          <div className="container mx-auto">
-            <div
-              className={
-                !article.isPublished &&
-                "bg-amber-400 flex text-neutral-600  justify-center p-4 h-16  text-neutral-800container mx-auto dark:bg-gray-900"
-              }
-            >
-              {article.isPublished !== true
-                ? "This article is not published"
-                : ""}
-            </div>
+        <section className={" container mx-auto dark:bg-gray-900  "}>
+          <div className="container mx-auto ">
+            {!article.isPublished && (
+              <div className="bg-amber-300 flex text-neutral-600  justify-between p-4 h-16  text-neutral-800container mx-auto dark:bg-gray-900 gap-4">
+                <FaInfoCircle className="text-3xl" />
+                <p className="text-md font-semibold">
+                  Ky artikull eshte i arkivuar. Deshiron ta publikosh?
+                </p>
+                <Alert
+                  handleFunction={handlePublish}
+                  alertTriggerButton={
+                    <button className="border shadow text-neutral-900 bg-white hover:bg-slate-50 px-3 text-center">
+                      Publish
+                    </button>
+                  }
+                  alertTitle="Jeni i sigurt?"
+                  alertMessage="Deshiron ta Publikosh artikullin?"
+                />
+              </div>
+            )}
             <div className="mt-2 lg:-mx-6">
               <p className="block mb-4 text-3xl font-semibold text-gray-800 dark:text-white">
                 {article.title}
@@ -37,11 +55,9 @@ function Article() {
                 alt=""
               />
               <div className="mt-6  lg:mt-0 lg:mx-6 ">
-                {/* <a href="category.html?category=${data.category}"> */}{" "}
                 <p className="text-lg p-2 text-purple-700 font-bold uppercase">
                   {article.category}
                 </p>
-                {/* </a> */}
                 <p className="block mt-4 text-xl font-semibold text-gray-800 dark:text-white">
                   {article.description}
                 </p>

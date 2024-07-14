@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Header from "../Header";
 import CustomEditor from "../CustomEditor";
-import DeleteAlert from "../DeleteAlert";
+import Alert from "../Alert";
+import { FaTrash } from "react-icons/fa";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
@@ -70,7 +71,7 @@ function EditArticle({ contentValue, setContentValue }) {
       return "true";
     }
     return "false";
-  }; 
+  };
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [imgUrl, setImgUrl] = useState();
@@ -255,13 +256,18 @@ function EditArticle({ contentValue, setContentValue }) {
               </button>
             </Link>
             <span className="border shadow hover:bg-red-500 bg-red-600 text-white">
-              <DeleteAlert
+              {/* Delete Button */}
+              <Alert
+                handleFunction={handleDelete}
+                alertTriggerButton={
+                  <div className="w-32 hover:text-slate-100 text-white border h-9  flex bg-red-500 hover:bg-red-600 gap-2 justify-center ">
+                    <p className="py-1 ms-2 flex ">Delete</p>
+                    <FaTrash className="mt-2 me-2" />
+                  </div>
+                }
                 alertTitle="Jeni i sigurt?"
-                alertMessage="Jeni duke fshire artikullin nga serveri. Jeni te sigurt
-    per kete veprim?"
-                className="mt-3 w-32 text-xl hover:text-slate-300 "
-                handleDelete={handleDelete}
-              ></DeleteAlert>
+                alertMessage="Jeni duke fshire artikullin nga serveri. Jeni te sigurt per kete veprim?"
+              />
             </span>
             <button
               onClick={handleSubmit}

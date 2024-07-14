@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import AddArticle from "./Pages/AddArticle";
-import Articles from "./Articles";
+import Articles from "./Pages/Articles";
 import Header from "./Header";
 import Paginate from "./Paginate";
 import Login from "./Pages/Login";

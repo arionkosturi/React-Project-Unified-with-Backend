@@ -5,27 +5,31 @@ import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
 import { ToastAction } from "../ui/toast";
 import CheckPublished from "../CheckPublished";
-import { FaTrash, FaPencilAlt } from "react-icons/fa";
-import DeleteAlert from "../DeleteAlert";
+import CheckHighlighted from "../CheckHighlited";
+import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
+import Alert from "../Alert";
 import { useNavigate } from "react-router-dom";
-import { useFetchArticles, useMutateArticle } from "../hooks/useFetchArticles";
+import {
+  useFetchArticles,
+  useMutateArticle,
+  useDeleteArticle,
+} from "../hooks/useFetchArticles";
 import Header from "../Header";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Paginate from "../Paginate";
-
+import Buttons from "../Buttons";
 function Testing() {
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
+  const { mutate: remove } = useDeleteArticle();
   const { data: articles, isLoading, isError } = useFetchArticles(currentPage);
   const navigate = useNavigate();
   return (
     <>
-      <Header />
       <Paginate
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         articles={articles}
-        onClick={"click"}
       />
       {articles?.map((article) => {
         let handleViewArticle = () => {
@@ -33,6 +37,24 @@ function Testing() {
         };
         let handleEdit = () => {
           navigate(`../edit?id=${article._id}`);
+        };
+        let handlePublish = () => {
+          let articleId = article._id;
+          mutate({
+            articleId,
+            isPublished: !article.isPublished,
+          });
+        };
+        let handleHighlighted = () => {
+          let articleId = article._id;
+          mutate({
+            articleId,
+            isHighlighted: !article.isHighlighted,
+          });
+        };
+        let handleDelete = () => {
+          let articleId = article._id;
+          remove(articleId);
         };
         return (
           <div
@@ -54,40 +76,15 @@ function Testing() {
                 </p>
               </div>
             </div>
-            {/* Actions */}
-            <section className="flex flex-col gap-1 align-top justify-items-end">
-              <CheckPublished
-                handlePublish={() => {
-                  let articleId = article._id;
-                  mutate({
-                    articleId,
-                    isPublished: !article.isPublished,
-                  });
-                }}
-                isPublished={
-                  article.isPublished === true ? "Published" : "Archived"
-                }
-                className={
-                  article.isPublished === true
-                    ? "border w-24 h-9 mt-2 px-2 bg-green-400"
-                    : "border w-24 h-9 mt-2 px-2 bg-red-400"
-                }
-              />
-              <button
-                onClick={handleEdit}
-                className="border w-24 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 "
-              >
-                <p className="py-1 ms-2 flex">Edit</p>
-                <FaPencilAlt className="m-2 " />
-              </button>
-
-              {/* Delete Button */}
-              <DeleteAlert
-                // handleDelete={handleDelete}
-                alertTitle="Jeni i sigurt?"
-                alertMessage="Jeni duke fshire artikullin nga serveri. Jeni te sigurt per kete veprim?"
-              />
-            </section>
+            <Buttons
+              article={article}
+              CheckPublished={CheckPublished}
+              handlePublish={handlePublish}
+              handleHighlighted={handleHighlighted}
+              CheckHighlighted={CheckHighlighted}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
           </div>
         );
       })}
