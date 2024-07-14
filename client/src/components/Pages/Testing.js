@@ -10,23 +10,14 @@ import DeleteAlert from "../DeleteAlert";
 import { useNavigate } from "react-router-dom";
 import { useFetchArticles, useMutateArticle } from "../hooks/useFetchArticles";
 import Header from "../Header";
-import {
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-  MutationCache,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Paginate from "../Paginate";
 
 function Testing() {
-  const queryClient = useQueryClient();
-
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
   const { data: articles, isLoading, isError } = useFetchArticles(currentPage);
   const navigate = useNavigate();
-  // const [isPublished, setIsPublished] = useState("");
   return (
     <>
       <Header />
@@ -37,8 +28,11 @@ function Testing() {
         onClick={"click"}
       />
       {articles?.map((article) => {
-        let handleEdit = () => {
+        let handleViewArticle = () => {
           navigate(`../article?id=${article._id}`);
+        };
+        let handleEdit = () => {
+          navigate(`../edit?id=${article._id}`);
         };
         return (
           <div
@@ -50,7 +44,7 @@ function Testing() {
               <img className=" my-2 p-2 w-48 h-48" src={article.imgUrl} />
               <div className="w-full">
                 <h1
-                  onClick={handleEdit}
+                  onClick={handleViewArticle}
                   className="font-bold mx-4 my-2 line-clamp-2 text-purple-400"
                 >
                   {article.title}
@@ -62,27 +56,25 @@ function Testing() {
             </div>
             {/* Actions */}
             <section className="flex flex-col gap-1 align-top justify-items-end">
-              <QueryClientProvider client={queryClient}>
-                <CheckPublished
-                  handlePublish={() => {
-                    let articleId = article._id;
-                    mutate({
-                      articleId,
-                      isPublished: !article.isPublished,
-                    });
-                  }}
-                  isPublished={
-                    article.isPublished === true ? "Published" : "Archived"
-                  }
-                  className={
-                    article.isPublished === true
-                      ? "border w-24 h-9 mt-2 px-2 bg-green-400"
-                      : "border w-24 h-9 mt-2 px-2 bg-red-400"
-                  }
-                />
-              </QueryClientProvider>
+              <CheckPublished
+                handlePublish={() => {
+                  let articleId = article._id;
+                  mutate({
+                    articleId,
+                    isPublished: !article.isPublished,
+                  });
+                }}
+                isPublished={
+                  article.isPublished === true ? "Published" : "Archived"
+                }
+                className={
+                  article.isPublished === true
+                    ? "border w-24 h-9 mt-2 px-2 bg-green-400"
+                    : "border w-24 h-9 mt-2 px-2 bg-red-400"
+                }
+              />
               <button
-                // onClick={handleEdit}
+                onClick={handleEdit}
                 className="border w-24 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 "
               >
                 <p className="py-1 ms-2 flex">Edit</p>

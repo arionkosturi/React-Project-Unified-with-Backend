@@ -10,34 +10,28 @@ import DeleteAlert from "./DeleteAlert";
 import { useNavigate } from "react-router-dom";
 import { useFetchArticles, useMutateArticle } from "./hooks/useFetchArticles";
 import Header from "./Header";
-import { useMutation, QueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Paginate from "./Paginate";
 
-const queryClient = new QueryClient();
-
-function Testing() {
+function Articles() {
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
-  const {
-    data: articles,
-    isLoading,
-    isError,
-    isPreviousData,
-  } = useFetchArticles(currentPage);
+  const { data: articles, isLoading, isError } = useFetchArticles(currentPage);
   const navigate = useNavigate();
-  const [isPublished, setIsPublished] = useState("");
   return (
     <>
       <Paginate
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         articles={articles}
-        isPreviousData={isPreviousData}
         onClick={"click"}
       />
       {articles?.map((article) => {
-        let handleEdit = () => {
+        let handleViewArticle = () => {
           navigate(`./article?id=${article._id}`);
+        };
+        let handleEdit = () => {
+          navigate(`./edit?id=${article._id}`);
         };
         return (
           <div
@@ -49,7 +43,7 @@ function Testing() {
               <img className=" my-2 p-2 w-48 h-48" src={article.imgUrl} />
               <div className="w-full">
                 <h1
-                  onClick={handleEdit}
+                  onClick={handleViewArticle}
                   className="font-bold mx-4 my-2 line-clamp-2 text-purple-400"
                 >
                   {article.title}
@@ -63,10 +57,11 @@ function Testing() {
             <section className="flex flex-col gap-1 align-top justify-items-end">
               <CheckPublished
                 handlePublish={() => {
-                  mutate(isPublished);
-                  console.log(
-                    `clicked ${article.title} - ${article.isPublished}`
-                  );
+                  let articleId = article._id;
+                  mutate({
+                    articleId,
+                    isPublished: !article.isPublished,
+                  });
                 }}
                 isPublished={
                   article.isPublished === true ? "Published" : "Archived"
@@ -78,7 +73,7 @@ function Testing() {
                 }
               />
               <button
-                // onClick={handleEdit}
+                onClick={handleEdit}
                 className="border w-24 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 "
               >
                 <p className="py-1 ms-2 flex">Edit</p>
@@ -99,4 +94,4 @@ function Testing() {
   );
 }
 
-export default Testing;
+export default Articles;
