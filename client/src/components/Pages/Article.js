@@ -15,9 +15,22 @@ function Article() {
     <>
       <Header />
       <div>
-        <section className="bg-white container mx-auto dark:bg-gray-900">
+        <section className={" container mx-auto dark:bg-gray-900 "}>
           <div className="container mx-auto">
-            <div className="mt-8 lg:-mx-6">
+            <div
+              className={
+                !article.isPublished &&
+                "bg-amber-400 flex text-neutral-600  justify-center p-4 h-16  text-neutral-800container mx-auto dark:bg-gray-900"
+              }
+            >
+              {article.isPublished !== true
+                ? "This article is not published"
+                : ""}
+            </div>
+            <div className="mt-2 lg:-mx-6">
+              <p className="block mb-4 text-3xl font-semibold text-gray-800 dark:text-white">
+                {article.title}
+              </p>
               <img
                 className="object-cover w-[90%] lg:mx-6 rounded-xl h-72"
                 src={article.imgUrl}
