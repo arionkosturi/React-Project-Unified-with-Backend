@@ -207,6 +207,14 @@ router.patch("/:articleId", (req, res, next) => {
 
 router.delete("/:articleId", (req, res, next) => {
   const id = req.params.articleId;
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "DELETE");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+  );
   Article.findOneAndDelete({ _id: id })
     .exec()
     .then((result) => {

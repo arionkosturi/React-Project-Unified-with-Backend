@@ -8,7 +8,11 @@ import CheckPublished from "./CheckPublished";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import DeleteAlert from "./DeleteAlert";
 import { useNavigate } from "react-router-dom";
-import { useFetchArticles, useMutateArticle } from "./hooks/useFetchArticles";
+import {
+  useFetchArticles,
+  useMutateArticle,
+  useDeleteArticle,
+} from "./hooks/useFetchArticles";
 import Header from "./Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Paginate from "./Paginate";
@@ -16,6 +20,7 @@ import Paginate from "./Paginate";
 function Articles() {
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
+  const { mutate: remove } = useDeleteArticle();
   const { data: articles, isLoading, isError } = useFetchArticles(currentPage);
   const navigate = useNavigate();
   return (
@@ -24,7 +29,6 @@ function Articles() {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         articles={articles}
-        onClick={"click"}
       />
       {articles?.map((article) => {
         let handleViewArticle = () => {
@@ -32,6 +36,17 @@ function Articles() {
         };
         let handleEdit = () => {
           navigate(`./edit?id=${article._id}`);
+        };
+        let handlePublish = () => {
+          let articleId = article._id;
+          mutate({
+            articleId,
+            isPublished: !article.isPublished,
+          });
+        };
+        let handleDelete = () => {
+          let articleId = article._id;
+          remove(articleId);
         };
         return (
           <div
@@ -56,13 +71,7 @@ function Articles() {
             {/* Actions */}
             <section className="flex flex-col gap-1 align-top justify-items-end">
               <CheckPublished
-                handlePublish={() => {
-                  let articleId = article._id;
-                  mutate({
-                    articleId,
-                    isPublished: !article.isPublished,
-                  });
-                }}
+                handlePublish={handlePublish}
                 isPublished={
                   article.isPublished === true ? "Published" : "Archived"
                 }
@@ -82,7 +91,7 @@ function Articles() {
 
               {/* Delete Button */}
               <DeleteAlert
-                // handleDelete={handleDelete}
+                handleDelete={handleDelete}
                 alertTitle="Jeni i sigurt?"
                 alertMessage="Jeni duke fshire artikullin nga serveri. Jeni te sigurt per kete veprim?"
               />
