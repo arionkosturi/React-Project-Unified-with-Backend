@@ -3,6 +3,7 @@ import Header from "../Header";
 import { useMutateArticle, useSingleArticle } from "../hooks/useFetchArticles";
 import { FaInfoCircle } from "react-icons/fa";
 import Alert from "../Alert";
+import CheckHighlighted from "../CheckHighlited";
 function Article() {
   const { mutate } = useMutateArticle();
 
@@ -21,12 +22,20 @@ function Article() {
       isPublished: !article.isPublished,
     });
   };
+  let handleHighlighted = () => {
+    let articleId = article._id;
+    mutate({
+      articleId,
+      isHighlighted: !article.isHighlighted,
+    });
+  };
   return (
     <>
       <Header />
       <div>
         <section className={" container mx-auto dark:bg-gray-900  "}>
           <div className="container mx-auto ">
+            {/* Banner when not published */}
             {!article.isPublished && (
               <div className="bg-amber-300 flex text-neutral-600  justify-between p-4 h-16  text-neutral-800container mx-auto dark:bg-gray-900 gap-4">
                 <FaInfoCircle className="text-3xl" />
@@ -42,6 +51,52 @@ function Article() {
                   }
                   alertTitle="Jeni i sigurt?"
                   alertMessage="Deshiron ta Publikosh artikullin?"
+                />
+              </div>
+            )}
+            {/* Banner when is published */}
+            {article.isPublished && (
+              <div className="bg-green-300 flex text-neutral-600 justify-center items-center  h-16  container dark:bg-gray-900 gap-4">
+                <FaInfoCircle className="text-3xl" />
+                <p className="text-md font-semibold mt-1">
+                  Ky artikull eshte i publikuar.
+                </p>
+                {/* Archive Article */}
+                <Alert
+                  handleFunction={handlePublish}
+                  alertTriggerButton={
+                    <button className="justify-self-center h-9 shadow text-white bg-red-400 hover:bg-red-500 px-2 text-center">
+                      Archive
+                    </button>
+                  }
+                  alertTitle="Jeni i sigurt?"
+                  alertMessage="Deshiron ta Publikosh artikullin?"
+                />
+                <Alert
+                  handleFunction={handleHighlighted}
+                  alertTriggerButton={
+                    <div className="">
+                      <CheckHighlighted
+                        isHighlighted={
+                          article.isHighlighted === true
+                            ? "Featured"
+                            : "Feature"
+                        }
+                        className={
+                          article.isHighlighted === true
+                            ? "border shadow w-32 h-9  bg-emerald-400 hover:bg-green-500 flex justify-center gap-2"
+                            : "border shadow w-32 h-9   bg-amber-400 hover:bg-amber-500 flex justify-center gap-2"
+                        }
+                        handleHighlighted={undefined}
+                      />
+                    </div>
+                  }
+                  alertTitle="Jeni i sigurt?"
+                  alertMessage={
+                    article.isHighlighted === true
+                      ? "Deshiron ta heqesh artikullin nga Highlighted?"
+                      : "Deshiron ta besh artikullin Highlighted?"
+                  }
                 />
               </div>
             )}
