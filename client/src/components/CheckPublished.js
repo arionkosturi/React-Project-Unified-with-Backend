@@ -4,7 +4,7 @@ function checkPublished({ isPublished, className, handlePublish }) {
   return (
     <>
       <button onClick={handlePublish} className={className}>
-        {isPublished}
+        <span className="mt-1">{isPublished}</span>
       </button>
     </>
   );

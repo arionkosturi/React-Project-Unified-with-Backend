@@ -8,6 +8,7 @@ import CheckPublished from "./CheckPublished";
 import CheckHighlighted from "./CheckHighlited";
 import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
 import DeleteAlert from "./DeleteAlert";
+import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 import {
   useFetchArticles,
@@ -78,26 +79,52 @@ function Articles() {
             </div>
             {/* Actions */}
             <section className="flex flex-col gap-1 align-top justify-items-end">
-              <CheckPublished
-                handlePublish={handlePublish}
-                isPublished={
-                  article.isPublished === true ? "Published" : "Archived"
+              {/* Publish Article Button */}
+              <Alert
+                handleFunction={handlePublish}
+                alertTriggerButton={
+                  <button>
+                    <CheckPublished
+                      isPublished={
+                        article.isPublished === true ? "Published" : "Archived"
+                      }
+                      className={
+                        article.isPublished === true
+                          ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
+                          : "border w-32 h-9 mt-2 px-2 bg-red-400 hover:bg-red-500 flex justify-center gap-2"
+                      }
+                    />
+                  </button>
                 }
-                className={
+                alertTitle="Jeni i sigurt?"
+                alertMessage={
                   article.isPublished === true
-                    ? "border w-32 h-9 mt-2 px-2 bg-green-400"
-                    : "border w-32 h-9 mt-2 px-2 bg-red-400"
+                    ? "Deshiron ta arkivosh artikullin?"
+                    : "Deshiron ta Publikosh artikullin?"
                 }
               />
-              <CheckHighlighted
-                handleHighlighted={handleHighlighted}
-                isHighlighted={
-                  article.isHighlighted === true ? "Featured" : "Feature"
+              {/* Featured Article Button */}
+              <Alert
+                handleFunction={handleHighlighted}
+                alertTriggerButton={
+                  <button>
+                    <CheckHighlighted
+                      isHighlighted={
+                        article.isHighlighted === true ? "Featured" : "Feature"
+                      }
+                      className={
+                        article.isHighlighted === true
+                          ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
+                          : "border w-32 h-9 mt-2 px-2 bg-amber-400 hover:bg-amber-500 flex justify-center gap-2"
+                      }
+                    />
+                  </button>
                 }
-                className={
+                alertTitle="Jeni i sigurt?"
+                alertMessage={
                   article.isHighlighted === true
-                    ? "border w-32 h-9 mt-2 px-2 bg-green-400 flex justify-center gap-2"
-                    : "border w-32 h-9 mt-2 px-2 bg-amber-400 flex justify-center gap-2"
+                    ? "Deshiron ta heqesh artikullin nga Highlighted?"
+                    : "Deshiron ta besh artikullin Highlighted?"
                 }
               />
 
