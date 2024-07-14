@@ -86,8 +86,12 @@ export const useAddArticle = () => {
 };
 //Mutate Article
 const mutateSingleArticle = async (id) => {
-  let { title, isPublished } = id;
-  return await apiClient.patch(`${id.articleId}`, { title, isPublished });
+  let { title, isPublished, isHighlighted } = id;
+  return await apiClient.patch(`${id.articleId}`, {
+    title,
+    isPublished,
+    isHighlighted,
+  });
 };
 // Mutate Article
 export const useMutateArticle = (article) => {
@@ -97,7 +101,6 @@ export const useMutateArticle = (article) => {
     mutationKey: ["single article"],
     mutationFn: mutateSingleArticle,
     onSettled: () => {
-      console.log("settled");
       queryClient.invalidateQueries({ queryKey: ["articles"] });
     },
   });

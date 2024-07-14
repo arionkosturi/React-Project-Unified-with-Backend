@@ -5,7 +5,8 @@ import { useToast } from "./ui/use-toast";
 import { Toaster } from "./ui/toaster";
 import { ToastAction } from "./ui/toast";
 import CheckPublished from "./CheckPublished";
-import { FaTrash, FaPencilAlt } from "react-icons/fa";
+import CheckHighlighted from "./CheckHighlited";
+import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
 import DeleteAlert from "./DeleteAlert";
 import { useNavigate } from "react-router-dom";
 import {
@@ -44,6 +45,13 @@ function Articles() {
             isPublished: !article.isPublished,
           });
         };
+        let handleHighlighted = () => {
+          let articleId = article._id;
+          mutate({
+            articleId,
+            isHighlighted: !article.isHighlighted,
+          });
+        };
         let handleDelete = () => {
           let articleId = article._id;
           remove(articleId);
@@ -77,13 +85,25 @@ function Articles() {
                 }
                 className={
                   article.isPublished === true
-                    ? "border w-24 h-9 mt-2 px-2 bg-green-400"
-                    : "border w-24 h-9 mt-2 px-2 bg-red-400"
+                    ? "border w-32 h-9 mt-2 px-2 bg-green-400"
+                    : "border w-32 h-9 mt-2 px-2 bg-red-400"
                 }
               />
+              <CheckHighlighted
+                handleHighlighted={handleHighlighted}
+                isHighlighted={
+                  article.isHighlighted === true ? "Featured" : "Feature"
+                }
+                className={
+                  article.isHighlighted === true
+                    ? "border w-32 h-9 mt-2 px-2 bg-green-400 flex justify-center gap-2"
+                    : "border w-32 h-9 mt-2 px-2 bg-amber-400 flex justify-center gap-2"
+                }
+              />
+
               <button
                 onClick={handleEdit}
-                className="border w-24 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 "
+                className="border w-32 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 justify-center "
               >
                 <p className="py-1 ms-2 flex">Edit</p>
                 <FaPencilAlt className="m-2 " />

@@ -49,7 +49,7 @@ router.get("/", (req, res, next) => {
 
 //TOP 10
 router.get("/top", (req, res, next) => {
-  Article.find({ $and: [{ isPublished: true }, { isHighlited: true }] })
+  Article.find({ $and: [{ isPublished: true }, { isHighlighted: true }] })
     .limit(10)
     .sort({ createdAt: -1 })
     .exec()

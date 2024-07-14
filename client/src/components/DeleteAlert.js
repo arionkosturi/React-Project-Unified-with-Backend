@@ -6,8 +6,8 @@ function DeleteAlert({ handleDelete, alertTitle, alertMessage }) {
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>
-        <button className="w-24 hover:text-slate-100 text-white border h-9  flex bg-red-600 hover:bg-red-500 gap-2 ">
-          <p className="py-1 ms-2 flex">Delete</p>
+        <button className="w-32 hover:text-slate-100 text-white border h-9  flex bg-red-600 hover:bg-red-500 gap-2 justify-center ">
+          <p className="py-1 ms-2 flex ">Delete</p>
           <FaTrash className="mt-2 me-2" />
         </button>
       </AlertDialog.Trigger>

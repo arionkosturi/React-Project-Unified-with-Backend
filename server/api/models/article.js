@@ -11,7 +11,7 @@ const articleSchema = mongoose.Schema(
     sourceUrl: String,
     author: String,
     isPublished: Boolean,
-    isHighlited: Boolean,
+    isHighlighted: Boolean,
     updatedAt: Date,
     createdAt: Date,
     content2: String,
