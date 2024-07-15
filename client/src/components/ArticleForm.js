@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, Component, useRef } from "react";
+import React, { useState, Component, useRef, useMemo } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -11,6 +11,14 @@ import { useAddArticle } from "./hooks/useFetchArticles";
 function ArticleForm() {
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
+  let height;
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      height: 500,
+    }),
+    [height]
+  );
   const navigate = useNavigate();
   const { mutate } = useAddArticle();
   const [content, setContent] = useState("");
@@ -69,6 +77,7 @@ function ArticleForm() {
       {/* <CustomEditor contentValue={content} setContentValue={setContent} /> */}
       <JoditEditor
         autoFocus
+        config={config}
         ref={editor}
         value={editorContent}
         onChange={(newContent) => setEditorContent(newContent)}

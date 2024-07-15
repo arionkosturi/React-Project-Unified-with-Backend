@@ -112,7 +112,7 @@ export const useMutateArticle = (article) => {
   return useMutation({
     mutationKey: ["single article"],
     mutationFn: mutateSingleArticle,
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       queryClient.invalidateQueries({ queryKey: ["single article"] });
     },
@@ -130,8 +130,7 @@ export const useDeleteArticle = (id) => {
   return useMutation({
     mutationKey: ["single article"],
     mutationFn: deleteSingleArticle,
-    onSettled: () => {
-      console.log("settled");
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
     },
   });

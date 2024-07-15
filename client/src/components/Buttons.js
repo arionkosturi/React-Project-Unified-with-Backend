@@ -11,7 +11,6 @@ function Buttons({
   handleDelete,
   article,
 }) {
-  console.log(article);
   return (
     <div className="flex flex-col gap-1 align-top justify-items-end">
       {/* Publish Article Button */}

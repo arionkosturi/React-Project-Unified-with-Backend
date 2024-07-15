@@ -15,10 +15,10 @@ import {
   useDeleteArticle,
 } from "../hooks/useFetchArticles";
 import Header from "../Header";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Paginate from "../Paginate";
-
-function Articles() {
+import Buttons from "../Buttons";
+function Testing() {
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
   const { mutate: remove } = useDeleteArticle();
@@ -33,10 +33,10 @@ function Articles() {
       />
       {articles?.map((article) => {
         let handleViewArticle = () => {
-          navigate(`./article?id=${article._id}`);
+          navigate(`../article?id=${article._id}`);
         };
         let handleEdit = () => {
-          navigate(`./edit?id=${article._id}`);
+          navigate(`../edit?id=${article._id}`);
         };
         let handlePublish = () => {
           let articleId = article._id;
@@ -76,78 +76,15 @@ function Articles() {
                 </p>
               </div>
             </div>
-            {/* Actions */}
-            <section className="flex flex-col gap-1 align-top justify-items-end">
-              {/* Publish Article Button */}
-              <Alert
-                handleFunction={handlePublish}
-                alertTriggerButton={
-                  <div>
-                    <CheckPublished
-                      isPublished={
-                        article.isPublished === true ? "Published" : "Archived"
-                      }
-                      className={
-                        article.isPublished === true
-                          ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
-                          : "border w-32 h-9 mt-2 px-2 bg-red-400 hover:bg-red-500 flex justify-center gap-2"
-                      }
-                    />
-                  </div>
-                }
-                alertTitle="Jeni i sigurt?"
-                alertMessage={
-                  article.isPublished === true
-                    ? "Deshiron ta arkivosh artikullin?"
-                    : "Deshiron ta Publikosh artikullin?"
-                }
-              />
-              {/* Featured Article Button */}
-              <Alert
-                handleFunction={handleHighlighted}
-                alertTriggerButton={
-                  <div>
-                    <CheckHighlighted
-                      isHighlighted={
-                        article.isHighlighted === true ? "Featured" : "Feature"
-                      }
-                      className={
-                        article.isHighlighted === true
-                          ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
-                          : "border w-32 h-9 mt-2 px-2 bg-amber-400 hover:bg-amber-500 flex justify-center gap-2"
-                      }
-                    />
-                  </div>
-                }
-                alertTitle="Jeni i sigurt?"
-                alertMessage={
-                  article.isHighlighted === true
-                    ? "Deshiron ta heqesh artikullin nga Highlighted?"
-                    : "Deshiron ta besh artikullin Highlighted?"
-                }
-              />
-
-              <button
-                onClick={handleEdit}
-                className="border w-32 h-9 flex bg-yellow-200 hover:bg-yellow-500 gap-2 justify-center "
-              >
-                <p className="py-1 ms-2 flex">Edit</p>
-                <FaPencilAlt className="m-2 " />
-              </button>
-
-              {/* Delete Button */}
-              <Alert
-                handleFunction={handleDelete}
-                alertTriggerButton={
-                  <div className="w-32 cursor-pointer hover:text-slate-100 text-white border h-9  flex bg-red-500 hover:bg-red-600 gap-2 justify-center ">
-                    <p className="py-1 ms-2 flex ">Delete</p>
-                    <FaTrash className="mt-2 me-2" />
-                  </div>
-                }
-                alertTitle="Jeni i sigurt?"
-                alertMessage="Jeni duke fshire artikullin nga serveri. Jeni te sigurt per kete veprim?"
-              />
-            </section>
+            <Buttons
+              article={article}
+              CheckPublished={CheckPublished}
+              handlePublish={handlePublish}
+              handleHighlighted={handleHighlighted}
+              CheckHighlighted={CheckHighlighted}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
           </div>
         );
       })}
@@ -155,4 +92,4 @@ function Articles() {
   );
 }
 
-export default Articles;
+export default Testing;

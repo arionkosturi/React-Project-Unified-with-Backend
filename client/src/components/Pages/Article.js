@@ -19,6 +19,15 @@ import { Editor } from "react-simple-wysiwyg";
 function Article() {
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
+  let height;
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      height: 500,
+    }),
+    [height]
+  );
+
   let [isEditingTitle, setIsEditingTitle] = useState(false);
   let [isEditingCategory, setIsEditingCategory] = useState(false);
   let [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -298,14 +307,13 @@ function Article() {
                   </p>
                 ) : (
                   <JoditEditor
+                    config={config}
                     autoFocus
                     ref={editor}
                     value={article.content}
                     onChange={(newContent) => setEditorContent(newContent)}
                     onBlur={editorContentSave}
                   />
-
-                  
                 )}
 
                 <p className="my-8 text-lg text-gray-500  md:text-md content-2"></p>
