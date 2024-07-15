@@ -86,9 +86,21 @@ export const useAddArticle = () => {
 };
 //Mutate Article
 const mutateSingleArticle = async (id) => {
-  let { title, isPublished, isHighlighted } = id;
+  let {
+    title,
+    isPublished,
+    isHighlighted,
+    category,
+    description,
+    author,
+    content,
+  } = id;
   return await apiClient.patch(`${id.articleId}`, {
     title,
+    category,
+    description,
+    content,
+    author,
     isPublished,
     isHighlighted,
   });

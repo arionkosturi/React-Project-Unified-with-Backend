@@ -1,15 +1,19 @@
 // @ts-nocheck
-import React, { useState, Component } from "react";
+import React, { useState, Component, useRef } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import JoditEditor, { Jodit } from "jodit-react";
+
 import CustomEditor from "./CustomEditor";
 import { Toaster } from "./ui/toaster";
 import { useAddArticle } from "./hooks/useFetchArticles";
 function ArticleForm() {
+  const editor = useRef(null);
+  const [editorContent, setEditorContent] = useState("");
   const navigate = useNavigate();
   const { mutate } = useAddArticle();
-  const [contentValue, setContentValue] = useState("");
+  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -18,11 +22,11 @@ function ArticleForm() {
   const [imgUrl, setImgUrl] = useState("");
   let handleSubmit = (e) => {
     e.preventDefault();
-    const article = { title, description, content: contentValue };
+    const article = { title, description, content };
     mutate({
       title,
       description,
-      contentValue,
+      content: editorContent,
       author,
       sourceUrl,
       category,
@@ -62,9 +66,13 @@ function ArticleForm() {
         }}
       />
       <label htmlFor="content">Content:</label>
-      <CustomEditor
-        contentValue={contentValue}
-        setContentValue={setContentValue}
+      {/* <CustomEditor contentValue={content} setContentValue={setContent} /> */}
+      <JoditEditor
+        autoFocus
+        ref={editor}
+        value={editorContent}
+        onChange={(newContent) => setEditorContent(newContent)}
+        // onBlur={editorContentSave}
       />
       <label htmlFor="author">Author:</label>
       <input

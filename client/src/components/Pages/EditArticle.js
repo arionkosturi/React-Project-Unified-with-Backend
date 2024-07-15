@@ -15,7 +15,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 const api = axios.create({
   baseURL: "http://localhost:3344/news/",
 });
-function EditArticle({ contentValue, setContentValue }) {
+function EditArticle() {
   const navigate = useNavigate();
   const { toast } = useToast();
   let handleDelete = (e) => {
@@ -98,7 +98,6 @@ function EditArticle({ contentValue, setContentValue }) {
 
     return () => {};
   }, []);
-  console.log(status);
 
   return (
     <div className="flex flex-col container gap-1 mx-auto">
@@ -201,51 +200,6 @@ function EditArticle({ contentValue, setContentValue }) {
         <span className="p-6">Image Preview:</span>
         <img className="w-1/3 my-6" src={imgUrl} />
       </div>
-
-      <RadioGroup defaultValue="true" onValueChange={setIsPublished}>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="false" id="archived" />
-          <Label htmlFor="archived">Archived</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="true" id="published" />
-          <Label htmlFor="published">Published</Label>
-        </div>
-      </RadioGroup>
-
-      {/* <label htmlFor="isPublished">Published?</label> */}
-      {/* <input
-        type="text"
-        id="isPublished"
-        name="isPublished"
-        className="border p-2"
-        value={isPublished}
-        onChange={(e) => {
-          // @ts-ignore
-          setIsPublished(e.target.value);
-        }}
-      /> */}
-
-      {/* <input
-        type="radio"
-        name="isPublished"
-        value="false"
-        id="Unpublished"
-        checked={!isPublished}
-        onChange={onOptionChange}
-      />
-      <label htmlFor="Unpublished">Not Published</label>
-
-      <input
-        type="radio"
-        name="isPublished"
-        value="true"
-        id="Published"
-        // checked={isPublished === "true"}
-        checked={isPublished}
-        onChange={onOptionChange}
-      /> */}
-      {/* <label htmlFor="Published">Published</label> */}
 
       <div className="mx-auto container ">
         <form>
