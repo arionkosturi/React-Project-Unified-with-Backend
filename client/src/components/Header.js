@@ -13,6 +13,7 @@ export default function Header() {
     e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    sessionStorage.clear();
     window.location.href = "/";
   };
   return (

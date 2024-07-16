@@ -3,8 +3,6 @@ import Alert from "./Alert";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 
 function Buttons({
-  CheckPublished,
-  handlePublish,
   handleHighlighted,
   CheckHighlighted,
   handleEdit,
@@ -13,30 +11,6 @@ function Buttons({
 }) {
   return (
     <div className="flex flex-col gap-1 align-top justify-items-end">
-      {/* Publish Article Button */}
-      <Alert
-        handleFunction={handlePublish}
-        alertTriggerButton={
-          <div>
-            <CheckPublished
-              isPublished={
-                article.isPublished === true ? "Published" : "Archived"
-              }
-              className={
-                article.isPublished === true
-                  ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
-                  : "border w-32 h-9 mt-2 px-2 bg-red-400 hover:bg-red-500 flex justify-center gap-2"
-              }
-            />
-          </div>
-        }
-        alertTitle="Jeni i sigurt?"
-        alertMessage={
-          article.isPublished === true
-            ? "Deshiron ta arkivosh artikullin?"
-            : "Deshiron ta Publikosh artikullin?"
-        }
-      />
       {/* Featured Article Button */}
       <Alert
         handleFunction={handleHighlighted}
@@ -86,4 +60,31 @@ function Buttons({
   );
 }
 
+export const PublishBtn = ({ handlePublish, article, CheckPublished }) => {
+  return (
+    <Alert
+      handleFunction={handlePublish}
+      alertTriggerButton={
+        <div>
+          <CheckPublished
+            isPublished={
+              article.isPublished === true ? "Published" : "Archived"
+            }
+            className={
+              article.isPublished === true
+                ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
+                : "border w-32 h-9 mt-2 px-2 bg-red-400 hover:bg-red-500 flex justify-center gap-2"
+            }
+          />
+        </div>
+      }
+      alertTitle="Jeni i sigurt?"
+      alertMessage={
+        article.isPublished === true
+          ? "Deshiron ta arkivosh artikullin?"
+          : "Deshiron ta Publikosh artikullin?"
+      }
+    />
+  );
+};
 export default Buttons;

@@ -24,6 +24,7 @@ export const useFetchArticles = (currentPage) => {
       return data;
     },
     queryKey: ["articles", { currentPage }],
+    networkMode: "offlineFirst",
   });
 };
 
@@ -112,9 +113,12 @@ export const useMutateArticle = (article) => {
   return useMutation({
     mutationKey: ["single article"],
     mutationFn: mutateSingleArticle,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["articles"] });
-      queryClient.invalidateQueries({ queryKey: ["single article"] });
+    networkMode: "offlineFirst",
+    onSuccess: async () => {
+      // queryClient.invalidateQueries({ queryKey: ["articles"] });
+      return await queryClient.invalidateQueries({
+        queryKey: ["single article"],
+      });
     },
   });
 };
