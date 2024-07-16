@@ -6,6 +6,12 @@ import { FaInfoCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import Alert from "../Alert";
 import { Badge } from "../ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 import HTMLReactParser from "html-react-parser";
 import JoditEditor, { Jodit } from "jodit-react";
 import CheckHighlighted from "../CheckHighlited";
@@ -31,7 +37,7 @@ function Article() {
   let [isEditingCategory, setIsEditingCategory] = useState(false);
   let [isEditingDescription, setIsEditingDescription] = useState(false);
   let [isEditingContent, setIsEditingContent] = useState(false);
-
+  let [isEditingSource, setIsEditingSource] = useState(false);
   const { mutate, onSuccess, isPending } = useMutateArticle();
   const { data: article, isLoading, isError, error } = useSingleArticle();
   if (isLoading) {
@@ -76,6 +82,13 @@ function Article() {
       description: e.target.value,
     });
   };
+  let editSourceUrl = (e) => {
+    let articleId = article._id;
+    mutate({
+      articleId,
+      sourceUrl: e.target.value,
+    });
+  };
   // let editContent = (e) => {
   //   let articleId = article._id;
   //   mutate({
@@ -102,6 +115,11 @@ function Article() {
       );
     }
   };
+
+  let handleEditSource = () => {
+    setIsEditingSource(true);
+  };
+  
 
   return (
     <>
@@ -345,13 +363,55 @@ function Article() {
                 <p className="my-8 text-lg text-gray-500  md:text-md content-2"></p>
                 <div className="img2 w-[90%]"></div>
                 <p className="my-8 text-lg text-gray-500 md:text-md content-3"></p>
-                <a
-                  href="${data.sourceUrl}"
-                  target="_blank"
-                  className="inline-block mt-2 text-blue-500 underline hover:text-blue-400"
-                >
-                  Source
-                </a>
+                {!isEditingSource ? (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {" "}
+                        <a
+                          href={article.sourceUrl}
+                          target="_blank"
+                          className="inline-block mt-2 text-blue-500 underline hover:text-blue-400"
+                        >
+                          Source
+                        </a>{" "}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p
+                          className="cursor-pointer"
+                          onClick={handleEditSource}
+                        >
+                          Edit Source
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ) : (
+                  <div>
+                    <Badge
+                      className="w-full mt-2  justify-center"
+                      variant="destructive"
+                    >
+                      Editing Source. You can click outside the field. Autosave
+                      is enabled!
+                    </Badge>
+                    <textarea
+                      autoFocus
+                      type="text"
+                      id="sourceUrl"
+                      placeholder="Enter Source Url"
+                      name="sourceUrl"
+                      className="w-full block mt-4 text-xl font-semibold text-gray-800"
+                      rows="4"
+                      value={article.sourceUrl}
+                      onChange={editSourceUrl}
+                      onBlur={() => {
+                        setIsEditingSource(false);
+                      }}
+                    />
+                  </div>
+                )}
+
                 <div className="flex items-center mt-6">
                   <img
                     className="object-cover object-center w-10 h-10 rounded-full"
