@@ -30,9 +30,11 @@ function Buttons({
         }
         alertTitle="Jeni i sigurt?"
         alertMessage={
-          article.isHighlighted === true
-            ? "Deshiron ta heqesh artikullin nga Highlighted?"
-            : "Deshiron ta besh artikullin Highlighted?"
+          !article.isPublished
+            ? "Artikulli nuk eshte i publikuar dhe nuk do te shfaqet ne highlighted!"
+            : article.isHighlighted === true
+              ? "Deshiron ta heqesh artikullin nga Highlighted?"
+              : "Deshiron ta besh artikullin Highlighted?"
         }
       />
 

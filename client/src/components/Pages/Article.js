@@ -119,7 +119,6 @@ function Article() {
   let handleEditSource = () => {
     setIsEditingSource(true);
   };
-  
 
   return (
     <>
@@ -366,15 +365,18 @@ function Article() {
                 {!isEditingSource ? (
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger className="flex">
                         {" "}
                         <a
                           href={article.sourceUrl}
                           target="_blank"
-                          className="inline-block mt-2 text-blue-500 underline hover:text-blue-400"
+                          className="finline-block mt-2 text-blue-500 underline hover:text-blue-400"
                         >
                           Source
                         </a>{" "}
+                        <p className="text-neutral-400 ml-4 mt-2 flex">
+                          - Hover to show edit button
+                        </p>{" "}
                       </TooltipTrigger>
                       <TooltipContent>
                         <p
