@@ -91,12 +91,14 @@ function Testing() {
                 onClick={handleViewArticle}
                 className="relative cursor-pointer overflow-hidden w-96 h-48 bg-white border"
               >
-                {article.isHighlighted && (
+                {article.isPublished & article.isHighlighted ? (
                   <div className="absolute left-6 top-0 h-16 w-16">
                     <div className="absolute shadow-md transform -rotate-45 bg-green-400 text-center text-white font-semibold py-1 right-[-35px] top-[32px] w-[170px]">
                       Highlighted
                     </div>
                   </div>
+                ) : (
+                  ""
                 )}
 
                 <img className=" w-full my-2 p-2 h-48" src={article.imgUrl} />

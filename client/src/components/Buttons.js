@@ -12,31 +12,49 @@ function Buttons({
   return (
     <div className="flex flex-col gap-1 align-top justify-items-end">
       {/* Featured Article Button */}
-      <Alert
-        handleFunction={handleHighlighted}
-        alertTriggerButton={
-          <div>
-            <CheckHighlighted
-              isHighlighted={
-                article.isHighlighted === true ? "Featured" : "Feature"
-              }
-              className={
-                article.isHighlighted === true
-                  ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
-                  : "border w-32 h-9 mt-2 px-2 bg-amber-400 hover:bg-amber-500 flex justify-center gap-2"
-              }
-            />
-          </div>
-        }
-        alertTitle="Jeni i sigurt?"
-        alertMessage={
-          !article.isPublished
-            ? "Artikulli nuk eshte i publikuar dhe nuk do te shfaqet ne highlighted!"
-            : article.isHighlighted === true
-              ? "Deshiron ta heqesh artikullin nga Highlighted?"
-              : "Deshiron ta besh artikullin Highlighted?"
-        }
-      />
+      {article.isPublished && (
+        <Alert
+          handleFunction={handleHighlighted}
+          alertTriggerButton={
+            <div>
+              <CheckHighlighted
+                isHighlighted={
+                  article.isHighlighted === true ? "Featured" : "Feature"
+                }
+                className={
+                  article.isHighlighted === true
+                    ? "border w-32 h-9 mt-2 px-2 bg-green-400 hover:bg-green-500 flex justify-center gap-2"
+                    : "border w-32 h-9 mt-2 px-2 bg-amber-400 hover:bg-amber-500 flex justify-center gap-2"
+                }
+              />
+            </div>
+          }
+          alertTitle="Jeni i sigurt?"
+          alertMessage={
+            article.isPublished & article.isHighlighted &&
+            "Deshiron ta heqesh artikullin highlighted?"
+              ? article.isPublished &&
+                (article.isHighlighted === true
+                  ? "Deshiron ta heqesh artikullin nga Highlighted?"
+                  : "Artikulli nuk eshte i publikuar dhe nuk do te shfaqet ne highlighted!")
+              : "Artikulli nuk eshte i publikuar! Deshiron ta heqesh artikullin nga highlighted?"
+          }
+        />
+      )}
+      {!article.isPublished && (
+        <div>
+          <CheckHighlighted
+            isHighlighted={
+              article.isHighlighted === true ? "Featured" : "Feature"
+            }
+            className={
+              article.isHighlighted === true
+                ? "border opacity-50 w-32 h-9 mt-2 px-2 bg-green-500 hover:bg-green-500 flex justify-center gap-2"
+                : "border opacity-50 w-32 h-9 mt-2 px-2 bg-amber-500 hover:bg-amber-500 flex justify-center gap-2"
+            }
+          />
+        </div>
+      )}
 
       <button
         onClick={handleEdit}
