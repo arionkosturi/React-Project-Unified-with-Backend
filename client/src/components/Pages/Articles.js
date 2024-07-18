@@ -20,7 +20,7 @@ import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
 import { Badge } from "../ui/badge";
 import HTMLReactParser from "html-react-parser";
-function Testing() {
+function Dashboard() {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate, error, status, isPending } = useMutateArticle();
@@ -82,11 +82,11 @@ function Testing() {
         // console.log(contentStriped);
         return (
           <div
-            className="flex container justify-between mx-auto  border my-1 "
+            className="flex flex-col xl:flex-row container justify-between mx-auto  border border-purple-400 my-1 "
             key={article._id}
           >
             <Toaster />
-            <div className="flex w-full p-2 justify-between">
+            <div className="flex flex-col md:flex-row p-2 justify-between">
               <div
                 onClick={handleViewArticle}
                 className="relative cursor-pointer overflow-hidden w-96 h-48 bg-white border"
@@ -101,7 +101,7 @@ function Testing() {
                   ""
                 )}
 
-                <img className=" w-full my-2 p-2 h-48" src={article.imgUrl} />
+                <img className=" my-2 p-2 h-48" src={article.imgUrl} />
               </div>
 
               <div className="w-full flex flex-col justify-between">
@@ -126,7 +126,8 @@ function Testing() {
                 </p>
               </div>
             </div>
-            <div>
+            {/* Buttons */}
+            <div className="flex xl:flex-col">
               <PublishBtn
                 handlePublish={handlePublish}
                 article={article}
@@ -150,4 +151,4 @@ function Testing() {
   );
 }
 
-export default Testing;
+export default Dashboard;

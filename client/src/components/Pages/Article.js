@@ -7,6 +7,17 @@ import { IoMdCloseCircle } from "react-icons/io";
 import Alert from "../Alert";
 import { Badge } from "../ui/badge";
 import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "../ui/command";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -89,13 +100,7 @@ function Article() {
       sourceUrl: e.target.value,
     });
   };
-  // let editContent = (e) => {
-  //   let articleId = article._id;
-  //   mutate({
-  //     articleId,
-  //     content: e.target.value,
-  //   });
-  // };
+
   let editorContentSave = (e) => {
     let articleId = article._id;
     if (!editorContent) {
@@ -123,6 +128,7 @@ function Article() {
   return (
     <>
       <Header />
+
       <div>
         <section className={" container mx-auto   "}>
           <div className="container mx-auto ">

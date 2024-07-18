@@ -18,6 +18,7 @@ function Home() {
   return (
     <>
       <Header />
+      Public
       {/* <Articles
         isPublished={isPublished}
         setIsPublished={setIsPublished}
