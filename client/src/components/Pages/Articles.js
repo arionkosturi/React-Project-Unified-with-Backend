@@ -36,10 +36,10 @@ function Testing() {
       />
       {articles?.map((article) => {
         let handleViewArticle = () => {
-          navigate(`../article?id=${article._id}`);
+          navigate(`../dashboard/article?id=${article._id}`);
         };
         let handleEdit = () => {
-          navigate(`../edit?id=${article._id}`);
+          navigate(`../dashboard/edit?id=${article._id}`);
         };
         let handlePublish = () => {
           let articleId = article._id;

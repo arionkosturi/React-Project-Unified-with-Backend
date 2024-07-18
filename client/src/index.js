@@ -33,15 +33,15 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
-    path: "/new",
+    path: "/dashboard/new",
     element: <ArticleForm />,
   },
   {
-    path: "/edit",
+    path: "/dashboard/edit",
     element: <EditArticle />,
   },
   {
-    path: "/testing",
+    path: "/dashboard/testing",
     element: <Testing />,
   },
   {
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "/article",
+    path: "/dashboard/article",
     element: <Article />,
   },
   {
