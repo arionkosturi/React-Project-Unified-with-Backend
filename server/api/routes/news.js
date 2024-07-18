@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Article = require("../models/article");
-
 // ALL
 router.get("/all", (req, res, next) => {
   const page = req.query.p || 0;
@@ -35,8 +34,6 @@ router.get("/", (req, res, next) => {
     .limit(articlesPerPage)
     .exec()
     .then((docs) => {
-      // console.log(docs);
-
       res.status(200).json(docs);
     })
     .catch((err) => {
@@ -47,10 +44,10 @@ router.get("/", (req, res, next) => {
     });
 });
 
-//TOP 10
+// Highlighted
 router.get("/top", (req, res, next) => {
   Article.find({ $and: [{ isPublished: true }, { isHighlighted: true }] })
-    .limit(10)
+    .limit()
     .sort({ createdAt: -1 })
     .exec()
     .then((docs) => {
@@ -188,11 +185,7 @@ router.patch("/:articleId", (req, res, next) => {
     "Access-Control-Allow-Headers",
     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
   );
-  // for (const ops of req.body) {
-  //   updateOps[ops.propName] = ops.value;
-  // }
 
-  // { _id: id }, { $set: { updateOps } }
   Article.updateOne({ _id: id }, { $set: updateOps })
     .exec()
     .then((result) => {
