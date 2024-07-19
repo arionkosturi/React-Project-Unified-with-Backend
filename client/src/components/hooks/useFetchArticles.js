@@ -14,7 +14,7 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 // Fetch All Articles
 const fetchArticles = async (currentPage) => {
-  return await apiClient.get(`/all?p=${currentPage}`);
+  return await apiClient.get(`news/all?p=${currentPage}`);
 };
 // Fetch All Articles
 export const useFetchArticles = (currentPage) => {
@@ -30,7 +30,7 @@ export const useFetchArticles = (currentPage) => {
 
 // Fetch Published Articles
 const fetchPublishedArticles = async () => {
-  return await apiClient.get("/");
+  return await apiClient.get("/news");
 };
 
 // Fetch Published Articles
@@ -46,7 +46,7 @@ export const useFetchPublishedArticles = () => {
 
 // Fetch Single Article
 const fetchSingleArticle = async (id) => {
-  return await apiClient.get(id);
+  return await apiClient.get(`/news/${id}`);
 };
 // Fetch Single Article
 export const useSingleArticle = () => {
@@ -64,7 +64,7 @@ export const useSingleArticle = () => {
 
 //Add Article
 const addArticle = async (article) => {
-  return await apiClient.post("/", article);
+  return await apiClient.post("/news/", article);
 };
 export const useAddArticle = () => {
   const { toast } = useToast();
@@ -97,7 +97,7 @@ const mutateSingleArticle = async (id) => {
     content,
     sourceUrl,
   } = id;
-  return await apiClient.patch(`${id.articleId}`, {
+  return await apiClient.patch(`/news/${id.articleId}`, {
     title,
     category,
     description,
@@ -115,7 +115,6 @@ export const useMutateArticle = (article) => {
   return useMutation({
     mutationKey: ["single article"],
     mutationFn: mutateSingleArticle,
-    networkMode: "offlineFirst",
     onSuccess: async () => {
       // queryClient.invalidateQueries({ queryKey: ["articles"] });
       return await queryClient.invalidateQueries({
@@ -127,7 +126,7 @@ export const useMutateArticle = (article) => {
 
 //Delete Article
 const deleteSingleArticle = async (id) => {
-  return await apiClient.delete(`${id}`);
+  return await apiClient.delete(`/news/${id}`);
 };
 // Delete Article
 export const useDeleteArticle = (id) => {
@@ -138,6 +137,49 @@ export const useDeleteArticle = (id) => {
     mutationFn: deleteSingleArticle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
+    },
+  });
+};
+
+// Categories
+// Fetch All Categoris
+
+const fetchCategories = async () => {
+  return await apiClient.get(`categories/`);
+};
+// Fetch All Categories
+export const useFetchCategories = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchCategories();
+      return data;
+    },
+    queryKey: ["categories"],
+  });
+};
+
+//Mutate Category
+const mutateSingleCategory = async (id) => {
+  let { name, imgUrl, _id } = id;
+
+  console.log(this.name);
+  return await apiClient.patch(`/categories/${id.categoryId}`, {
+    name,
+    imgUrl,
+  });
+};
+// Mutate Category
+export const useMutateCategory = (category) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["single category"],
+    mutationFn: mutateSingleCategory,
+    onSuccess: async () => {
+      // queryClient.invalidateQueries({ queryKey: ["articles"] });
+      return await queryClient.invalidateQueries({
+        queryKey: ["single category"],
+      });
     },
   });
 };
