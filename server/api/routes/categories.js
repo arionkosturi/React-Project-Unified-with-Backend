@@ -74,11 +74,39 @@ router.delete("/:categoryId", (req, res, next) => {
     categoryId: req.params.categoryId,
   });
 });
+
 router.patch("/:categoryId", (req, res, next) => {
-  res.status(200).json({
-    message: "Category was patched",
-    categoryId: req.params.categoryId,
-  });
+  const id = req.params.categoryId;
+  const updateOps = req.body;
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT,PATCH"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+  );
+
+  Category.updateOne({ _id: id }, { $set: updateOps })
+    .exec()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
+
+// router.patch("/:categoryId", (req, res, next) => {
+//   res.status(200).json({
+//     message: "Category was patched",
+//     categoryId: req.params.categoryId,
+//   });
+// });
 
 module.exports = router;

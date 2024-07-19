@@ -158,24 +158,43 @@ export const useFetchCategories = () => {
   });
 };
 
-//Mutate Category
-const mutateSingleCategory = async (id) => {
-  let { name, imgUrl, _id } = id;
+// Fetch Single Category
+const fetchSingleCategory = async (id) => {
+  return await apiClient.get(`/categories/${id}`);
+};
+// Fetch Single Category
+export const useSingleCategory = () => {
+  const [queryParameter] = useSearchParams();
+  let id = queryParameter.get("id");
 
-  console.log(this.name);
-  return await apiClient.patch(`/categories/${id.categoryId}`, {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchSingleCategory(id);
+      return data;
+    },
+    queryKey: ["single category", id],
+  });
+};
+
+//Mutate Category
+const useMutateSingleCategory = async (category) => {
+  let { name, imgUrl } = category;
+  const [queryParameter] = useSearchParams();
+  let id = queryParameter.get("id");
+
+  return await apiClient.patch(`/categories/${id._id}`, {
     name,
     imgUrl,
   });
 };
 // Mutate Category
-export const useMutateCategory = (category) => {
+export const useMutateCategory = (id) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["single category"],
-    mutationFn: mutateSingleCategory,
-    onSuccess: async () => {
+    mutationFn: useMutateSingleCategory,
+    onSuccess: async (id) => {
       // queryClient.invalidateQueries({ queryKey: ["articles"] });
       return await queryClient.invalidateQueries({
         queryKey: ["single category"],

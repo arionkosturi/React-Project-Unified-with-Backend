@@ -12,6 +12,7 @@ import "./index.css";
 import "@radix-ui/themes/styles.css";
 import Home from "./components/Home";
 import Categories from "./components/Pages/Categories";
+import Category from "./components/Pages/Category";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
@@ -36,22 +37,27 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/new",
     element: <ArticleForm />,
+    errorElement: <NotFoundPage />,
   },
   {
     path: "/dashboard/edit",
     element: <EditArticle />,
+    errorElement: <NotFoundPage />,
   },
   {
     path: "/dashboard/testing",
     element: <Testing />,
+    errorElement: <NotFoundPage />,
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
+    errorElement: <NotFoundPage />,
   },
   {
     path: "/dashboard/article",
     element: <Article />,
+    errorElement: <NotFoundPage />,
   },
   {
     path: "/login",
@@ -60,6 +66,12 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/categories",
     element: <Categories />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/dashboard/category/",
+    element: <Category />,
+    errorElement: <NotFoundPage />,
   },
 ]);
 

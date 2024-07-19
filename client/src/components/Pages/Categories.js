@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FaPlusCircle } from "react-icons/fa";
@@ -21,22 +21,21 @@ import {
 import {
   useMutateCategory,
   useFetchCategories,
+  useSingleCategory,
 } from "../hooks/useFetchArticles";
+import Category from "./Category";
 function FetchCategories() {
+  let navigate = useNavigate();
   const [name, setName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const { data: categories, isPending, error } = useFetchCategories();
-
-  const { mutate, onSuccess } = useMutateCategory({});
-  let handleSubmit = (e, _id) => {
+  const { mutate, onSuccess } = useMutateCategory();
+  let handleSubmit = (e) => {
     e.preventDefault();
-    mutate(
-      {
-        name,
-        imgUrl,
-      },
-      _id
-    );
+    mutate({
+      name,
+      imgUrl,
+    });
   };
   if (isPending) return "Loading...";
 
@@ -49,52 +48,17 @@ function FetchCategories() {
           {category.imgUrl && (
             <img className="w-1/3 mx-auto" src={category.imgUrl} alt="" />
           )}
-          <Sheet>
-            <SheetTrigger className="border py-2 px-3 ml-4">Edit</SheetTrigger>
-            <SheetContent side={"right"} className="">
-              <SheetHeader>
-                <SheetTitle>Je i sigurt?</SheetTitle>
-                <SheetDescription>
-                  Je duke ndryshuar kategorine. Je i sigurt?
-                </SheetDescription>
-              </SheetHeader>
-              <form className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Category Name
-                  </Label>
-                  <Input
-                    id="name"
-                    defaultValue={category.name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="imgUrl" className="text-right">
-                    Image Source
-                  </Label>
-                  <Input
-                    id="imgUrl"
-                    defaultValue={category.imgUrl}
-                    className="col-span-3"
-                    onChange={(e) => {
-                      setImgUrl(e.target.value);
-                    }}
-                  />
-                </div>
-              </form>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit" onClick={handleSubmit}>
-                    Ruaj ndryshimet
-                  </Button>
-                </SheetClose>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+
+          <Button
+            category={category}
+            onClick={() => {
+              console.log(category);
+              navigate(`/dashboard/category/?id=${category._id}`);
+            }}
+          >
+            {" "}
+            Edit{" "}
+          </Button>
         </div>
       </div>
     );
@@ -104,6 +68,9 @@ function FetchCategories() {
 function Categories() {
   // Fetch Categories
   const queryClient = useQueryClient();
+  const [queryParameter] = useSearchParams();
+  let id = queryParameter.get("id");
+  const { data: category, isPending, error } = useSingleCategory();
 
   let navigate = useNavigate();
 
