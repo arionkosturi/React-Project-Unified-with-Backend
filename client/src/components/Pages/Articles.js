@@ -49,7 +49,6 @@ function Dashboard() {
               isPublished: !article.isPublished,
             },
             {
-              networkMode: "offlineFirst",
               onSuccess: async () => {
                 return await queryClient.invalidateQueries({
                   queryKey: ["articles"],

@@ -11,6 +11,7 @@ import {
 import "./index.css";
 import "@radix-ui/themes/styles.css";
 import Home from "./components/Home";
+import Categories from "./components/Pages/Categories";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/dashboard/categories",
+    element: <Categories />,
   },
 ]);
 

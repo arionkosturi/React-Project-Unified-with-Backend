@@ -1,22 +1,13 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "../ui/command";
 import AddArticle from "../Pages/AddArticle";
 import Articles from "../Pages/Articles";
 import Header from "../Header";
 import Paginate from "../Paginate";
 import Login from "../Pages/Login";
+import Categories from "./Categories";
 import useToken from "../useToken";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   let [currentPage, setCurrentPage] = useState("0");
@@ -30,30 +21,10 @@ function Dashboard() {
     <>
       <Header />
       <div className="flex flex-col md:flex-row mx-2 sm:container sm:mx-auto">
-        <div className="flex md:max-w-40 w-full">
-          <Command>
-            <CommandInput placeholder="Type a command or search..." />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup heading="Suggestions">
-                <CommandItem>Calendar</CommandItem>
-                <CommandItem>Search Emoji</CommandItem>
-                <CommandItem>Calculator</CommandItem>
-              </CommandGroup>
-              <CommandSeparator />
-              <CommandGroup heading="Settings">
-                <CommandItem>Profile</CommandItem>
-                <CommandItem>Billing</CommandItem>
-                <CommandItem
-                  onClick={() => {
-                    console.log("click");
-                  }}
-                >
-                  Settings
-                </CommandItem>
-              </CommandGroup>
-            </CommandList>
-          </Command>
+        <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
+          <Link to="/dashboard/new">New</Link>
+          <Link to="/dashboard/categories">Categories</Link>
+          <p>Settings</p>
         </div>
         <div className="max-w-full flex flex-col">
           <Articles

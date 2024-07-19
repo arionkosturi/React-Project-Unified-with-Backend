@@ -7,17 +7,6 @@ import { IoMdCloseCircle } from "react-icons/io";
 import Alert from "../Alert";
 import { Badge } from "../ui/badge";
 import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "../ui/command";
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
