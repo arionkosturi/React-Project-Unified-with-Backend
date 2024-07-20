@@ -7,7 +7,7 @@ import JoditEditor, { Jodit } from "jodit-react";
 
 import CustomEditor from "./CustomEditor";
 import { Toaster } from "./ui/toaster";
-import { useAddArticle } from "./hooks/useFetchArticles";
+import { useAddArticle, useFetchCategories } from "./hooks/useFetchArticles";
 function ArticleForm() {
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
@@ -19,6 +19,7 @@ function ArticleForm() {
     }),
     [height]
   );
+  const { data: categories, isPending, error } = useFetchCategories();
   const navigate = useNavigate();
   const { mutate } = useAddArticle();
   const [content, setContent] = useState("");
@@ -108,7 +109,7 @@ function ArticleForm() {
           setSource(e.target.value);
         }}
       />
-      <label htmlFor="category">Category:</label>
+      {/* <label htmlFor="category">Category:</label>
       <input
         type="text"
         id="category"
@@ -119,7 +120,31 @@ function ArticleForm() {
         onChange={(e) => {
           setCategory(e.target.value);
         }}
-      />
+      /> */}
+      <label htmlFor="category">Category:</label>
+
+      <select
+        id="category"
+        className="p-2"
+        onChange={(e) => {
+          setCategory(e.target.value);
+        }}
+      >
+        <option value="">Select a category</option>
+        {/* <option value="">Select Category</option> */}
+        {categories?.map((category, index) => {
+          return (
+            <option
+              key={index}
+              defaultValue={category.name}
+
+              // value={category.name}
+            >
+              {category.name}
+            </option>
+          );
+        })}
+      </select>
       <label htmlFor="imgUrl">Image URL</label>
       <textarea
         type="text"

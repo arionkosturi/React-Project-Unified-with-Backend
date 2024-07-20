@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../Header";
 import CustomEditor from "../CustomEditor";
 import Alert from "../Alert";
+import { useQueryClient } from "@tanstack/react-query";
 import { FaTrash } from "react-icons/fa";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
@@ -11,25 +12,26 @@ import { Toaster } from "../ui/toaster";
 import { ToastAction } from "../ui/toast";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-
+import { useFetchCategories } from "../hooks/useFetchArticles";
 const api = axios.create({
   baseURL: "http://localhost:3344/news/",
 });
+
 function EditArticle() {
+  const queryClient = useQueryClient();
+  const { data: categories, isPending, error } = useFetchCategories();
   const navigate = useNavigate();
   const { toast } = useToast();
   let handleDelete = (e) => {
     e.preventDefault();
     api
       .delete(`/${id}`)
-      .then((response) => {
-        console.log(response);
-      })
+      .then((response) => {})
       .catch((err) => {
         console.log(err);
       });
 
-    navigate(`/`);
+    navigate(`/dashboard`);
   };
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -50,7 +52,7 @@ function EditArticle() {
         }
       )
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -62,7 +64,7 @@ function EditArticle() {
       description: "Perditesimi u ruajt me sukses!",
     });
     setTimeout(() => {
-      navigate("/");
+      navigate("/dashboard");
     }, 3000);
   };
 
@@ -134,14 +136,12 @@ function EditArticle() {
           setDescription(e.target.value);
         }}
       />
-
       <label htmlFor="content">Content:</label>
       <CustomEditor
         // @ts-ignore
         contentValue={content}
         setContentValue={setContent}
       />
-
       <label htmlFor="author">Author:</label>
       <input
         type="text"
@@ -169,19 +169,29 @@ function EditArticle() {
         }}
       />
       <label htmlFor="category">Category:</label>
-      <textarea
-        // @ts-ignore
-        type="text"
+
+      <select
         id="category"
-        placeholder="Enter Category"
-        name="category"
-        className="border"
-        value={category}
+        className="p-2"
         onChange={(e) => {
-          // @ts-ignore
           setCategory(e.target.value);
         }}
-      />
+      >
+        <option value={category}>{category}</option>
+        {/* <option value="">Select Category</option> */}
+        {categories?.map((category, index) => {
+          return (
+            <option
+              key={index}
+              defaultValue={category.name}
+
+              // value={category.name}
+            >
+              {category.name}
+            </option>
+          );
+        })}
+      </select>
       <label htmlFor="title">Img Source</label>
       <textarea
         // @ts-ignore
@@ -200,7 +210,6 @@ function EditArticle() {
         <span className="p-6">Image Preview:</span>
         <img className="w-1/3 my-6" src={imgUrl} />
       </div>
-
       <div className="mx-auto container ">
         <form>
           <div className="flex">

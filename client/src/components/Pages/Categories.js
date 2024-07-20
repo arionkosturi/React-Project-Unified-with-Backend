@@ -30,14 +30,10 @@ function FetchCategories() {
   let navigate = useNavigate();
   const [name, setName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
-  const [openSheet, setOpenSheet] = useState(false);
-  const [nameRequired, setNameRequired] = useState(false);
 
   const { data: categories, isPending, error } = useFetchCategories();
   const { mutate, onSuccess } = useMutateCategory();
-  let handleOpen = () => {
-    setOpenSheet(true);
-  };
+
   let handleSubmit = (e) => {
     e.preventDefault();
     mutate({
@@ -82,9 +78,9 @@ function Categories() {
   const [imgUrl, setImgUrl] = useState("");
   // Fetch Categories
   const queryClient = useQueryClient();
+
   const [queryParameter] = useSearchParams();
   let id = queryParameter.get("id");
-  // const { data: category, isPending, error } = useSingleCategory();
   let handleOpen = () => {
     setOpenSheet(true);
   };
