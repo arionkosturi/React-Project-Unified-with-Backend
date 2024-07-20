@@ -20,6 +20,7 @@ import Paginate from "./components/Paginate";
 import Testing from "./components/Pages/Testing";
 import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
+import PublishedArticles from "./components/Pages/PublishedArticles";
 import Login from "./components/Pages/Login";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/article",
     element: <Article />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/dashboard/published",
+    element: <PublishedArticles />,
     errorElement: <NotFoundPage />,
   },
   {

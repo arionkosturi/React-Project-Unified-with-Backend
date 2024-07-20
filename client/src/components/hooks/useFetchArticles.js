@@ -38,7 +38,7 @@ export const useFetchPublishedArticles = () => {
   return useQuery({
     queryFn: async () => {
       const { data } = await fetchPublishedArticles();
-      return data[0];
+      return data;
     },
     queryKey: ["published articles"],
   });

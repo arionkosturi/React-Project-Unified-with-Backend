@@ -20,9 +20,16 @@ function Dashboard() {
   return (
     <>
       <Header />
+      <div className="container mx-auto">
+        <h1 className="text-3xl">All Articles</h1>
+      </div>
       <div className="flex flex-col md:flex-row mx-2 sm:container sm:mx-auto">
         <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
           <Link to="/dashboard/new">New</Link>
+          <Link to="/dashboard/">All Articles</Link>
+
+          <Link to="/dashboard/published">Published</Link>
+
           <Link to="/dashboard/categories">Categories</Link>
           <p>Settings</p>
         </div>

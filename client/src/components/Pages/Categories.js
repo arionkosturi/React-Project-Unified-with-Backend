@@ -42,7 +42,7 @@ function FetchCategories() {
     });
   };
   if (isPending) return "Loading...";
-
+  <img src="../../assets/img/finance.webp" alt="" />;
   if (error) return "An error has occurred: " + error.message;
   return categories.map((category, index) => {
     return (
