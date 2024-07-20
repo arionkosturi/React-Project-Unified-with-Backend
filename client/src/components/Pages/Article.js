@@ -1,7 +1,11 @@
 // @ts-nocheck
 import React, { useState, useMemo, useRef } from "react";
 import Header from "../Header";
-import { useMutateArticle, useSingleArticle } from "../hooks/useFetchArticles";
+import {
+  useMutateArticle,
+  useSingleArticle,
+  useFetchCategories,
+} from "../hooks/useFetchArticles";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import Alert from "../Alert";
@@ -21,6 +25,7 @@ import { Editor } from "react-simple-wysiwyg";
 import { useSessionStorage } from "@uidotdev/usehooks";
 
 function Article() {
+  const { data: categories } = useFetchCategories();
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
   let height;
@@ -186,35 +191,31 @@ function Article() {
                     }
                   />
                 </div>
-
-                {njoftimIsOpen === 1 ? (
-                  <Njoftim
-                    className=" mt-2 flex justify-between p-4"
-                    variant=""
-                  >
-                    <FaInfoCircle className="h-4 w-4 text-xl text-white" />
-                    <div className="ml-2">
-                      <AlertTitle>Info:</AlertTitle>
-
-                      <AlertDescription>
-                        Mund te besh double click mbi cdo fushe per ta
-                        modifikuar. Fusha ruhet pasi klikon jashte saj.
-                      </AlertDescription>
-                    </div>
-
-                    <div
-                      onClick={() => {
-                        setNjoftimIsOpen(0);
-                      }}
-                      className="flex"
-                    >
-                      <IoMdCloseCircle className="-m-2 hover:text-slate-300 text-xl cursor-pointer" />
-                    </div>
-                  </Njoftim>
-                ) : (
-                  ""
-                )}
               </div>
+            )}
+            {njoftimIsOpen === 1 ? (
+              <Njoftim className=" mt-2 flex justify-between p-4" variant="">
+                <FaInfoCircle className="h-4 w-4 text-xl text-white" />
+                <div className="ml-2">
+                  <AlertTitle>Info:</AlertTitle>
+
+                  <AlertDescription>
+                    Mund te besh double click mbi cdo fushe per ta modifikuar.
+                    Fusha ruhet pasi klikon jashte saj.
+                  </AlertDescription>
+                </div>
+
+                <div
+                  onClick={() => {
+                    setNjoftimIsOpen(0);
+                  }}
+                  className="flex"
+                >
+                  <IoMdCloseCircle className="-m-2 hover:text-slate-300 text-xl cursor-pointer" />
+                </div>
+              </Njoftim>
+            ) : (
+              ""
             )}
 
             <div className="mt-2 lg:-mx-6">
@@ -270,7 +271,31 @@ function Article() {
                   </p>
                 ) : (
                   <div>
-                    <textarea
+                    <select
+                      className="cursor-pointer bg-purple-100 text-lg mt-2 p-2 text-purple-700 font-bold uppercase"
+                      onChange={editCategory}
+                      onBlur={(e) => {
+                        setIsEditingCategory(false);
+                      }}
+                    >
+                      <option value={article.category}>
+                        {article.category}
+                      </option>
+                      {/* <option value="">Select Category</option> */}
+                      {categories?.map((category, index) => {
+                        return (
+                          <option
+                            key={index}
+                            defaultValue={category}
+
+                            // value={category.name}
+                          >
+                            {category.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    {/* <textarea
                       autoFocus
                       type="text"
                       id="category"
@@ -282,7 +307,7 @@ function Article() {
                       onBlur={(e) => {
                         setIsEditingCategory(false);
                       }}
-                    />
+                    /> */}
                     <Badge
                       className="m-4  justify-center"
                       variant="destructive"
