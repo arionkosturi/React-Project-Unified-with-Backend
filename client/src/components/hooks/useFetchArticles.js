@@ -24,13 +24,12 @@ export const useFetchArticles = (currentPage) => {
       return data;
     },
     queryKey: ["articles", { currentPage }],
-    networkMode: "offlineFirst",
   });
 };
 
 // Fetch Published Articles
-const fetchPublishedArticles = async () => {
-  return await apiClient.get("/news");
+const fetchPublishedArticles = async (currentPage) => {
+  return await apiClient.get(`/news/?p=${currentPage}`);
 };
 
 // Fetch Published Articles

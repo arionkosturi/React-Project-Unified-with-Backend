@@ -116,6 +116,7 @@ function Dashboard() {
                 <div className="text-sm mx-4 my-2 text-slate-400 line-clamp-4 ">
                   {contentStriped}
                 </div>
+
                 <p className="flex justify-end text-sm mx-4 text-slate-400 ">
                   {new Date(article.createdAt).toLocaleDateString(undefined, {
                     day: "numeric",

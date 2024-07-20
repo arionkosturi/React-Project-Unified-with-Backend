@@ -6,6 +6,7 @@ import Header from "../frontend/Header";
 import Paginate from "./Paginate";
 import Login from "./Pages/Login";
 import useToken from "./useToken";
+import PublicArticles from "../frontend/PublicArticles";
 
 function Home() {
   let [currentPage, setCurrentPage] = useState("0");
@@ -19,11 +20,7 @@ function Home() {
     <>
       <Header />
       Public
-      {/* <Articles
-        isPublished={isPublished}
-        setIsPublished={setIsPublished}
-        currentPage={currentPage}
-      /> */}
+      <PublicArticles currentPage={currentPage} />
     </>
   );
 }
