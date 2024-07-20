@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useFetchPublishedArticles } from "../components/hooks/useFetchArticles";
 // import Header from "../Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Paginate from "../components/Paginate";
+import Paginate from "./Paginate";
 import { Badge } from "../components/ui/badge";
 import HTMLReactParser from "html-react-parser";
 function PublicArticles() {
@@ -14,6 +14,7 @@ function PublicArticles() {
   const [currentPage, setCurrentPage] = useState(0);
   const { data: articles } = useFetchPublishedArticles(currentPage);
   const navigate = useNavigate();
+  console.log(currentPage);
   return (
     <>
       <Paginate
@@ -21,6 +22,7 @@ function PublicArticles() {
         setCurrentPage={setCurrentPage}
         articles={articles}
       />
+
       {articles?.map((article) => {
         let handleViewArticle = () => {
           navigate(`../dashboard/article?id=${article._id}`);
