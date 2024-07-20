@@ -176,19 +176,67 @@ export const useSingleCategory = () => {
   });
 };
 
+//Add Category
+const addCategory = async (category) => {
+  return await apiClient.post("/categories/", category);
+};
+export const useAddCategory = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: addCategory,
+    mutationKey: ["single category"],
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Success",
+        description: "Artikulli u krijua me sukses!",
+      });
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 5000);
+    },
+  });
+};
+
+// //Mutate Category
+// const useMutateSingleCategory = async (category) => {
+//   let { name, imgUrl } = category;
+
+//   return await apiClient.patch(`/categories/${id._id}`, {
+//     name,
+//     imgUrl,
+//   });
+// };
+// // Mutate Category
+// export const useMutateCategory = (id) => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationKey: ["single category"],
+//     mutationFn: useMutateSingleCategory,
+//     onSuccess: async (id) => {
+//       // queryClient.invalidateQueries({ queryKey: ["articles"] });
+//       return await queryClient.invalidateQueries({
+//         queryKey: ["single category"],
+//       });
+//     },
+//   });
+// };
+
 //Mutate Category
 const useMutateSingleCategory = async (category) => {
   let { name, imgUrl } = category;
-  const [queryParameter] = useSearchParams();
-  let id = queryParameter.get("id");
-
-  return await apiClient.patch(`/categories/${id._id}`, {
+  return await apiClient.patch(`/categories/${category.id}`, {
     name,
     imgUrl,
   });
 };
 // Mutate Category
-export const useMutateCategory = (id) => {
+export const useMutateCategory = (category) => {
+  // const [queryParameter] = useSearchParams();
+  // let id = queryParameter.get("id");
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -199,6 +247,9 @@ export const useMutateCategory = (id) => {
       return await queryClient.invalidateQueries({
         queryKey: ["single category"],
       });
+    },
+    onSettled: (category) => {
+      console.log(category.data);
     },
   });
 };

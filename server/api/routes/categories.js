@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Category = require("../models/category");
 
+// Get Categories
 router.get("/", (req, res, next) => {
   Category.find()
     .sort()
@@ -16,17 +17,8 @@ router.get("/", (req, res, next) => {
       });
     });
 });
-// router.post("/", (req, res, next) => {
-//   const category = {
-//     name: req.body.name,
-//     imgUrl: req.body.imgUrl,
-//   };
-//   res.status(201).json({
-//     message: "Category was created",
-//     createdCategory: category,
-//   });
-// });
 
+// Post Categories
 router.post("/", (req, res, next) => {
   const category = new Category({
     // _id: mongoose.Types.ObjectId(),
@@ -49,6 +41,7 @@ router.post("/", (req, res, next) => {
       });
     });
 });
+// Get Category by ID
 router.get("/:categoryId", (req, res, next) => {
   const id = req.params.categoryId;
   Category.findById(id)
@@ -68,13 +61,7 @@ router.get("/:categoryId", (req, res, next) => {
     });
 });
 
-router.delete("/:categoryId", (req, res, next) => {
-  res.status(200).json({
-    message: "Category was deleted",
-    categoryId: req.params.categoryId,
-  });
-});
-
+// Update Category
 router.patch("/:categoryId", (req, res, next) => {
   const id = req.params.categoryId;
   const updateOps = req.body;
@@ -102,6 +89,14 @@ router.patch("/:categoryId", (req, res, next) => {
     });
 });
 
+// Delete Category
+
+router.delete("/:categoryId", (req, res, next) => {
+  res.status(200).json({
+    message: "Category was deleted",
+    categoryId: req.params.categoryId,
+  });
+});
 // router.patch("/:categoryId", (req, res, next) => {
 //   res.status(200).json({
 //     message: "Category was patched",

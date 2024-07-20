@@ -4,10 +4,10 @@ import Header from "../../components/Header";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Form } from "../ui/form";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { FaPlusCircle } from "react-icons/fa";
 import {
   Sheet,
   SheetDescription,
@@ -22,14 +22,22 @@ import {
   useMutateCategory,
   useFetchCategories,
   useSingleCategory,
+  useAddCategory,
 } from "../hooks/useFetchArticles";
 import Category from "./Category";
+
 function FetchCategories() {
   let navigate = useNavigate();
   const [name, setName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
+  const [openSheet, setOpenSheet] = useState(false);
+  const [nameRequired, setNameRequired] = useState(false);
+
   const { data: categories, isPending, error } = useFetchCategories();
   const { mutate, onSuccess } = useMutateCategory();
+  let handleOpen = () => {
+    setOpenSheet(true);
+  };
   let handleSubmit = (e) => {
     e.preventDefault();
     mutate({
@@ -66,12 +74,20 @@ function FetchCategories() {
 }
 
 function Categories() {
+  const { mutate: addCategory } = useAddCategory();
+  const [openSheet, setOpenSheet] = useState(false);
+  const [nameRequired, setNameRequired] = useState(false);
+
+  const [name, setName] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   // Fetch Categories
   const queryClient = useQueryClient();
   const [queryParameter] = useSearchParams();
   let id = queryParameter.get("id");
-  const { data: category, isPending, error } = useSingleCategory();
-
+  // const { data: category, isPending, error } = useSingleCategory();
+  let handleOpen = () => {
+    setOpenSheet(true);
+  };
   let navigate = useNavigate();
 
   return (
@@ -86,6 +102,7 @@ function Categories() {
         >
           Back
         </Button>
+
         <section
           className="
         container mx-auto flex flex-col 
@@ -96,51 +113,84 @@ function Categories() {
           </h1>
           <FetchCategories />
 
-          <Sheet>
-            <SheetTrigger>Open</SheetTrigger>
+          <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+            <SheetTrigger className="mx-auto mt-2 p-2">
+              <Button onClick={handleOpen}>Krijo kategori</Button>
+            </SheetTrigger>
             <SheetContent side={"right"}>
               <SheetHeader>
-                <SheetTitle>Are you absolutely sure?</SheetTitle>
+                <SheetTitle>A je i sigurt?</SheetTitle>
                 <SheetDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Je duke krijuar nje kategori te re.
                 </SheetDescription>
               </SheetHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input
-                    id="name"
-                    value="Pedro Duarte"
-                    className="col-span-3"
-                  />
+              <Form>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Emri i kategorise
+                    </Label>
+                    <Input
+                      id="name"
+                      defaultValue={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        setNameRequired(false);
+                      }}
+                      className="col-span-3"
+                    />
+                  </div>
+                  {nameRequired && (
+                    <div className="text-center text-sm text-red-500">
+                      Emri i kategorise eshte i detyrueshem!
+                    </div>
+                  )}
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="imgSource" className="text-right">
+                      Burimi i imazhit
+                    </Label>
+                    <Input
+                      id="imgSource"
+                      defaultValue={imgUrl}
+                      onChange={(e) => setImgUrl(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Username
-                  </Label>
-                  <Input
-                    id="username"
-                    value="@peduarte"
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter>
+                <SheetFooter>
+                  <SheetClose asChild>
+                    <Button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        !name && setNameRequired(true);
+                        name &&
+                          addCategory(
+                            {
+                              name,
+                              imgUrl,
+                            },
+                            {
+                              onSuccess: () => {
+                                queryClient.invalidateQueries({
+                                  queryKey: ["categories"],
+                                }),
+                                  setName("");
+                                setImgUrl("");
+                                setOpenSheet(false);
+                                setNameRequired(false);
+                              },
+                            }
+                          );
+                      }}
+                    >
+                      Ruaj te dhenat
+                    </Button>
+                  </SheetClose>
+                </SheetFooter>
+              </Form>
             </SheetContent>
           </Sheet>
-          <FaPlusCircle
-            onClick={() => {
-              console.log("click");
-            }}
-            className="text-xl mt-4 cursor-pointer"
-          />
         </section>
       </div>
     </>

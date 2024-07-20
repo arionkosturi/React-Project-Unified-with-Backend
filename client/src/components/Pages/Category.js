@@ -5,39 +5,46 @@ import { Button } from "../ui/button";
 import {
   useSingleCategory,
   useMutateCategory,
+  useAddCategory,
 } from "../hooks/useFetchArticles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 function Category() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // const { mutate } = useMutateCategory();
+  const { mutate } = useMutateCategory();
 
   const { data: category, isPending, error } = useSingleCategory();
   let [categoryName, setCategoryName] = useState();
   let [categoryImg, setCategoryImg] = useState();
-  let updateCategory = async (id) => {
-    let { name, imgUrl } = id;
-    return await (data) => axios.patch(
-      `http:/localhost:3344/categories/${id.articleId}`,
-      {
-        name,
-        imgUrl,
-      }
-    );
-  };
-  const mutation = useMutation({
-    mutationFn: updateCategory,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["single category"] });
-    },
-  });
+
   let handleSubmit = (e) => {
     e.preventDefault();
     let id = category._id;
-    mutation.mutate();
-    console.log(mutate.status);
+    mutate(
+      {
+        id,
+        name: categoryName,
+        imgUrl: categoryImg,
+      },
+      {
+        onSuccess: () => {
+          // queryClient.invalidateQueries({
+          //   queryKey: ["single category"],
+          // }),
+          navigate("/dashboard/categories");
+
+          console.log(id);
+          //   categoryName("");
+          //   categoryImg("");
+        },
+        onError: (error) => {
+          // console.log(categoryName);
+        },
+      }
+    );
   };
 
   return (
@@ -46,7 +53,7 @@ function Category() {
         onSubmit={handleSubmit}
         className="gap-2 p-2 flex flex-col container mx-auto"
       >
-        <div>{mutate.status}</div>
+        {/* <div>{mutate.status}</div> */}
         <label htmlFor="categname">Category Name:</label>
         <input
           autoFocus
