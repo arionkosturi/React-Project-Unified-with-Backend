@@ -4,7 +4,10 @@ import { FaRegNewspaper } from "react-icons/fa";
 import AddArticle from "./Pages/AddArticle";
 import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import useToken from "../components/useToken";
+import Login from "../components/Pages/Login";
 export default function Header() {
+  const { token, setToken } = useToken();
   const [queryParameter] = useSearchParams();
   let editMode = queryParameter.get("id");
   const location = useLocation();
@@ -17,6 +20,9 @@ export default function Header() {
     sessionStorage.clear();
     window.location.href = "/";
   };
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
   return (
     <div className="container mx-auto ">
       <div className="flex justify-between items-center py-4">
@@ -39,7 +45,7 @@ export default function Header() {
             Public Preview
           </p>
           {/* Render button if not 
-                    in edit mode or create mode */}
+                  in edit mode or create mode */}
           {editMode || createMode == "/new" ? (
             ""
           ) : (

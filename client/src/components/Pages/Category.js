@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Header from "../Header";
+import useToken from "../useToken";
+import Dashboard from "./Dashboard";
 import { Button } from "../ui/button";
 import {
   useSingleCategory,
@@ -12,6 +14,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 function Category() {
+  const { token, setToken } = useToken();
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -47,7 +51,9 @@ function Category() {
       }
     );
   };
-
+  if (!token) {
+    return <Dashboard />;
+  }
   return (
     <>
       {" "}

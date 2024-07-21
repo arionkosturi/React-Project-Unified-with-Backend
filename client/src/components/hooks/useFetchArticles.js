@@ -29,17 +29,17 @@ export const useFetchArticles = (currentPage) => {
 
 // Fetch Published Articles
 const fetchPublishedArticles = async (currentPage) => {
-  return await apiClient.get(`/news/?p=${currentPage}`);
+  return await apiClient.get(`news/?p=${currentPage}`);
 };
 
 // Fetch Published Articles
-export const useFetchPublishedArticles = () => {
+export const useFetchPublishedArticles = (currentPage) => {
   return useQuery({
     queryFn: async () => {
-      const { data } = await fetchPublishedArticles();
+      const { data } = await fetchPublishedArticles(currentPage);
       return data;
     },
-    queryKey: ["published articles"],
+    queryKey: ["published articles", { currentPage }],
   });
 };
 
@@ -79,7 +79,7 @@ export const useAddArticle = () => {
         description: "Artikulli u krijua me sukses!",
       });
       setTimeout(() => {
-        navigate("/");
+        navigate("/dashboard");
       }, 5000);
     },
   });
@@ -118,6 +118,7 @@ export const useMutateArticle = (article) => {
       // queryClient.invalidateQueries({ queryKey: ["articles"] });
       return await queryClient.invalidateQueries({
         queryKey: ["single article"],
+        // queryKey: ["published articles"],
       });
     },
   });

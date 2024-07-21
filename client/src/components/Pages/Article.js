@@ -1,6 +1,8 @@
 // @ts-nocheck
 import React, { useState, useMemo, useRef } from "react";
 import Header from "../Header";
+import useToken from "../useToken";
+import Login from "../Pages/Login";
 import {
   useMutateArticle,
   useSingleArticle,
@@ -45,6 +47,11 @@ function Article() {
   let [isEditingSource, setIsEditingSource] = useState(false);
   const { mutate, onSuccess, isPending } = useMutateArticle();
   const { data: article, isLoading, isError, error } = useSingleArticle();
+  const { token, setToken } = useToken();
+
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
   if (isLoading) {
     return <div>Loading...</div>;
   }

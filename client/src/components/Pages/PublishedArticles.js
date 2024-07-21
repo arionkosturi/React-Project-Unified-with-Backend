@@ -19,6 +19,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
 import { Badge } from "../ui/badge";
+import useToken from "../useToken";
+import Login from "../Pages/Login";
+
 import HTMLReactParser from "html-react-parser";
 function PublishedArticles() {
   const queryClient = useQueryClient();
@@ -27,6 +30,11 @@ function PublishedArticles() {
   const { mutate: remove } = useDeleteArticle();
   const { data } = useFetchPublishedArticles(currentPage);
   const navigate = useNavigate();
+  const { token, setToken } = useToken();
+
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
   return (
     <>
       {" "}

@@ -20,7 +20,7 @@ import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
 import { Badge } from "../ui/badge";
 import HTMLReactParser from "html-react-parser";
-function Dashboard() {
+function Articles() {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate, error, status, isPending } = useMutateArticle();
@@ -151,4 +151,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Articles;
