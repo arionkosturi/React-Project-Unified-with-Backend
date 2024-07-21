@@ -4,10 +4,11 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import JoditEditor, { Jodit } from "jodit-react";
-
 import CustomEditor from "./CustomEditor";
 import { Toaster } from "./ui/toaster";
 import { useAddArticle, useFetchCategories } from "./hooks/useFetchArticles";
+import useToken from "./useToken";
+
 function ArticleForm() {
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
@@ -42,10 +43,16 @@ function ArticleForm() {
       imgUrl,
     });
   };
+  const { token, setToken } = useToken();
+
+  if (!token) {
+    return <Header />;
+  }
   return (
     <div className="flex flex-col container gap-2 mx-auto">
       <Toaster />
       <Header />
+
       <h1 className="text-3xl text-center text-green-600">
         Creating New Article
       </h1>
@@ -110,19 +117,18 @@ function ArticleForm() {
         }}
       />
       {/* <label htmlFor="category">Category:</label>
-      <input
-        type="text"
-        id="category"
-        placeholder="Enter Category"
-        name="category"
-        className="border p-2"
-        value={category}
-        onChange={(e) => {
-          setCategory(e.target.value);
-        }}
-      /> */}
+  <input
+    type="text"
+    id="category"
+    placeholder="Enter Category"
+    name="category"
+    className="border p-2"
+    value={category}
+    onChange={(e) => {
+      setCategory(e.target.value);
+    }}
+  /> */}
       <label htmlFor="category">Category:</label>
-
       <select
         id="category"
         className="p-2"
@@ -161,7 +167,6 @@ function ArticleForm() {
         <span className="p-6">Image Preview:</span>
         <img className="w-1/3 my-6" src={imgUrl} />
       </div>
-
       <div className="mx-auto container">
         <form>
           <Link to="/">

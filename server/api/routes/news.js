@@ -61,6 +61,25 @@ router.get("/top", (req, res, next) => {
       });
     });
 });
+// Highlighted
+router.get("/top1", (req, res, next) => {
+  Article.find({
+    $and: [{ isPublished: true }, { isHighlighted: true }],
+  })
+    .limit(1)
+    .sort({ createdAt: 1 })
+    .exec()
+    .then((docs) => {
+      // console.log(docs);
+      res.status(200).json(docs);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 
 // find by category
 router.get("/category/:category", (req, res, next) => {

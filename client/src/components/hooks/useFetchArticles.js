@@ -43,6 +43,36 @@ export const useFetchPublishedArticles = (currentPage) => {
   });
 };
 
+// Fetch Highlighted Articles
+const fetchHighlightedArticles = async () => {
+  return await apiClient.get(`news/top`);
+};
+
+// Fetch Highlighted Articles
+export const useFetchHighlightedArticles = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchHighlightedArticles();
+      return data;
+    },
+    queryKey: ["highlighted articles"],
+  });
+};
+// Fetch 1 Highlighted Articles
+const fetchHighlightedArticle = async () => {
+  return await apiClient.get(`news/top1`);
+};
+
+// Fetch 1 Highlighted Articles
+export const useFetchHighlightedArticle = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchHighlightedArticle();
+      return data;
+    },
+    queryKey: ["highlighted article"],
+  });
+};
 // Fetch Single Article
 const fetchSingleArticle = async (id) => {
   return await apiClient.get(`/news/${id}`);

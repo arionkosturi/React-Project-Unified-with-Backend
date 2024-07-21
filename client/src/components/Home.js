@@ -6,22 +6,21 @@ import Header from "../frontend/Header";
 import Paginate from "./Paginate";
 import Login from "./Pages/Login";
 import useToken from "./useToken";
+import Footer from "../frontend/Footer";
 import PublicArticles from "../frontend/PublicArticles";
-
+import HighlitedSection from "../frontend/HighlitedSection";
 function Home() {
   let [currentPage, setCurrentPage] = useState("0");
   let [isPublished, setIsPublished] = useState();
   const { token, setToken } = useToken();
-  // if (!token) {
-  //   return <Login setToken={setToken} />;
-  // }
 
   return (
-    <>
+    <div className="container mx-auto">
       <Header />
-      Public
+      <HighlitedSection />
       <PublicArticles currentPage={currentPage} />
-    </>
+      <Footer />
+    </div>
   );
 }
 

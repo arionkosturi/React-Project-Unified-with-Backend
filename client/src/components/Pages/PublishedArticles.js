@@ -40,7 +40,12 @@ function PublishedArticles() {
       {" "}
       <Header />
       <div className="container mx-auto">
-        <h1 className="text-3xl">Published Articles</h1>
+        <h1 className="text-3xl">
+          <span className="bg-green-500 text-white mr-2 px-2 py-1">
+            Published
+          </span>
+          Articles
+        </h1>
       </div>
       <div className="flex  mx-2 sm:container sm:mx-auto">
         <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
