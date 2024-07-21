@@ -29,7 +29,6 @@ import { Editor } from "react-simple-wysiwyg";
 import { useSessionStorage } from "@uidotdev/usehooks";
 
 function PublicArticle() {
-  let today = new Date();
   const { data: categories } = useFetchCategories();
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
@@ -42,8 +41,22 @@ function PublicArticle() {
     }),
     [height]
   );
+
   let [njoftimIsOpen, setNjoftimIsOpen] = useSessionStorage("njoftim", 1);
   const { data: article, isLoading, isError, error } = useSingleArticle();
+  let articlesDate = new Date(article?.createdAt).toLocaleDateString(
+    undefined,
+    {
+      day: "numeric",
+      year: "numeric",
+      month: "long",
+    }
+  );
+  let todaysDate = new Date().toLocaleDateString(undefined, {
+    day: "numeric",
+    year: "numeric",
+    month: "long",
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -60,7 +73,7 @@ function PublicArticle() {
       <div>
         <section className={" container mx-auto   "}>
           <div className="container mx-auto ">
-            {njoftimIsOpen === 1 && article.createdAt ? (
+            {njoftimIsOpen === 1 && articlesDate === todaysDate ? (
               <Njoftim className=" mt-2 flex justify-between p-4 " variant="">
                 <FaInfoCircle className="h-4 w-4 text-xl text-white " />
                 <div className="ml-2">
