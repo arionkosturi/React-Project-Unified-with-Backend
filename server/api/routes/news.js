@@ -67,7 +67,7 @@ router.get("/top1", (req, res, next) => {
     $and: [{ isPublished: true }, { isHighlighted: true }],
   })
     .limit(1)
-    .sort({ createdAt: 1 })
+    .sort({ createdAt: -1 })
     .exec()
     .then((docs) => {
       // console.log(docs);
