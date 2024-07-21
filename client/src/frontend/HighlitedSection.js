@@ -15,7 +15,7 @@ function HighlitedSection() {
       <div className="relative hover:opacity-100 my-2 ml-1 md:ml-4 xl:ml-0 md:w-2/3 hover:cursor-pointer">
         {status === "success" ? (
           <div className="opacity-95 hover:opacity-100 mr-2">
-            <a href="article.html?id=/">
+            <a href={`article?${artikull._id}`}>
               <img
                 src={artikull.imgUrl || (firstArt && firstArt[0]?.imgUrl)}
                 alt=""

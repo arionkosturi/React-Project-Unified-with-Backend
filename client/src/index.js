@@ -20,6 +20,7 @@ import Paginate from "./components/Paginate";
 import Testing from "./components/Pages/Testing";
 import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
+import PublicArticle from "./frontend/Article";
 import PublishedArticles from "./components/Pages/PublishedArticles";
 import Login from "./components/Pages/Login";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/article",
+    element: <Article />,
     errorElement: <NotFoundPage />,
   },
   {
