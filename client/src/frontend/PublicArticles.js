@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useFetchPublishedArticles } from "../components/hooks/useFetchArticles";
-// import Header from "../Header";
+import Header from "./Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Paginate from "./Paginate";
 import { Badge } from "../components/ui/badge";

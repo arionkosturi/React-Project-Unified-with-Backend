@@ -8,14 +8,15 @@ function HighlitedSection() {
   const { data: articles, status } = useFetchHighlightedArticles();
   const { data: firstArt, isSuccess } = useFetchHighlightedArticle();
   let [artikull, setArtikull] = useState({});
-
   return (
     <div className="md:flex mx-1">
       {/* Left Side */}
       <div className="relative hover:opacity-100 my-2 ml-1 md:ml-4 xl:ml-0 md:w-2/3 hover:cursor-pointer">
         {status === "success" ? (
           <div className="opacity-95 hover:opacity-100 mr-2">
-            <a href={`article?${artikull._id}`}>
+            <a
+              href={`article?id=${artikull._id || (firstArt && firstArt[0]?._id)}`}
+            >
               <img
                 src={artikull.imgUrl || (firstArt && firstArt[0]?.imgUrl)}
                 alt=""
@@ -30,7 +31,7 @@ function HighlitedSection() {
           </div>
         ) : (
           <div className="opacity-95 hover:opacity-100 mr-2">
-            <a href="article.html?id=/">
+            <a href={`article?id=${artikull._id}`}>
               <img src={artikull.imgUrl} alt="" className="opacity-90" />
               <div className="relative bg-purple-800 bg-opacity-100 lg:bg-opacity-80 hover:bg-opacity-90 lg:-mt-28 py-2 w-full h-28 text-white">
                 <h3 className="p-1 md:text-xl line-clamp-2 ">
@@ -48,9 +49,11 @@ function HighlitedSection() {
             <div key={index}>
               <div
                 onClick={(e) => {
+                  console.log(article);
                   setArtikull({
                     title: article.title,
                     imgUrl: article.imgUrl,
+                    _id: article._id,
                   });
                 }}
                 id={index}
