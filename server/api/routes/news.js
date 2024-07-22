@@ -172,6 +172,73 @@ router.get("/search/:q", (req, res, next) => {
     });
 });
 
+// Search Endpoint
+router.get("/searchall/:q", (req, res, next) => {
+  Article.find({
+    $or: [
+      {
+        title: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+      {
+        description: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+      {
+        content: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+      {
+        content2: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+      {
+        content3: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+      {
+        author: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+      {
+        category: {
+          $regex: req.params.q,
+          $options: "i",
+        },
+      },
+    ],
+  })
+    .sort({ createdAt: -1 })
+    .exec()
+    .then((doc) => {
+      // console.log("From database", doc);
+      if (doc) {
+        res.status(200).json(doc);
+        // console.log(doc);
+      } else {
+        res.status(404).json({
+          message: "No valid entry found for this id",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+});
+
 router.get("/:articleId", (req, res, next) => {
   const id = req.params.articleId;
   Article.findById(id)

@@ -91,6 +91,43 @@ export const useSingleArticle = () => {
   });
 };
 
+// Fetch Searched Articles
+const fetchSearchedArticles = async (q) => {
+  let query = q.queryKey[1].q;
+  if (query.length >= 3) {
+    return await apiClient.get(`news/search/${q.queryKey[1].q}`);
+  }
+};
+
+// Fetch Searched Articles
+export const useFetchSearchedArticles = (q) => {
+  return useQuery({
+    queryFn: async (q) => {
+      const { data } = await fetchSearchedArticles(q);
+      return data;
+    },
+    queryKey: ["searched articles", { q }],
+  });
+};
+// Fetch Search All Articles
+const fetchSearchAllArticles = async (q) => {
+  let query = q.queryKey[1].q;
+  if (query.length >= 3) {
+    return await apiClient.get(`news/searchall/${q.queryKey[1].q}`);
+  }
+};
+
+// Fetch Search All Articles
+export const useFetchSearchAllArticles = (q) => {
+  return useQuery({
+    queryFn: async (q) => {
+      const { data } = await fetchSearchAllArticles(q);
+      return data;
+    },
+    queryKey: ["searched articles", { q }],
+  });
+};
+
 //Add Article
 const addArticle = async (article) => {
   return await apiClient.post("/news/", article);
@@ -144,11 +181,16 @@ export const useMutateArticle = (article) => {
   return useMutation({
     mutationKey: ["single article"],
     mutationFn: mutateSingleArticle,
-    onSuccess: async () => {
+    onSuccess: () => {
       // queryClient.invalidateQueries({ queryKey: ["articles"] });
-      return await queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ["single article"],
-        // queryKey: ["published articles"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["articles"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["published articles"],
       });
     },
   });
@@ -167,6 +209,10 @@ export const useDeleteArticle = (id) => {
     mutationFn: deleteSingleArticle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
+      queryClient.invalidateQueries({ queryKey: ["searched articles"] });
+      queryClient.invalidateQueries({ queryKey: ["published articles"] });
+      queryClient.invalidateQueries({ queryKey: ["highlighted articles"] });
+      queryClient.invalidateQueries({ queryKey: ["highlighted article"] });
     },
   });
 };

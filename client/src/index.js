@@ -1,12 +1,7 @@
 // @ts-nocheck
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import "./index.css";
 import "@radix-ui/themes/styles.css";
 import Home from "./components/Home";
