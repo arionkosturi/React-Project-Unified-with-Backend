@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState, useMemo, useRef } from "react";
 import Header from "./Header";
+import Footer from "./Footer";
 import {
   useMutateArticle,
   useSingleArticle,
@@ -146,6 +147,8 @@ function PublicArticle() {
           </div>
         </section>
       </div>
+
+      <Footer />
     </>
   );
 }
