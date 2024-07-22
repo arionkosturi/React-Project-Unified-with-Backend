@@ -1,12 +1,11 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
-  BrowserRouter,
   Route,
-  Switch,
+  
 } from "react-router-dom";
 import "./index.css";
 import "@radix-ui/themes/styles.css";
