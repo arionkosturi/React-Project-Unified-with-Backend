@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
-    path: "/category",
+    path: "/category/:category",
     element: <PublicCategory />,
     errorElement: <NotFoundPage />,
   },

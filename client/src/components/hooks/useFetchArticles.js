@@ -5,17 +5,17 @@ import { useToast } from "../ui/use-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 // Fetch All Articles
-const fetchArticles = async (currentPage, all) => {
-  return await apiClient.get(`news/${all || ""}?p=${currentPage}`);
+const fetchArticles = async (currentPage, fetchTerm) => {
+  return await apiClient.get(`news/${fetchTerm || ""}?p=${currentPage}`);
 };
 // Fetch All Articles
-export const useFetchArticles = (currentPage, all) => {
+export const useFetchArticles = (currentPage, fetchTerm) => {
   return useQuery({
     queryFn: async () => {
-      const { data } = await fetchArticles(currentPage, all);
+      const { data } = await fetchArticles(currentPage, fetchTerm);
       return data;
     },
-    queryKey: ["articles", { currentPage, all }],
+    queryKey: ["articles", { currentPage, fetchTerm }],
   });
 };
 

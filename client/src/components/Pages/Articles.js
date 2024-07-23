@@ -29,8 +29,8 @@ function Articles() {
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
   const { mutate: remove } = useDeleteArticle();
-  let allArticles = "all";
-  const { data: articles } = useFetchArticles(currentPage, allArticles);
+  let fetchTerm = "all";
+  const { data: articles } = useFetchArticles(currentPage, fetchTerm);
   const navigate = useNavigate();
   return (
     <>

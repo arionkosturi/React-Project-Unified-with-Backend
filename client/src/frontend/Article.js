@@ -112,7 +112,7 @@ function PublicArticle() {
                 alt=""
               />
               <div className="mt-8  lg:mt-0 lg:mx-6 ">
-                <a href={`/category?category=${article.category}`}>
+                <a href={`/category/${article.category}`}>
                   <p className="cursor-pointer text-lg mt-2 p-2 text-purple-700 font-bold uppercase">
                     {article.category}
                   </p>

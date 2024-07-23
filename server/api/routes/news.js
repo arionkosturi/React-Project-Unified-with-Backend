@@ -84,7 +84,9 @@ router.get("/top1", (req, res, next) => {
 // find by category
 router.get("/category/:category", (req, res, next) => {
   //  const category = req.params.category;
-  Article.find({ category: req.params.category })
+  Article.find({
+    category: req.params.category,
+  })
     .sort({ createdAt: -1 })
     .exec()
     .then((doc) => {

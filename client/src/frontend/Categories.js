@@ -15,7 +15,7 @@ function Categories() {
       <div className="relative container gap-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-auto mt-2 cursor-pointer ms-1">
         {categories?.map((category, index) => {
           return (
-            <a key={index} href={`/category?category=${category.name}`}>
+            <a key={index} href={`/category/${category.name}`}>
               <div className="individualCategory relative w-[99%] group">
                 <img
                   alt="category desc"
