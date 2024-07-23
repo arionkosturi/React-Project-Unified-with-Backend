@@ -112,9 +112,11 @@ function PublicArticle() {
                 alt=""
               />
               <div className="mt-8  lg:mt-0 lg:mx-6 ">
-                <p className="cursor-pointer text-lg mt-2 p-2 text-purple-700 font-bold uppercase">
-                  {article.category}
-                </p>
+                <a href={`/category?category=${article.category}`}>
+                  <p className="cursor-pointer text-lg mt-2 p-2 text-purple-700 font-bold uppercase">
+                    {article.category}
+                  </p>
+                </a>
                 <p className="cursor-pointer block mt-4 text-xl font-semibold text-gray-800 ">
                   {article.description}
                 </p>

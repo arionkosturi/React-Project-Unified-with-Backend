@@ -49,7 +49,6 @@ function HighlitedSection() {
             <div key={index}>
               <div
                 onClick={(e) => {
-                  console.log(article);
                   setArtikull({
                     title: article.title,
                     imgUrl: article.imgUrl,

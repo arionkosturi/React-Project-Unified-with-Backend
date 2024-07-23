@@ -7,6 +7,7 @@ import "@radix-ui/themes/styles.css";
 import Home from "./components/Home";
 import Categories from "./components/Pages/Categories";
 import Category from "./components/Pages/Category";
+import PublicCategory from "./frontend/Category";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
   {
     path: "/article",
     element: <PublicArticle />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/category",
+    element: <PublicCategory />,
     errorElement: <NotFoundPage />,
   },
   {
