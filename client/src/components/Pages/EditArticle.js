@@ -177,7 +177,9 @@ function EditArticle() {
           setCategory(e.target.value);
         }}
       >
-        <option value={category}>{category}</option>
+        <option value={"Select Category"}>
+          {category || "Select Category"}
+        </option>
         {/* <option value="">Select Category</option> */}
         {categories?.map((category, index) => {
           return (

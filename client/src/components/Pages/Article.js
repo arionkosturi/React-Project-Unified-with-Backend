@@ -274,7 +274,7 @@ function Article() {
                     }}
                     className="cursor-pointer text-lg mt-2 p-2 text-purple-700 font-bold uppercase"
                   >
-                    {article.category}
+                    {article.category || "Category"}
                   </p>
                 ) : (
                   <div>
@@ -286,9 +286,9 @@ function Article() {
                       }}
                     >
                       <option value={article.category}>
-                        {article.category}
+                        {article.category || "Select Category"}
                       </option>
-                      {/* <option value="">Select Category</option> */}
+                      {/* <option value=""></option> */}
                       {categories?.map((category, index) => {
                         return (
                           <option

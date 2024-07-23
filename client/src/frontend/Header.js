@@ -64,11 +64,6 @@ export default function Header() {
               className=" border-purple-600 bg-white dark:bg-neutral-900 focus:ring-opacity-70 p-1 border border-opacity-30 rounded-full w-full focus:outline-none focus:ring focus:ring-purple-600"
               placeholder="Start typing to search..."
             />
-            {/* <button type="submit" className="search__submit-btn ">
-              <div className="flex text-center">
-                <FaSearch className="flex group-hover:bg-purple-600 group-hover:text-white group-active:bg-green-900 bg-purple-500 dark:bg-slate-900 text-neutral-50 hover:bg-opacity-100 p-2 rounded-full w-16 text-4xl hover:text-white" />
-              </div>
-            </button> */}
           </div>
 
           <label htmlFor="menu-toggler">
@@ -90,7 +85,7 @@ export default function Header() {
                   <>
                     <p
                       onClick={() => {
-                        navigate("dashboard");
+                        navigate("/dashboard");
                       }}
                       className="mx-2 cursor-pointer border py-2 px-3 hover:bg-slate-100"
                     >
