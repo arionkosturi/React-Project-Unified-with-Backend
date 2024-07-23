@@ -13,33 +13,17 @@ import { useToast } from "../ui/use-toast";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 // Fetch All Articles
-const fetchArticles = async (currentPage) => {
-  return await apiClient.get(`news/all?p=${currentPage}`);
+const fetchArticles = async (currentPage, all) => {
+  return await apiClient.get(`news/${all || ""}?p=${currentPage}`);
 };
 // Fetch All Articles
-export const useFetchArticles = (currentPage) => {
+export const useFetchArticles = (currentPage, all) => {
   return useQuery({
     queryFn: async () => {
-      const { data } = await fetchArticles(currentPage);
+      const { data } = await fetchArticles(currentPage, all);
       return data;
     },
-    queryKey: ["articles", { currentPage }],
-  });
-};
-
-// Fetch Published Articles
-const fetchPublishedArticles = async (currentPage) => {
-  return await apiClient.get(`news/?p=${currentPage}`);
-};
-
-// Fetch Published Articles
-export const useFetchPublishedArticles = (currentPage) => {
-  return useQuery({
-    queryFn: async () => {
-      const { data } = await fetchPublishedArticles(currentPage);
-      return data;
-    },
-    queryKey: ["published articles", { currentPage }],
+    queryKey: ["articles", { currentPage, all }],
   });
 };
 
@@ -183,15 +167,11 @@ export const useMutateArticle = (article) => {
     mutationKey: ["single article"],
     mutationFn: mutateSingleArticle,
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["articles"] });
       queryClient.invalidateQueries({
         queryKey: ["single article"],
       });
       queryClient.invalidateQueries({
         queryKey: ["articles"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["published articles"],
       });
     },
   });
@@ -211,7 +191,6 @@ export const useDeleteArticle = (id) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       queryClient.invalidateQueries({ queryKey: ["searched articles"] });
-      queryClient.invalidateQueries({ queryKey: ["published articles"] });
       queryClient.invalidateQueries({ queryKey: ["highlighted articles"] });
       queryClient.invalidateQueries({ queryKey: ["highlighted article"] });
     },

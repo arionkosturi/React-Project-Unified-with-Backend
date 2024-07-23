@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useFetchPublishedArticles } from "../components/hooks/useFetchArticles";
+import { useFetchArticles } from "../components/hooks/useFetchArticles";
 import Header from "./Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Paginate from "./Paginate";
@@ -12,7 +12,7 @@ import HTMLReactParser from "html-react-parser";
 function PublicArticles() {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(0);
-  const { data: articles } = useFetchPublishedArticles(currentPage);
+  const { data: articles } = useFetchArticles(currentPage);
   const navigate = useNavigate();
   return (
     <>

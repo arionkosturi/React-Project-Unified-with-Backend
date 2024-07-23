@@ -10,7 +10,7 @@ import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
 import Alert from "../Alert";
 import { useNavigate, Link } from "react-router-dom";
 import {
-  useFetchPublishedArticles,
+  useFetchArticles,
   useMutateArticle,
   useDeleteArticle,
 } from "../hooks/useFetchArticles";
@@ -28,7 +28,7 @@ function PublishedArticles() {
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate, error, status, isPending } = useMutateArticle();
   const { mutate: remove } = useDeleteArticle();
-  const { data } = useFetchPublishedArticles(currentPage);
+  const { data } = useFetchArticles(currentPage);
   const navigate = useNavigate();
   const { token, setToken } = useToken();
 

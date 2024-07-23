@@ -11,7 +11,6 @@ import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
 import Paginate from "./components/Paginate";
-import Testing from "./components/Pages/Testing";
 import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";
@@ -43,11 +42,6 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/edit",
     element: <EditArticle />,
-    errorElement: <NotFoundPage />,
-  },
-  {
-    path: "/dashboard/testing",
-    element: <Testing />,
     errorElement: <NotFoundPage />,
   },
   {
