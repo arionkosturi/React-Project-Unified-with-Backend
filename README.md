@@ -7,11 +7,11 @@ Ky aplikacion eshte ne sherbim te [projektit ne Javascript](https://github.com/a
 
 ## Available Scripts
 
-Per instalimin e varesive:
+Per instalimin e varesive ne folderin server dhe client perkatesisht:
 
 ### `npm i`
 
-Per te nisur serverin
+Per te nisur serverin aplikojme ne root
 
 ### `npm start`
 
