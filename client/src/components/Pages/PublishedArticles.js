@@ -1,13 +1,8 @@
 // @ts-nocheck
-import axios from "axios";
 import React, { useState } from "react";
-import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
-import { ToastAction } from "../ui/toast";
 import CheckPublished from "../CheckPublished";
 import CheckHighlighted from "../CheckHighlited";
-import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
-import Alert from "../Alert";
 import { useNavigate, Link } from "react-router-dom";
 import {
   useFetchArticles,
@@ -15,18 +10,16 @@ import {
   useDeleteArticle,
 } from "../hooks/useFetchArticles";
 import Header from "../Header";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
-import { Badge } from "../ui/badge";
 import useToken from "../useToken";
 import Login from "../Pages/Login";
 
-import HTMLReactParser from "html-react-parser";
 function PublishedArticles() {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(0);
-  const { mutate, error, status, isPending } = useMutateArticle();
+  const { mutate } = useMutateArticle();
   const { mutate: remove } = useDeleteArticle();
   const { data } = useFetchArticles(currentPage);
   const navigate = useNavigate();
@@ -128,7 +121,11 @@ function PublishedArticles() {
                       ""
                     )}
 
-                    <img className=" my-2 p-2 h-48" src={article.imgUrl} />
+                    <img
+                      className=" my-2 p-2 h-48"
+                      alt="description"
+                      src={article.imgUrl}
+                    />
                   </div>
 
                   <div className="w-full flex flex-col justify-between">

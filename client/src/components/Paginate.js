@@ -1,15 +1,12 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import React from "react";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
-import AddArticle from "./Pages/AddArticle";
 
 function Paginate({ currentPage, setCurrentPage, isPreviousData, articles }) {
   return (

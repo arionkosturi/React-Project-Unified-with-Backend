@@ -1,15 +1,14 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
-import { FaBars, FaRegNewspaper, FaSearch } from "react-icons/fa";
-import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { FaBars, FaRegNewspaper } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import Login from "../components/Pages/Login";
 import useToken from "../components/useToken";
 import useDebounce from "./useDebounce";
 import { useFetchSearchedArticles } from "../components/hooks/useFetchArticles";
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState();
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   const debouncedSearch = useDebounce(searchTerm, 1000);
   const { data: searchR } = useFetchSearchedArticles(debouncedSearch);
   const navigate = useNavigate();

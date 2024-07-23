@@ -6,7 +6,7 @@ import {
 import React, { useState } from "react";
 function HighlitedSection() {
   const { data: articles, status } = useFetchHighlightedArticles();
-  const { data: firstArt, isSuccess } = useFetchHighlightedArticle();
+  const { data: firstArt } = useFetchHighlightedArticle();
   let [artikull, setArtikull] = useState({});
   return (
     <div className="md:flex mx-1">

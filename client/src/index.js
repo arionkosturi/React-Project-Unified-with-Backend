@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import "@radix-ui/themes/styles.css";
 import Home from "./components/Home";
@@ -10,7 +10,6 @@ import Category from "./components/Pages/Category";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
-import Paginate from "./components/Paginate";
 import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";

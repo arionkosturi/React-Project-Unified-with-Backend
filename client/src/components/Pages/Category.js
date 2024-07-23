@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import axios from "axios";
 import Header from "../Header";
 import useToken from "../useToken";
 import Dashboard from "./Dashboard";
@@ -8,20 +7,17 @@ import { Button } from "../ui/button";
 import {
   useSingleCategory,
   useMutateCategory,
-  useAddCategory,
 } from "../hooks/useFetchArticles";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 function Category() {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
 
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const { mutate } = useMutateCategory();
 
-  const { data: category, isPending, error } = useSingleCategory();
+  const { data: category } = useSingleCategory();
   let [categoryName, setCategoryName] = useState();
   let [categoryImg, setCategoryImg] = useState();
 
@@ -36,17 +32,7 @@ function Category() {
       },
       {
         onSuccess: () => {
-          // queryClient.invalidateQueries({
-          //   queryKey: ["single category"],
-          // }),
           navigate("/dashboard/categories");
-
-          console.log(id);
-          //   categoryName("");
-          //   categoryImg("");
-        },
-        onError: (error) => {
-          // console.log(categoryName);
         },
       }
     );

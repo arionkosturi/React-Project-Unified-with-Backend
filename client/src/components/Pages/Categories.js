@@ -2,16 +2,14 @@
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import useToken from "../useToken";
-import { FaTrash } from "react-icons/fa";
 import Dashboard from "../../components/Pages/Dashboard";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
 import Alert from "../Alert";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Sheet,
   SheetDescription,
@@ -25,19 +23,17 @@ import {
 import {
   useMutateCategory,
   useFetchCategories,
-  useSingleCategory,
   useAddCategory,
   useDeleteCategory,
 } from "../hooks/useFetchArticles";
-import Category from "./Category";
 
 function FetchCategories() {
   let navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [name] = useState("");
+  const [imgUrl] = useState("");
 
   const { data: categories, isPending, error } = useFetchCategories();
-  const { mutate, onSuccess } = useMutateCategory();
+  const { mutate } = useMutateCategory();
   const { mutate: remove } = useDeleteCategory();
 
   let handleSubmit = (e) => {
