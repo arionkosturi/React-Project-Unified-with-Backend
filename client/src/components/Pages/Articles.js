@@ -1,14 +1,9 @@
 // @ts-nocheck
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useDebounce from "../../frontend/useDebounce";
-import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
-import { ToastAction } from "../ui/toast";
 import CheckPublished from "../CheckPublished";
 import CheckHighlighted from "../CheckHighlited";
-import { FaTrash, FaPencilAlt, FaStar } from "react-icons/fa";
-import Alert from "../Alert";
 import { useNavigate } from "react-router-dom";
 import {
   useFetchArticles,
@@ -16,12 +11,10 @@ import {
   useMutateArticle,
   useDeleteArticle,
 } from "../hooks/useFetchArticles";
-import Header from "../Header";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
-import { Badge } from "../ui/badge";
-import HTMLReactParser from "html-react-parser";
+
 function Articles() {
   const queryClient = useQueryClient();
 
@@ -34,7 +27,7 @@ function Articles() {
     setSearchTerm(e.target.value);
   };
   const [currentPage, setCurrentPage] = useState(0);
-  const { mutate, error, status, isPending } = useMutateArticle();
+  const { mutate } = useMutateArticle();
   const { mutate: remove } = useDeleteArticle();
   let allArticles = "all";
   const { data: articles } = useFetchArticles(currentPage, allArticles);
@@ -154,7 +147,11 @@ function Articles() {
                       ""
                     )}
 
-                    <img className=" my-2 p-2 h-48" src={article.imgUrl} />
+                    <img
+                      className=" my-2 p-2 h-48"
+                      alt="article"
+                      src={article.imgUrl}
+                    />
                   </div>
 
                   <div className="w-full flex flex-col justify-between">
@@ -271,9 +268,12 @@ function Articles() {
                   ""
                 )}
 
-                <img className=" my-2 p-2 h-48" src={article.imgUrl} />
+                <img
+                  className=" my-2 p-2 h-48"
+                  alt="article"
+                  src={article.imgUrl}
+                />
               </div>
-
               <div className="w-full flex flex-col justify-between">
                 <h1
                   onClick={handleViewArticle}

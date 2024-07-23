@@ -19,25 +19,22 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import HTMLReactParser from "html-react-parser";
-import JoditEditor, { Jodit } from "jodit-react";
+import JoditEditor from "jodit-react";
 import CheckHighlighted from "../CheckHighlited";
 import { Alert as Njoftim, AlertDescription, AlertTitle } from "../ui/alert";
-import { Edit } from "lucide-react";
-import { Editor } from "react-simple-wysiwyg";
 import { useSessionStorage } from "@uidotdev/usehooks";
 
 function Article() {
   const { data: categories } = useFetchCategories();
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
-  let height;
   const config = useMemo(
     () => ({
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
       height: 500,
       autofocus: true,
     }),
-    [height]
+    []
   );
   let [njoftimIsOpen, setNjoftimIsOpen] = useSessionStorage("njoftim", 1);
   let [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -45,8 +42,8 @@ function Article() {
   let [isEditingDescription, setIsEditingDescription] = useState(false);
   let [isEditingContent, setIsEditingContent] = useState(false);
   let [isEditingSource, setIsEditingSource] = useState(false);
-  const { mutate, onSuccess, isPending } = useMutateArticle();
-  const { data: article, isLoading, isError, error } = useSingleArticle();
+  const { mutate } = useMutateArticle();
+  const { data: article, isLoading, error } = useSingleArticle();
   const { token, setToken } = useToken();
 
   if (!token) {
@@ -397,6 +394,7 @@ function Article() {
                         <a
                           href={article.sourceUrl}
                           target="_blank"
+                          rel="noreferrer"
                           className="finline-block mt-2 text-blue-500 underline hover:text-blue-400"
                         >
                           Source
