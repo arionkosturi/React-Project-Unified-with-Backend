@@ -94,6 +94,7 @@ export const useSingleArticle = () => {
 // Fetch Searched Articles
 const fetchSearchedArticles = async (q) => {
   let query = q.queryKey[1].q;
+  if (query === undefined) return;
   if (query.length >= 3) {
     return await apiClient.get(`news/search/${q.queryKey[1].q}`);
   }
