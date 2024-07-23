@@ -2,11 +2,13 @@
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import useToken from "../useToken";
+import { FaTrash } from "react-icons/fa";
 import Dashboard from "../../components/Pages/Dashboard";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
+import Alert from "../Alert";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -25,6 +27,7 @@ import {
   useFetchCategories,
   useSingleCategory,
   useAddCategory,
+  useDeleteCategory,
 } from "../hooks/useFetchArticles";
 import Category from "./Category";
 
@@ -35,6 +38,7 @@ function FetchCategories() {
 
   const { data: categories, isPending, error } = useFetchCategories();
   const { mutate, onSuccess } = useMutateCategory();
+  const { mutate: remove } = useDeleteCategory();
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -58,6 +62,7 @@ function FetchCategories() {
           )}
 
           <Button
+            variant={"secondary"}
             category={category}
             onClick={() => {
               console.log(category);
@@ -67,6 +72,17 @@ function FetchCategories() {
             {" "}
             Edit{" "}
           </Button>
+
+          <Alert
+            alertTitle={"TEST"}
+            handleFunction={(e) => {
+              let categoryId = category._id;
+              remove(categoryId);
+            }}
+            alertTriggerButton={
+              <Button variant={"destructive"}> Detele </Button>
+            }
+          />
         </div>
       </div>
     );

@@ -93,18 +93,18 @@ export const useSingleArticle = () => {
 
 // Fetch Searched Articles
 const fetchSearchedArticles = async (q) => {
-  let query = q.queryKey[1].q;
+  let query = q.queryKey[1]?.q;
   if (query === undefined) return;
-  if (query.length >= 3) {
-    return await apiClient.get(`news/search/${q.queryKey[1].q}`);
-  }
+  return await apiClient.get(`news/search/${q.queryKey[1].q}`);
 };
 
 // Fetch Searched Articles
 export const useFetchSearchedArticles = (q) => {
   return useQuery({
     queryFn: async (q) => {
+      if (!q) return;
       const { data } = await fetchSearchedArticles(q);
+      console.log(q);
       return data;
     },
     queryKey: ["searched articles", { q }],
@@ -270,37 +270,9 @@ export const useAddCategory = () => {
         title: "Success",
         description: "Artikulli u krijua me sukses!",
       });
-      // setTimeout(() => {
-      //   navigate("/");
-      // }, 5000);
     },
   });
 };
-
-// //Mutate Category
-// const useMutateSingleCategory = async (category) => {
-//   let { name, imgUrl } = category;
-
-//   return await apiClient.patch(`/categories/${id._id}`, {
-//     name,
-//     imgUrl,
-//   });
-// };
-// // Mutate Category
-// export const useMutateCategory = (id) => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation({
-//     mutationKey: ["single category"],
-//     mutationFn: useMutateSingleCategory,
-//     onSuccess: async (id) => {
-//       // queryClient.invalidateQueries({ queryKey: ["articles"] });
-//       return await queryClient.invalidateQueries({
-//         queryKey: ["single category"],
-//       });
-//     },
-//   });
-// };
 
 //Mutate Category
 const useMutateSingleCategory = async (category) => {
@@ -327,6 +299,25 @@ export const useMutateCategory = (category) => {
     },
     onSettled: (category) => {
       console.log(category.data);
+    },
+  });
+};
+
+//Delete Category
+const deleteSingleCategory = async (id) => {
+  return await apiClient.delete(`/categories/${id}`);
+};
+// Delete Article
+export const useDeleteCategory = (id) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["single category"],
+    mutationFn: deleteSingleCategory,
+    onSuccess: () => {
+      console.log("applyed");
+
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 };

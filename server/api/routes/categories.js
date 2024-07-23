@@ -92,16 +92,26 @@ router.patch("/:categoryId", (req, res, next) => {
 // Delete Category
 
 router.delete("/:categoryId", (req, res, next) => {
-  res.status(200).json({
-    message: "Category was deleted",
-    categoryId: req.params.categoryId,
-  });
+  const id = req.params.categoryId;
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "DELETE");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+  );
+  Category.findOneAndDelete({ _id: id })
+    .exec()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
-// router.patch("/:categoryId", (req, res, next) => {
-//   res.status(200).json({
-//     message: "Category was patched",
-//     categoryId: req.params.categoryId,
-//   });
-// });
 
 module.exports = router;
