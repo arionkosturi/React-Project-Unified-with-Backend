@@ -8,7 +8,7 @@ Per instalimin e varesive:
 
 ### `npm i`
 
-Per te nisur serverin
+Per te nisur serverin duhet te jete instaluar concurrently
 
 ### `npm start`
 
