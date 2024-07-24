@@ -1,50 +1,22 @@
 // @ts-nocheck
-import React, { useState, useMemo, useRef } from "react";
+import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import {
-  useMutateArticle,
-  useSingleArticle,
-  useFetchCategories,
-} from "../components/hooks/useFetchArticles";
-import { FaInfoCircle, FaStar } from "react-icons/fa";
+import { useSingleArticle } from "../components/hooks/useFetchArticles";
+import { FaInfoCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
-import Alert from "../components/Alert";
-import { Badge } from "../components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
+
 import HTMLReactParser from "html-react-parser";
-import JoditEditor, { Jodit } from "jodit-react";
-import CheckHighlighted from "../components/CheckHighlited";
 import {
   Alert as Njoftim,
   AlertDescription,
   AlertTitle,
 } from "../components/ui/alert";
-import { Edit } from "lucide-react";
-import { Editor } from "react-simple-wysiwyg";
 import { useSessionStorage } from "@uidotdev/usehooks";
 
 function PublicArticle() {
-  const { data: categories } = useFetchCategories();
-  const editor = useRef(null);
-  const [editorContent, setEditorContent] = useState("");
-  let height;
-  const config = useMemo(
-    () => ({
-      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-      height: 500,
-      autofocus: true,
-    }),
-    [height]
-  );
-
   let [njoftimIsOpen, setNjoftimIsOpen] = useSessionStorage("njoftim", 1);
-  const { data: article, isLoading, isError, error } = useSingleArticle();
+  const { data: article, isLoading, error } = useSingleArticle();
   let articlesDate = new Date(article?.createdAt).toLocaleDateString(
     undefined,
     {
@@ -128,6 +100,7 @@ function PublicArticle() {
                 <p className="my-8 text-lg text-gray-500 md:text-md content-3"></p>
                 <a
                   href={article.sourceUrl}
+                  rel="noopener"
                   target="_blank"
                   className="finline-block mt-2 text-blue-500 underline hover:text-blue-400"
                 >

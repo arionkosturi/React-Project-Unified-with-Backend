@@ -21,7 +21,6 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import {
-  useMutateCategory,
   useFetchCategories,
   useAddCategory,
   useDeleteCategory,
@@ -29,20 +28,9 @@ import {
 
 function FetchCategories() {
   let navigate = useNavigate();
-  const [name] = useState("");
-  const [imgUrl] = useState("");
 
   const { data: categories, isPending, error } = useFetchCategories();
-  const { mutate } = useMutateCategory();
   const { mutate: remove } = useDeleteCategory();
-
-  let handleSubmit = (e) => {
-    e.preventDefault();
-    mutate({
-      name,
-      imgUrl,
-    });
-  };
 
   if (isPending) return "Loading...";
   <img src="../../assets/img/finance.webp" alt="" />;

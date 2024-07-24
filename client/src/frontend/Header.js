@@ -228,7 +228,7 @@ export default function Header() {
                   </div>
                   <div className="flex flex-col justify-between dark:bg-neutral-900 w-2/3">
                     <div className="border-gray-900/10 border-s p-2 sm:p-4 sm:border-l-transparent">
-                      <a href="#">
+                      <a href={`article?id=${result._id}`} rel="noopener">
                         <h3 className="line-clamp-2 sm:line-clamp-3 font-bold text-gray-900 dark:text-white uppercase">
                           {result.title}
                         </h3>
