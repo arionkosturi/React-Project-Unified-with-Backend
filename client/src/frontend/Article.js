@@ -100,7 +100,7 @@ function PublicArticle() {
                 <p className="my-8 text-lg text-gray-500 md:text-md content-3"></p>
                 <a
                   href={article.sourceUrl}
-                  rel="noopener"
+                  rel="noreferrer"
                   target="_blank"
                   className="finline-block mt-2 text-blue-500 underline hover:text-blue-400"
                 >

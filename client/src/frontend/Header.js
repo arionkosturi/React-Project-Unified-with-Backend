@@ -32,10 +32,7 @@ export default function Header() {
 
     setSearchTerm(e.target.value);
   };
-  // let handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setSearchTerm(e.target.value);
-  // };
+
   let handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
@@ -46,7 +43,7 @@ export default function Header() {
   return (
     <>
       <div className="flex container mx-auto justify-between items-center py-2">
-        <div className="flex justify-between container mx-auto items-center py-1">
+        <div className="flex justify-between container mx-auto items-center px-2">
           <div className=" font-semi  text-purple-700 text-xl ">
             <a href="/">
               <span className="text-4xl">
@@ -71,114 +68,33 @@ export default function Header() {
           <input type="checkbox" id="menu-toggler" className="hidden peer" />
 
           <nav className="peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-end lg:items-center hidden bg-white dark:bg-neutral-800 shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
-            <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-4 px-2 text-left text-purple-700">
-              <div className=" xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-center bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+            <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-2 px-2 text-left text-purple-700">
+              <div className=" xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
                 {!token ? (
                   <Button
-                    className="flex hover:bg-slate-50 m-4 shadow border py-1 px-2"
+                    className="flex bg-purple-600 hover:bg-purple-500 m-4 shadow border py-1 px-2"
                     onClick={handleLogin}
                   >
                     Login
                   </Button>
                 ) : (
-                  <>
-                    <p
+                  <div className="xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+                    <Button
                       onClick={() => {
                         navigate("/dashboard");
                       }}
-                      className="mx-2 cursor-pointer border py-2 px-3 hover:bg-slate-100"
+                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
                     >
                       Dashboard
-                    </p>
+                    </Button>
                     <Button
-                      className="flex hover:bg-slate-50 m-4 shadow border py-1 px-2"
+                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
                       onClick={handleLogout}
                     >
                       Logout
                     </Button>
-                  </>
-                )}
-
-                <a
-                  className="hover:bg-purple-600 sm:px-2 text-md hover:text-white transition-all duration-300 ease-in-out"
-                  href="category.html?category=News"
-                >
-                  News
-                </a>
-                <a
-                  className="hover:bg-purple-600 sm:px-2 text-md hover:text-white transition-all duration-300 ease-in-out"
-                  href="category.html?category=Finance"
-                >
-                  Finance
-                </a>
-                <a
-                  className="hover:bg-purple-600 sm:px-2 text-md hover:text-white transition-all duration-300 ease-in-out"
-                  href="category.html?category=Sports"
-                >
-                  Sports
-                </a>
-                <div className="inline-block relative hover:bg-purple-600 text-left hover:text-white group">
-                  <button
-                    type="button"
-                    className="inline-flex justify-left items-center hover:bg-purple-600 sm:px-2 w-full text-md hover:text-white transition-all duration-300 ease-in-out"
-                  >
-                    More
-                    <svg
-                      className="ml-1 w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path fillRule="evenodd" d="M10 12l-5-5h10l-5 5z" />
-                    </svg>
-                  </button>
-                  <div className="group-hover:visible top-5 left-0 absolute bg-white dark:bg-neutral-800 opacity-0 group-hover:opacity-100 shadow-lg mt-1 rounded-md w-full xl:w-auto transition duration-300 invisible">
-                    <div className="py-1">
-                      <a
-                        href="category.html?category=News"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        News
-                      </a>
-                      <a
-                        href="category.html?category=Lifestyle"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        Lifestyle
-                      </a>
-                      <a
-                        href="category.html?category=Entertainment"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        Entertainment
-                      </a>
-                      <a
-                        href="category.html?category=Finance"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        Finance
-                      </a>
-                      <a
-                        href="category.html?category=Sports"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        Sports
-                      </a>
-                      <a
-                        href="category.html?category=Climate"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        Climate Change
-                      </a>
-                      <a
-                        href="category.html?category=Health"
-                        className="block hover:bg-purple-600 px-4 py-2 text-gray-700 text-sm hover:text-white dark:text-gray-200"
-                      >
-                        Health
-                      </a>
-                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </nav>

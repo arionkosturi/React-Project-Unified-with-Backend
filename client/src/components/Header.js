@@ -1,28 +1,15 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
-import AddArticle from "./Pages/AddArticle";
-import { useFetchSearchAllArticles } from "./hooks/useFetchArticles";
-import { FaRegNewspaper, FaBars, FaSearch } from "react-icons/fa";
-import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { FaRegNewspaper } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import Login from "../components/Pages/Login";
 import useToken from "../components/useToken";
-import useDebounce from "../frontend/useDebounce";
 export default function Header() {
-  const { token, setToken } = useToken();
-  const [searchTerm, setSearchTerm] = useState();
-  const debouncedSearch = useDebounce(searchTerm, 1000);
-  const { data: searchR } = useFetchSearchAllArticles(debouncedSearch);
+  const { token } = useToken();
   const navigate = useNavigate();
 
   let handleLogin = () => {
     navigate("/dashboard");
-  };
-
-  let handleSearch = (e) => {
-    e.preventDefault();
-
-    setSearchTerm(e.target.value);
   };
 
   let handleLogout = (e) => {

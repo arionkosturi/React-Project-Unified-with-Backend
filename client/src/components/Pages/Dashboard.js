@@ -1,16 +1,13 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import AddArticle from "../Pages/AddArticle";
 import Articles from "../Pages/Articles";
 import Header from "../Header";
-import Paginate from "../Paginate";
 import Login from "../Pages/Login";
-import Categories from "./Categories";
 import useToken from "../useToken";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
-  let [currentPage, setCurrentPage] = useState("0");
+  let [currentPage] = useState("0");
   let [isPublished, setIsPublished] = useState();
   const { token, setToken } = useToken();
   if (!token) {

@@ -1,10 +1,8 @@
 // @ts-nocheck
-import React, { useState, Component, useRef, useMemo } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useRef, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Header from "./Header";
-import JoditEditor, { Jodit } from "jodit-react";
-import CustomEditor from "./CustomEditor";
+import JoditEditor from "jodit-react";
 import { Toaster } from "./ui/toaster";
 import { useAddArticle, useFetchCategories } from "./hooks/useFetchArticles";
 import useToken from "./useToken";
@@ -12,18 +10,15 @@ import useToken from "./useToken";
 function ArticleForm() {
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
-  let height;
   const config = useMemo(
     () => ({
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
       height: 500,
     }),
-    [height]
+    []
   );
-  const { data: categories, isPending, error } = useFetchCategories();
-  const navigate = useNavigate();
+  const { data: categories } = useFetchCategories();
   const { mutate } = useAddArticle();
-  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -32,7 +27,6 @@ function ArticleForm() {
   const [imgUrl, setImgUrl] = useState("");
   let handleSubmit = (e) => {
     e.preventDefault();
-    const article = { title, description, content };
     mutate({
       title,
       description,
@@ -43,7 +37,7 @@ function ArticleForm() {
       imgUrl,
     });
   };
-  const { token, setToken } = useToken();
+  const { token } = useToken();
 
   if (!token) {
     return <Header />;
@@ -116,18 +110,7 @@ function ArticleForm() {
           setSource(e.target.value);
         }}
       />
-      {/* <label htmlFor="category">Category:</label>
-  <input
-    type="text"
-    id="category"
-    placeholder="Enter Category"
-    name="category"
-    className="border p-2"
-    value={category}
-    onChange={(e) => {
-      setCategory(e.target.value);
-    }}
-  /> */}
+
       <label htmlFor="category">Category:</label>
       <select
         id="category"
@@ -165,7 +148,7 @@ function ArticleForm() {
       />
       <div className="flex border border-red-300">
         <span className="p-6">Image Preview:</span>
-        <img className="w-1/3 my-6" src={imgUrl} />
+        <img className="w-1/3 my-6" alt="preview" src={imgUrl} />
       </div>
       <div className="mx-auto container">
         <form>

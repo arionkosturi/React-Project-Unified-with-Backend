@@ -4,7 +4,7 @@ import useToken from "../useToken";
 import Dashboard from "./Dashboard";
 
 function AddArticle({ className }) {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   if (!token) {
     return <Dashboard />;
   }

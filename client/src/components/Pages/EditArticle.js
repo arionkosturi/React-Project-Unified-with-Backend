@@ -4,22 +4,17 @@ import axios from "axios";
 import Header from "../Header";
 import CustomEditor from "../CustomEditor";
 import Alert from "../Alert";
-import { useQueryClient } from "@tanstack/react-query";
 import { FaTrash } from "react-icons/fa";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
-import { ToastAction } from "../ui/toast";
-import { Label } from "../ui/label";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useFetchCategories } from "../hooks/useFetchArticles";
 const api = axios.create({
   baseURL: "http://localhost:3344/news/",
 });
 
 function EditArticle() {
-  const queryClient = useQueryClient();
-  const { data: categories, isPending, error } = useFetchCategories();
+  const { data: categories } = useFetchCategories();
   const navigate = useNavigate();
   const { toast } = useToast();
   let handleDelete = (e) => {
