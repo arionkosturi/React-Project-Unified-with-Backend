@@ -25,13 +25,32 @@ function Dashboard() {
       </div>
       <div className="flex flex-col md:flex-row mx-2 sm:container sm:mx-auto">
         <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
-          <Link to="/dashboard/new">New</Link>
-          <Link to="/dashboard/">All Articles</Link>
+          <Link
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+            to="/dashboard/new"
+          >
+            New Article
+          </Link>
+          <Link
+            to="/dashboard/"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            All Articles
+          </Link>
 
-          <Link to="/dashboard/published">Published</Link>
+          <Link
+            to="/dashboard/published"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            Published
+          </Link>
 
-          <Link to="/dashboard/categories">Categories</Link>
-          <p>Settings</p>
+          <Link
+            to="/dashboard/categories"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            Categories
+          </Link>
         </div>
         <div className="max-w-full flex flex-col">
           <Articles

@@ -57,7 +57,7 @@ export default function Header() {
               type="search"
               id="search__input"
               onChange={handleSearch}
-              className=" border-purple-600 bg-white dark:bg-neutral-900 focus:ring-opacity-70 p-1 border border-opacity-30 rounded-full w-full focus:outline-none focus:ring focus:ring-purple-600"
+              className=" border-purple-600 bg-white  focus:ring-opacity-70 p-1 border border-opacity-30 rounded-full w-full focus:outline-none focus:ring focus:ring-purple-600"
               placeholder="Start typing to search..."
             />
           </div>
@@ -67,7 +67,7 @@ export default function Header() {
           </label>
           <input type="checkbox" id="menu-toggler" className="hidden peer" />
 
-          <nav className="peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-end lg:items-center hidden bg-white dark:bg-neutral-800 shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+          <nav className="peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-end lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
             <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-2 px-2 text-left text-purple-700">
               <div className=" xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
                 {!token ? (
@@ -105,7 +105,7 @@ export default function Header() {
         {searchTerm?.length >= 3 && searchR ? (
           <div className="flex flex-col ">
             <p
-              key={Math.random()}
+              // key={Math.random()}
               className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2"
             >
               Searching For
@@ -114,7 +114,7 @@ export default function Header() {
               </span>{" "}
             </p>
             <p
-              key={Math.random()}
+              // key={Math.random()}
               className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2"
             >
               <span className="text-purple-600 dark:text-purple-100 font-bold">

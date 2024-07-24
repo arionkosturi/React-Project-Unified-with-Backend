@@ -40,14 +40,33 @@ function PublishedArticles() {
           Articles
         </h1>
       </div>
-      <div className="flex  mx-2 sm:container sm:mx-auto">
+      <div className="flex flex-col md:flex-row mx-2 sm:container sm:mx-auto">
         <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
-          <Link to="/dashboard/new">New</Link>
-          <Link to="/dashboard/">All Articles</Link>
-          <Link to="/dashboard/published">Published</Link>
+          <Link
+            to="/dashboard/new"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            New Article
+          </Link>
+          <Link
+            to="/dashboard/"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            All Articles
+          </Link>
+          <Link
+            to="/dashboard/published"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            Published
+          </Link>
 
-          <Link to="/dashboard/categories">Categories</Link>
-          <p>Settings</p>
+          <Link
+            to="/dashboard/categories"
+            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+          >
+            Categories
+          </Link>
         </div>
         <div>
           <Paginate
@@ -99,7 +118,6 @@ function PublishedArticles() {
               remove(articleId);
             };
             let contentStriped = article.content.replace(/<[^>]*>/g, "");
-            // console.log(contentStriped);
             return (
               <div
                 className="flex flex-col xl:flex-row container justify-between mx-auto  border border-purple-400 my-1 "
