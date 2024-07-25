@@ -239,7 +239,7 @@ export const useAddCategory = () => {
       toast({
         variant: "success",
         title: "Success",
-        description: "Artikulli u krijua me sukses!",
+        description: "Kategorite u modifikuan me sukses!",
       });
     },
   });

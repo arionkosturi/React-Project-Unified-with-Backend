@@ -58,7 +58,8 @@ function FetchCategories() {
           </Button>
 
           <Alert
-            alertTitle={"TEST"}
+            alertTitle={"Po fshin kategorine"}
+            alertMessage={`Deshiron ta fshish kategorine: "${category.name}" ?`}
             handleFunction={(e) => {
               let categoryId = category._id;
               remove(categoryId);
@@ -117,7 +118,6 @@ function Categories() {
               Categories:
             </h1>
             <FetchCategories />
-
             <Sheet open={openSheet} onOpenChange={setOpenSheet}>
               <SheetTrigger className="mx-auto mt-2 p-2">
                 <Button onClick={handleOpen}>Krijo kategori</Button>
