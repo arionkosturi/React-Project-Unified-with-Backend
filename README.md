@@ -8,7 +8,21 @@ Ky aplikacion eshte ne sherbim te [projektit ne Javascript](https://github.com/a
 
 Pasi MongoDB Compass eshte instaluar:
 
-[![First Step](/dummy_data/step1.png)]
+- Shtypim Butonin Connect pa ndryshuar te dhenat.
+  ![First Step](/dummy_data/step1.png)
+
+- Krijojme nje databaze me emrin news dhe collection me emrin articles - si ne foto.
+  ![Second Step](/dummy_data/step2.png)
+
+- Krijojme dhe nje collection me emrin categories - si ne foto.
+  ![Third Step](/dummy_data/step3.png)
+
+- Shtypim import data per secilin collection.
+  ![Third Step](/dummy_data/step4.png)
+
+- Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json) dhe [news.categories.json](/dummy_data/news.categories.json) qe ndodhen ne folderin [dummy_data](/dummy_data/)
+
+# Default credentials user/pass for the project webpage are: admin/admin
 
 ## Available Scripts
 
