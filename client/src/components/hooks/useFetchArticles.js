@@ -139,6 +139,7 @@ const mutateSingleArticle = async (id) => {
     author,
     content,
     sourceUrl,
+    imgUrl,
   } = id;
   return await apiClient.patch(`/news/${id.articleId}`, {
     title,
@@ -147,6 +148,7 @@ const mutateSingleArticle = async (id) => {
     content,
     author,
     sourceUrl,
+    imgUrl,
     isPublished,
     isHighlighted,
   });

@@ -24,7 +24,7 @@ function ArticleForm() {
   const [category, setCategory] = useState("");
   const [author, setAuthor] = useState("");
   const [sourceUrl, setSource] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState();
   let handleSubmit = (e) => {
     e.preventDefault();
     mutate({
