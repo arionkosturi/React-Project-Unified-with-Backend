@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Toaster } from "../ui/toaster";
 import CheckPublished from "../CheckPublished";
 import CheckHighlighted from "../CheckHighlited";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import {
   useFetchArticles,
   useMutateArticle,
@@ -42,31 +42,37 @@ function PublishedArticles() {
       </div>
       <div className="flex flex-col md:flex-row mx-2 sm:container sm:mx-auto">
         <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
-          <Link
+          <NavLink
             to="/dashboard/new"
             className="hover:bg-slate-100 p-2 text-center sm:text-left"
           >
             New Article
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/dashboard/"
             className="hover:bg-slate-100 p-2 text-center sm:text-left"
           >
             All Articles
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/dashboard/published"
-            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+            // className="hover:bg-slate-100 p-2 text-center sm:text-left"
+            // style={}
+            className={({ isActive }) => {
+              return isActive
+                ? "bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left"
+                : {};
+            }}
           >
             Published
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/dashboard/categories"
             className="hover:bg-slate-100 p-2 text-center sm:text-left"
           >
             Categories
-          </Link>
+          </NavLink>
         </div>
         <div>
           <Paginate

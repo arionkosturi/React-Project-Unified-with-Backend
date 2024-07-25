@@ -4,7 +4,7 @@ import Articles from "../Pages/Articles";
 import Header from "../Header";
 import Login from "../Pages/Login";
 import useToken from "../useToken";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Dashboard() {
   let [currentPage] = useState("0");
@@ -31,12 +31,16 @@ function Dashboard() {
           >
             New Article
           </Link>
-          <Link
+          <NavLink
             to="/dashboard/"
-            className="hover:bg-slate-100 p-2 text-center sm:text-left"
+            className={({ isActive }) => {
+              return isActive
+                ? "bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left"
+                : "bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left";
+            }}
           >
             All Articles
-          </Link>
+          </NavLink>
 
           <Link
             to="/dashboard/published"
