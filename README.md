@@ -22,7 +22,11 @@ Pasi MongoDB Compass eshte instaluar:
 
 - Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json) dhe [news.categories.json](/dummy_data/news.categories.json) qe ndodhen ne folderin [dummy_data](/dummy_data/)
 
-# Default credentials user/pass for the project webpage are: admin/admin
+# Default credentials user/pass for the project webpage are:
+
+# admin/admin
+
+## Per te perdorur backend dhe frontend ne te njejten strukture duhet te instalohet concurrently
 
 ## Available Scripts
 
