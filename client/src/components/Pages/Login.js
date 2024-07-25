@@ -28,8 +28,8 @@ async function loginUser(credentials) {
 }
 
 export default function Login({ setToken }) {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(false);
 
   const {
@@ -70,7 +70,6 @@ export default function Login({ setToken }) {
               Ju lutem vendosni username dhe password per te aksesuar
             </p>
 
-            {/* LOGIN INPUTS */}
             <div className="mt-2 justify-center gap-2">
               <form onSubmit={submitHandler}>
                 <div className="p-6 container mx-auto flex flex-col">
@@ -86,7 +85,6 @@ export default function Login({ setToken }) {
                     </div>
                   )}
 
-                  {/* Username input */}
                   <div className="mt-6 mb-3">
                     <label
                       htmlFor="Username"
@@ -94,7 +92,9 @@ export default function Login({ setToken }) {
                     >
                       <input
                         {...register("username")}
-                        onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => {
+                          setUserName(e.target.value);
+                        }}
                         type="text"
                         id="Username"
                         className="h-10 p-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
@@ -111,7 +111,6 @@ export default function Login({ setToken }) {
                       </p>
                     )}
                   </div>
-                  {/* Password Input */}
                   <div>
                     <label
                       htmlFor="Password"
@@ -123,7 +122,10 @@ export default function Login({ setToken }) {
                         id="Password"
                         className="h-10 p-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
                         placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          console.log(password?.length);
+                        }}
                       />
 
                       <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
