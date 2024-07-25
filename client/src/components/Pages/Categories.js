@@ -75,7 +75,7 @@ function FetchCategories() {
 }
 
 function Categories() {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
 
   const { mutate: addCategory } = useAddCategory();
   const [openSheet, setOpenSheet] = useState(false);
@@ -87,7 +87,6 @@ function Categories() {
   const queryClient = useQueryClient();
 
   const [queryParameter] = useSearchParams();
-  let id = queryParameter.get("id");
   let handleOpen = () => {
     setOpenSheet(true);
   };
@@ -179,8 +178,8 @@ function Categories() {
                                 onSuccess: () => {
                                   queryClient.invalidateQueries({
                                     queryKey: ["categories"],
-                                  }),
-                                    setName("");
+                                  });
+                                  setName("");
                                   setImgUrl("");
                                   setOpenSheet(false);
                                   setNameRequired(false);
