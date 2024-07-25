@@ -46,9 +46,7 @@ function EditArticle() {
           isPublished,
         }
       )
-      .then(function (response) {
-        // console.log(response.data);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -63,12 +61,6 @@ function EditArticle() {
     }, 3000);
   };
 
-  let checked = () => {
-    if (isPublished === true) {
-      return "true";
-    }
-    return "false";
-  };
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [imgUrl, setImgUrl] = useState();
@@ -80,7 +72,6 @@ function EditArticle() {
   const [queryParameter] = useSearchParams();
   let id = queryParameter.get("id");
 
-  let status = isPublished ? true : false;
   React.useEffect(() => {
     api.get(`${id}`).then((res) => {
       setTitle(res.data.title);
@@ -94,7 +85,7 @@ function EditArticle() {
     });
 
     return () => {};
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col container gap-1 mx-auto">
@@ -112,7 +103,6 @@ function EditArticle() {
         className="border p-2"
         value={title}
         onChange={(e) => {
-          // @ts-ignore
           setTitle(e.target.value);
         }}
       />
@@ -123,20 +113,14 @@ function EditArticle() {
         placeholder="Enter Description"
         name="description"
         className="border p-2"
-        // @ts-ignore
         rows="4"
         value={description}
         onChange={(e) => {
-          // @ts-ignore
           setDescription(e.target.value);
         }}
       />
       <label htmlFor="content">Content:</label>
-      <CustomEditor
-        // @ts-ignore
-        contentValue={content}
-        setContentValue={setContent}
-      />
+      <CustomEditor contentValue={content} setContentValue={setContent} />
       <label htmlFor="author">Author:</label>
       <input
         type="text"
@@ -146,7 +130,6 @@ function EditArticle() {
         className="border"
         value={author}
         onChange={(e) => {
-          // @ts-ignore
           setAuthor(e.target.value);
         }}
       />
@@ -159,7 +142,6 @@ function EditArticle() {
         className="border p-2"
         value={sourceUrl}
         onChange={(e) => {
-          // @ts-ignore
           setSource(e.target.value);
         }}
       />
@@ -175,15 +157,9 @@ function EditArticle() {
         <option value={"Select Category"}>
           {category || "Select Category"}
         </option>
-        {/* <option value="">Select Category</option> */}
         {categories?.map((category, index) => {
           return (
-            <option
-              key={index}
-              defaultValue={category.name}
-
-              // value={category.name}
-            >
+            <option key={index} defaultValue={category.name}>
               {category.name}
             </option>
           );
@@ -191,7 +167,6 @@ function EditArticle() {
       </select>
       <label htmlFor="title">Img Source</label>
       <textarea
-        // @ts-ignore
         type="text"
         id="imgUrl"
         placeholder="Enter Img Source"
@@ -199,13 +174,16 @@ function EditArticle() {
         className="border p-1"
         value={imgUrl}
         onChange={(e) => {
-          // @ts-ignore
           setImgUrl(e.target.value);
         }}
       />
       <div className="flex border border-red-300">
         <span className="p-6">Image Preview:</span>
-        <img className="w-1/3 my-6" src={imgUrl} />
+        <img
+          className="w-1/3 my-6"
+          src={imgUrl}
+          alt="preview for article image"
+        />
       </div>
       <div className="mx-auto container ">
         <form>

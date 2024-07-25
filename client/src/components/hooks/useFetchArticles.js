@@ -235,8 +235,6 @@ const addCategory = async (category) => {
 };
 export const useAddCategory = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: addCategory,
     mutationKey: ["single category"],
@@ -260,15 +258,12 @@ const useMutateSingleCategory = async (category) => {
 };
 // Mutate Category
 export const useMutateCategory = (category) => {
-  // const [queryParameter] = useSearchParams();
-  // let id = queryParameter.get("id");
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["single category"],
     mutationFn: useMutateSingleCategory,
     onSuccess: async (id) => {
-      // queryClient.invalidateQueries({ queryKey: ["articles"] });
       return await queryClient.invalidateQueries({
         queryKey: ["single category"],
       });
