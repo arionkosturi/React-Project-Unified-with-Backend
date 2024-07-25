@@ -5,6 +5,10 @@ Ky aplikacion eshte ne sherbim te [projektit ne Javascript](https://github.com/a
 
 # Ky eshte vazhdim i [projektit te nisur me pare](https://github.com/arionkosturi/react-project) por i bashkuar ne kete projekt
 
+# Per databazen duhet te instalohet [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+Pasi MongoDB Compass eshte instaluar,
+
+
 ## Available Scripts
 
 Per instalimin e varesive ne folderin server dhe client perkatesisht:
