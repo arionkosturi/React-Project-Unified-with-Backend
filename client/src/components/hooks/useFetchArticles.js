@@ -167,6 +167,9 @@ export const useMutateArticle = (article) => {
       queryClient.invalidateQueries({
         queryKey: ["articles"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["searched articles"],
+      });
     },
   });
 };
