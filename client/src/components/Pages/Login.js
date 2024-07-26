@@ -12,13 +12,11 @@ const formSchema = z.object({
   username: z.string().min(3, {
     message: "Username must be at least 3 characters.",
   }),
-  password: z.string().min(5, {
-    message: "Password must be at least 5 characters.",
-  }),
+  password: z.string(),
 });
 
 async function loginUser(credentials) {
-  return fetch("http://localhost:3344/login", {
+  return await fetch("http://localhost:3344/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,13 +35,17 @@ export default function Login({ setToken }) {
     handleSubmit,
     formState: { errors },
   } = useForm({
+    mode: "onChange",
     resolver: zodResolver(formSchema),
+    shouldUseNativeValidation: false,
   });
-  let submitHandler = handleSubmit(async (e) => {
+
+  let submitHandler = handleSubmit(async (data) => {
     const token = await loginUser({
       username,
       password,
     });
+
     if (username === token.user.username && password === token.user.password) {
       setToken(token);
     }
@@ -91,12 +93,14 @@ export default function Login({ setToken }) {
                       className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
                     >
                       <input
+                        autoComplete="off"
                         {...register("username")}
-                        onChange={(e) => {
-                          setUserName(e.target.value);
+                        onChange={async (e) => {
+                          await setUserName(e.target.value);
                         }}
                         type="text"
                         id="Username"
+                        name="username"
                         className="h-10 p-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
                         placeholder="Username"
                       />
@@ -117,14 +121,15 @@ export default function Login({ setToken }) {
                       className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
                     >
                       <input
+                        autoComplete="new-password"
                         {...register("password")}
                         type="password"
                         id="Password"
+                        name="password"
                         className="h-10 p-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
                         placeholder="Password"
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                          console.log(password?.length);
+                        onChange={async (e) => {
+                          return await setPassword(e.target.value);
                         }}
                       />
 
@@ -138,7 +143,6 @@ export default function Login({ setToken }) {
                       </p>
                     )}
                   </div>
-                  {/* Button */}
                   <div className="mt-2 flex justify-center">
                     <Button className="border mt-2 py-4 px-6 " type="submit">
                       Login
@@ -152,30 +156,4 @@ export default function Login({ setToken }) {
       </section>
     </div>
   );
-
-  // return (
-  //   <form onSubmit={handleSubmit}>
-  //     <label>
-  //       <p>Username</p>
-  //       <input
-  //         className="border"
-  //         type="text"
-  //         onChange={(e) => setUserName(e.target.value)}
-  //       />
-  //     </label>
-  //     <label>
-  //       <p>Password</p>
-  //       <input
-  //         className="border"
-  //         type="password"
-  //         onChange={(e) => setPassword(e.target.value)}
-  //       />
-  //     </label>
-  //     <div>
-  //       <button className="border mt-2 py-2 px-3" type="submit">
-  //         Submit
-  //       </button>
-  //     </div>
-  //   </form>
-  // );
 }
