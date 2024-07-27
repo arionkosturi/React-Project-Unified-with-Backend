@@ -67,9 +67,9 @@ export default function Header() {
           </label>
           <input type="checkbox" id="menu-toggler" className="hidden peer" />
 
-          <nav className="peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-end lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+          <nav className="container mx-auto peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-end lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
             <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-2 px-2 text-left text-purple-700">
-              <div className=" xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+              <div className=" xl:relative top-16 xl:top-0 flex flex-col md:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
                 {!token ? (
                   <Button
                     className="flex bg-purple-600 hover:bg-purple-500 m-4 shadow border py-1 px-2"
