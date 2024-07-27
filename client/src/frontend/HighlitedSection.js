@@ -60,7 +60,7 @@ function HighlitedSection() {
               >
                 <img
                   src={article.imgUrl}
-                  className="w-1/3 hover:cursor-default"
+                  className="w-28 h-24 hover:cursor-default"
                   alt=""
                 />
                 <p
