@@ -1,8 +1,4 @@
-# Backend per projektin e meparshem ne Javascript
-
-Ky aplikacion eshte ne sherbim te [projektit ne Javascript](https://github.com/arionkosturi/JavascriptProject) duke perdorur [API](https://github.com/arionkosturi/api-v2) te krijuar me express dhe mongodb
-
-# Ky eshte vazhdim i [projektit te nisur me pare](https://github.com/arionkosturi/react-project) por i bashkuar ne kete projekt
+# Nese keni docker te instaluar perdorni kete [dege te projektit](https://github.com/arionkosturi/React-Project-Unified-with-Backend/tree/testing)
 
 # Per databazen duhet te instalohet [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 
