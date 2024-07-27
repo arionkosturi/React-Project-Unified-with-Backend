@@ -1,5 +1,10 @@
 // @ts-nocheck
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useQueryClient,
+  useMutation,
+  useQuery,
+  keepPreviousData,
+} from "@tanstack/react-query";
 import { apiClient } from "../api/apiClient";
 import { useToast } from "../ui/use-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
@@ -16,6 +21,7 @@ export const useFetchArticles = (currentPage, fetchTerm) => {
       return data;
     },
     queryKey: ["articles", { currentPage, fetchTerm }],
+    placeholderData: keepPreviousData,
   });
 };
 

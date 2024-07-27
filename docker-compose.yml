@@ -1,0 +1,46 @@
+version: "2"
+services:
+  client:
+    image: node:18-alpine
+    restart: always
+    ports:
+      - "3000:3000"
+    working_dir: /client/src/
+    volumes:
+      - ./client:/client/src/
+    entrypoint: ["npm", "start"]
+    links:
+      - api
+    networks:
+      - webappnetwork
+  api:
+    container_name: app
+    image: app
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: base
+    ports:
+      - "3344:3344"
+    volumes:
+      - ./server:/api
+      - /server/node_modules
+    depends_on:
+      - mongodb
+    networks:
+      - webappnetwork
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    expose:
+      - 27017
+    volumes:
+      - ./data-node:/data/db
+    command: mongod --noauth
+    networks:
+      - webappnetwork
+networks:
+  webappnetwork:
+    driver: bridge

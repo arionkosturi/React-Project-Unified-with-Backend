@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const newsRoutes = require("./api/routes/news");
 const categoriesRoutes = require("./api/routes/categories");
 
-mongoose.connect("mongodb://localhost:27017/news");
+mongoose.connect("mongodb://mongodb:27017/news");
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
