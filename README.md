@@ -4,6 +4,22 @@ Ky aplikacion eshte ne sherbim te [projektit ne Javascript](https://github.com/a
 
 # Ky eshte vazhdim i [projektit te nisur me pare](https://github.com/arionkosturi/react-project) por i bashkuar ne kete projekt
 
+# Versioni Docker
+
+Nese keni docker te instaluar ne pc tuaj,
+
+- Futuni ne terminal/CMD ne folderin e projektit pastaj shkruani
+
+```bash
+docker-compose up
+```
+
+- Ne varesi te shpejtesise se internetit dhe shpejtesise se pc duhet te prisni disa minuta.
+
+- Pasi instalimi i paketave te jete kryer faqja mund te aksesohet ne kete [link](https://127.0.0.1:3535)
+
+# Versioni normal ndodhet ne
+
 # Per databazen duhet te instalohet [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 
 Pasi MongoDB Compass eshte instaluar:

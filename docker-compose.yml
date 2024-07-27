@@ -4,7 +4,7 @@ services:
     image: node:18-alpine
     restart: always
     ports:
-      - "3000:3000"
+      - "3535:3535"
     working_dir: /client/src/
     volumes:
       - ./client:/client/src/
@@ -34,11 +34,22 @@ services:
     image: mongo
     restart: always
     container_name: mongodb
+    environment:
+      # MONGO_INITDB_ROOT_USERNAME: root
+      # MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: news
     expose:
       - 27017
     volumes:
       - ./data-node:/data/db
+      # - ./scripts/seed.js:/docker-entrypoint-initdb.d/seed.js
     command: mongod --noauth
+    networks:
+      - webappnetwork
+  mongo-seed:
+    build: ./mongo-seed
+    depends_on:
+      - mongodb
     networks:
       - webappnetwork
 networks:
