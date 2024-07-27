@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
 import Alert from "../Alert";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link, NavLink } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Sheet,
@@ -25,6 +25,7 @@ import {
   useAddCategory,
   useDeleteCategory,
 } from "../hooks/useFetchArticles";
+import LeftPanel from "./LeftPanel";
 
 function FetchCategories() {
   let navigate = useNavigate();
@@ -33,7 +34,7 @@ function FetchCategories() {
   const { mutate: remove } = useDeleteCategory();
 
   if (isPending) return "Loading...";
-  <img src="../../assets/img/finance.webp" alt="" />;
+
   if (error) return "An error has occurred: " + error.message;
 
   return categories.map((category, index) => {
@@ -49,7 +50,6 @@ function FetchCategories() {
             variant={"secondary"}
             category={category}
             onClick={() => {
-              console.log(category);
               navigate(`/dashboard/category/?id=${category._id}`);
             }}
           >
@@ -98,16 +98,16 @@ function Categories() {
     token && (
       <>
         <Header />
+        <div className="container mx-auto mb-2">
+          <h1 className="text-3xl">
+            Article
+            <span className="bg-green-500 text-white ml-2 px-2 py-1">
+              Categories
+            </span>
+          </h1>
+        </div>
         <div className="container mx-auto flex gap-4">
-          <Button
-            className="bg-purple-600 hover:bg-purple-500"
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-          >
-            Back
-          </Button>
-
+          <LeftPanel />
           <section
             className="
       container mx-auto flex flex-col 

@@ -123,7 +123,7 @@ export const useAddArticle = () => {
         description: "Artikulli u krijua me sukses!",
       });
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/dashboard/all");
       }, 5000);
     },
   });
