@@ -8,7 +8,7 @@ Nese keni docker te instaluar ne pc tuaj,
 docker-compose up
 ```
 
-- Ne varesi te shpejtesise se internetit dhe shpejtesise se pc duhet te prisni disa minuta.
+- Ne varesi te shpejtesise se internetit dhe shpejtesise se pc duhet te prisni disa minuta pasi te instalohen varesite, react, express, mongodb dhe te prepopullohet databaza.
 
 - Pasi instalimi i paketave te jete kryer faqja mund te aksesohet ne: [http://127.0.0.1:3535](http://127.0.0.1:3535)
 
