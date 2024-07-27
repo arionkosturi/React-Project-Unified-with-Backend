@@ -121,15 +121,9 @@ function ArticleForm() {
         }}
       >
         <option value="">Select a category</option>
-        {/* <option value="">Select Category</option> */}
         {categories?.map((category, index) => {
           return (
-            <option
-              key={index}
-              defaultValue={category.name}
-
-              // value={category.name}
-            >
+            <option key={index} defaultValue={category.name}>
               {category.name}
             </option>
           );
@@ -153,7 +147,7 @@ function ArticleForm() {
       </div>
       <div className="mx-auto container">
         <form className="mt-4 mb-10 text-center">
-          <Link to="/">
+          <Link to="/dashboard/all">
             <Button className="mx-4 border shadow w-1/5">Cancel</Button>
           </Link>
 

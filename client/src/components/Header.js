@@ -9,7 +9,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   let handleLogin = () => {
-    navigate("/dashboard");
+    navigate("/dashboard/all");
   };
 
   let handleLogout = (e) => {
@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <div className="flex justify-between container mx-auto items-center py-1">
       <div className=" font-semi  text-purple-700 text-xl ">
-        <a href="/dashboard">
+        <a href="/dashboard/all">
           <span className="text-4xl">
             <FaRegNewspaper />
           </span>
@@ -48,7 +48,7 @@ export default function Header() {
           </p>
           <p
             onClick={() => {
-              navigate("/dashboard");
+              navigate("/dashboard/all");
             }}
             className="h-12 mt-3 cursor-pointer border p-3 hover:bg-slate-100"
           >

@@ -24,7 +24,7 @@ export default function Header() {
   }, []);
 
   let handleLogin = () => {
-    navigate("/dashboard");
+    navigate("/dashboard/all");
   };
 
   let handleSearch = (e) => {
@@ -81,7 +81,7 @@ export default function Header() {
                   <div className="xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
                     <Button
                       onClick={() => {
-                        navigate("/dashboard");
+                        navigate("/dashboard/all");
                       }}
                       className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
                     >

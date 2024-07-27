@@ -5,6 +5,7 @@ import Header from "../Header";
 import Login from "../Pages/Login";
 import useToken from "../useToken";
 import { Link, NavLink } from "react-router-dom";
+import LeftPanel from "./LeftPanel";
 
 function Dashboard() {
   let [currentPage] = useState("0");
@@ -24,38 +25,7 @@ function Dashboard() {
         </h1>
       </div>
       <div className="flex flex-col md:flex-row mx-2 sm:container sm:mx-auto">
-        <div className="flex  flex-col mt-10 gap-2 md:max-w-40 w-full">
-          <Link
-            className="hover:bg-slate-100 p-2 text-center sm:text-left"
-            to="/dashboard/new"
-          >
-            New Article
-          </Link>
-          <NavLink
-            to="/dashboard/"
-            className={({ isActive }) => {
-              return isActive
-                ? "bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left"
-                : "bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left";
-            }}
-          >
-            All Articles
-          </NavLink>
-
-          <Link
-            to="/dashboard/published"
-            className="hover:bg-slate-100 p-2 text-center sm:text-left"
-          >
-            Published
-          </Link>
-
-          <Link
-            to="/dashboard/categories"
-            className="hover:bg-slate-100 p-2 text-center sm:text-left"
-          >
-            Categories
-          </Link>
-        </div>
+        <LeftPanel />
         <div className="max-w-full flex flex-col">
           <Articles
             isPublished={isPublished}
