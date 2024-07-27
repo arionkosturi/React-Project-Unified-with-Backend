@@ -1,6 +1,7 @@
 # Nese keni docker te instaluar perdorni kete [dege te projektit](https://github.com/arionkosturi/React-Project-Unified-with-Backend/tree/testing)
 
-# Per databazen duhet te instalohet [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+# Nese nuk keni docker vazhdoni me instalimin si me poshte:
+## Per databazen duhet te instalohet [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 
 Pasi MongoDB Compass eshte instaluar:
 
