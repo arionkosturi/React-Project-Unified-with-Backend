@@ -6,6 +6,7 @@ import JoditEditor from "jodit-react";
 import { Toaster } from "./ui/toaster";
 import { useAddArticle, useFetchCategories } from "./hooks/useFetchArticles";
 import useToken from "./useToken";
+import { Button } from "./ui/button";
 
 function ArticleForm() {
   const editor = useRef(null);
@@ -18,7 +19,7 @@ function ArticleForm() {
     []
   );
   const { data: categories } = useFetchCategories();
-  const { mutate } = useAddArticle();
+  const { mutate, status } = useAddArticle();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -151,19 +152,18 @@ function ArticleForm() {
         <img className="w-1/3 my-6" alt="preview" src={imgUrl} />
       </div>
       <div className="mx-auto container">
-        <form>
+        <form className="mt-4 mb-10 text-center">
           <Link to="/">
-            <button className="mx-4 border shadow w-1/5">Cancel</button>
+            <Button className="mx-4 border shadow w-1/5">Cancel</Button>
           </Link>
-          <button className="mx-4 border bg-red-600 text-white shadow w-1/5">
-            Delete
-          </button>
-          <button
+
+          <Button
+            disabled={status === "success"}
             onClick={handleSubmit}
             className="mx-4 border shadow bg-green-600 text-white w-1/5"
           >
-            Submit
-          </button>
+            {status === "success" ? "Article Created" : "Submit"}
+          </Button>
         </form>
       </div>
     </div>
