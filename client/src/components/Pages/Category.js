@@ -9,6 +9,7 @@ import {
   useMutateCategory,
 } from "../hooks/useFetchArticles";
 import { useNavigate } from "react-router";
+import LeftPanel from "./LeftPanel";
 
 function Category() {
   const { token } = useToken();
@@ -45,19 +46,19 @@ function Category() {
       {" "}
       <Header />
       <div className="container mx-auto flex gap-4">
-        <Button
-          className="bg-purple-600 hover:bg-purple-500"
-          onClick={() => {
-            navigate("/dashboard/categories");
-          }}
-        >
-          Back
-        </Button>
+        <div className="mx-auto w-44 ">
+          <LeftPanel />
+          <p className="mt-2 bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left">
+            Editing Category
+          </p>
+        </div>
         <form
           onSubmit={handleSubmit}
           className="gap-2 p-2 flex flex-col container mx-auto"
         >
-          {/* <div>{mutate.status}</div> */}
+          <h1 className="text-3xl py-2">
+            <span className="text-red-600">Editing</span> Category
+          </h1>
           <label htmlFor="categname">Category Name:</label>
           <input
             autoFocus
@@ -69,7 +70,6 @@ function Category() {
             }}
           />
           <label htmlFor="categnimg">Category Image:</label>
-
           <textarea
             id="categimg"
             className="text-xl"
@@ -78,9 +78,7 @@ function Category() {
               setCategoryImg(e.target.value);
             }}
           />
-
           <img className="w-1/3" src={category?.imgUrl} alt="" />
-
           <Button type="submit">Save</Button>
         </form>
       </div>
