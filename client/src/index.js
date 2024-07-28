@@ -16,6 +16,7 @@ import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";
 import PublishedArticles from "./components/Pages/PublishedArticles";
 import Login from "./components/Pages/Login";
+import Signin from "./frontend/Signin";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/signin",
+    element: <Signin />,
   },
   {
     path: "/dashboard/categories",
