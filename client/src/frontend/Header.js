@@ -1,6 +1,16 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
-import { FaBars, FaRegNewspaper } from "react-icons/fa";
+import { FaBars, FaRegNewspaper, FaUser } from "react-icons/fa";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "../components/ui/navigation-menu";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import useDebounce from "./useDebounce";
@@ -73,12 +83,49 @@ export default function Header() {
             <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-2 px-2 text-left text-purple-700">
               <div className=" xl:relative top-16 xl:top-0 flex flex-col md:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
                 <div className="xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+                  <p className="px-3 xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none py-2 w-full">
+                    {!loggedUser?.guest && loggedUser ? (
+                      <>
+                        <NavigationMenu>
+                          <NavigationMenuList>
+                            <NavigationMenuItem>
+                              <NavigationMenuTrigger>
+                                <p className="flex text-purple-500 mr-2">
+                                  Pershendetje, {loggedUser.username}
+                                </p>
+                              </NavigationMenuTrigger>
+                              <NavigationMenuContent className=" bg-white hover:bg-slate-100">
+                                <NavigationMenuLink>
+                                  {" "}
+                                  <Button
+                                    onClick={() => {
+                                      navigate("/profile");
+                                    }}
+                                    className="flex bg-white hover:bg-slate-100 mx-2 py-1 px-2"
+                                  >
+                                    <FaUser className="text-purple-500 mr-2" />
+                                    <span className="text-purple-600">
+                                      {" "}
+                                      Profile
+                                    </span>
+                                  </Button>
+                                </NavigationMenuLink>
+                              </NavigationMenuContent>
+                            </NavigationMenuItem>
+                          </NavigationMenuList>
+                        </NavigationMenu>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </p>
+
                   {loggedUser?.isAdmin && (
                     <Button
                       onClick={() => {
                         navigate("/dashboard/all");
                       }}
-                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
+                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2 my-2"
                     >
                       Dashboard
                     </Button>
@@ -94,12 +141,14 @@ export default function Header() {
                       Log in
                     </Button>
                   ) : (
-                    <Button
-                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </Button>
+                    <>
+                      <Button
+                        className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border px-2 my-2"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </Button>
+                    </>
                   )}
                 </div>
               </div>

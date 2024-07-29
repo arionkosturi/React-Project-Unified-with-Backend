@@ -38,15 +38,6 @@ app.use("/news", newsRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/users", usersRoutes);
 
-app.use("/login", (req, res) => {
-  res.send({
-    token: "test123",
-    user: {
-      username: "admin",
-      password: "admin",
-    },
-  });
-});
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;
