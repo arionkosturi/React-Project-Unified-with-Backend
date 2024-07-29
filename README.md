@@ -15,9 +15,9 @@ Pasi MongoDB Compass eshte instaluar:
   ![Third Step](/dummy_data/step3.png)
 
 - Krijojme nje collection me emrin users
-
+![Fourth Step](/dummy_data/step4.png)
 - Shtypim import data per secilin collection.
-  ![Fourth Step](/dummy_data/step4.png)
+  ![Fifth Step](/dummy_data/step5.png)
 
 - Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json), [news.categories.json](/dummy_data/news.categories.json) dhe [news.users.json](/dummy_data/news.users.json)qe ndodhen ne folderin [dummy_data](/dummy_data/)
 
