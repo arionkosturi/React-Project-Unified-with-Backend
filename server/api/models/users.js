@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    username: String,
+    username: {
+      type: String,
+      unique: [true, "Username already used."],
+    },
     password: String,
     isAdmin: Boolean,
     isLoggedIn: Boolean,

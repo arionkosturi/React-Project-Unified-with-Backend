@@ -9,17 +9,27 @@ import { FaRegNewspaper, FaSpinner } from "react-icons/fa";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router";
 
-async function loginUser(credentials) {
-  return await fetch("http://localhost:3344/login", {
+async function loginUser(credentials, setAlert) {
+  return await fetch("http://localhost:3344/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
-  }).then((data) => data.json());
+  })
+    .then((data) => {
+      if (data.status === 201) {
+        setAlert(false);
+        return data.json();
+      } else throw "User cannot be created";
+    })
+    .catch((err) => {
+      setAlert(true);
+      console.log(err);
+    });
 }
 
-export default function Login({ setToken }) {
+export default function Register() {
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
 
@@ -28,19 +38,15 @@ export default function Login({ setToken }) {
       username: "",
       password: "",
     },
-    onSubmit: async ({ value }) => {
-      const token = await loginUser({
-        username: value.username,
-        password: value.password,
-      });
-      if (
-        value.username === token.user.username &&
-        value.password === token.user.password
-      ) {
-        setToken(token);
 
-        setAlert(false);
-      } else setAlert(true);
+    onSubmit: async ({ value }) => {
+      const token = await loginUser(
+        {
+          username: value.username,
+          password: value.password,
+        },
+        setAlert
+      );
     },
   });
 
@@ -69,7 +75,7 @@ export default function Login({ setToken }) {
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Incorrect Credentials</AlertTitle>
                 <AlertDescription>
-                  Your username or password is incorrect!
+                  Ky user eshte i krijuar me pare!
                 </AlertDescription>
               </Alert>
             </div>
