@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import { useParams } from "react-router";
-import { useFetchArticles } from "../components/hooks/useFetchArticles";
+import { useFetchArticles } from "../components/hooks/useFetch";
 function PublicCategory() {
   let { category } = useParams();
   let currentPage = 0;

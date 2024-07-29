@@ -1,23 +1,16 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import Header from "../Header";
-import useToken from "../useToken";
 import Dashboard from "./Dashboard";
 import { Button } from "../ui/button";
-import {
-  useSingleCategory,
-  useMutateCategory,
-} from "../hooks/useFetchArticles";
+import { useSingleCategory, useMutateCategory } from "../hooks/useFetch";
 import { useNavigate } from "react-router";
 import LeftPanel from "./LeftPanel";
-
+import { useSingleUser } from "../hooks/useFetch";
 function Category() {
-  const { token } = useToken();
-
   const navigate = useNavigate();
-
+  const { data: loggedUser } = useSingleUser();
   const { mutate } = useMutateCategory();
-
   const { data: category } = useSingleCategory();
   let [categoryName, setCategoryName] = useState();
   let [categoryImg, setCategoryImg] = useState();
@@ -38,7 +31,7 @@ function Category() {
       }
     );
   };
-  if (!token) {
+  if (!loggedUser.isAdmin) {
     return <Dashboard />;
   }
   return (

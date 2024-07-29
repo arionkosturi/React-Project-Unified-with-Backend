@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import JoditEditor from "jodit-react";
 import { Toaster } from "./ui/toaster";
-import { useAddArticle, useFetchCategories } from "./hooks/useFetchArticles";
-import useToken from "./useToken";
+import { useAddArticle, useFetchCategories } from "./hooks/useFetch";
 import { Button } from "./ui/button";
+import { useSingleUser } from "./hooks/useFetch";
 
 function ArticleForm() {
+  const { data: loggedUser } = useSingleUser();
   const editor = useRef(null);
   const [editorContent, setEditorContent] = useState("");
   const config = useMemo(
@@ -38,9 +39,8 @@ function ArticleForm() {
       imgUrl,
     });
   };
-  const { token } = useToken();
 
-  if (!token) {
+  if (!loggedUser?.isAdmin) {
     return <Header />;
   }
   return (

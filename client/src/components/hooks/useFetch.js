@@ -3,6 +3,7 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/apiClient";
 import { useToast } from "../ui/use-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 // Fetch All Articles
 const fetchArticles = async (currentPage, fetchTerm) => {
@@ -290,5 +291,24 @@ export const useDeleteCategory = (id) => {
 
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
+  });
+};
+
+// Fetch Single User
+const fetchSingleUser = async (id) => {
+  return await apiClient.get(`/users/${id}`);
+};
+// Fetch Single User
+export const useSingleUser = () => {
+  const [user, setUser] = useLocalStorage("user");
+  // const [queryParameter] = useSearchParams();
+  // let id = queryParameter.get("id");
+  let id = user?._id || "guest";
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchSingleUser(id);
+      return data;
+    },
+    queryKey: ["single user", id],
   });
 };

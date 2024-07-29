@@ -1,13 +1,13 @@
 // @ts-nocheck
 import React, { useState, useMemo, useRef } from "react";
 import Header from "../Header";
-import useToken from "../useToken";
-import Login from "../Pages/Login";
+import Login from "../../frontend/UserLogin";
 import {
   useMutateArticle,
   useSingleArticle,
   useFetchCategories,
-} from "../hooks/useFetchArticles";
+  useSingleUser,
+} from "../hooks/useFetch";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import Alert from "../Alert";
@@ -45,10 +45,10 @@ function Article() {
   let [isEditingSource, setIsEditingSource] = useState(false);
   const { mutate } = useMutateArticle();
   const { data: article, isLoading, error } = useSingleArticle();
-  const { token, setToken } = useToken();
+  const { data: loggedUser } = useSingleUser();
 
-  if (!token) {
-    return <Login setToken={setToken} />;
+  if (!loggedUser?.isAdmin) {
+    return <Login />;
   }
   if (isLoading) {
     return <div>Loading...</div>;

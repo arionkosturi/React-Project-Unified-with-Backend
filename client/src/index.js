@@ -15,8 +15,8 @@ import Dashboard from "./components/Pages/Dashboard";
 import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";
 import PublishedArticles from "./components/Pages/PublishedArticles";
-import Login from "./components/Pages/Login";
-import Register from "./components/Pages/Register";
+import UserLogin from "./frontend/UserLogin";
+import Register from "./frontend/Register";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -71,8 +71,8 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/userlogin",
+    element: <UserLogin />,
   },
   {
     path: "/register",

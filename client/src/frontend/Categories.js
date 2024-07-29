@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React from "react";
-import { useFetchCategories } from "../components/hooks/useFetchArticles";
+import { useFetchCategories } from "../components/hooks/useFetch";
 function Categories() {
   const { data: categories } = useFetchCategories();
   return (

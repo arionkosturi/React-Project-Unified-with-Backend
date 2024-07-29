@@ -2,17 +2,16 @@
 import React, { useState } from "react";
 import Articles from "../Pages/Articles";
 import Header from "../Header";
-import Login from "../Pages/Login";
-import useToken from "../useToken";
+import Login from "../../frontend/UserLogin";
 import { Link, NavLink } from "react-router-dom";
 import LeftPanel from "./LeftPanel";
-
+import { useSingleUser } from "../hooks/useFetch";
 function Dashboard() {
   let [currentPage] = useState("0");
+  const { data: loggedUser } = useSingleUser();
   let [isPublished, setIsPublished] = useState();
-  const { token, setToken } = useToken();
-  if (!token) {
-    return <Login setToken={setToken} />;
+  if (!loggedUser?.isAdmin) {
+    return <Login />;
   }
 
   return (

@@ -3,12 +3,12 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import {
+  useSingleUser,
   useSingleArticle,
   useMutateArticle,
-} from "../components/hooks/useFetchArticles";
+} from "../components/hooks/useFetch";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
-import useToken from "../components/useToken";
 import HTMLReactParser from "html-react-parser";
 import {
   Alert as Njoftim,
@@ -20,9 +20,8 @@ import Alert from "../components/Alert";
 import { useSessionStorage } from "@uidotdev/usehooks";
 
 function PublicArticle() {
-  const { token } = useToken();
   const { mutate } = useMutateArticle();
-
+  const { data: loggedUser } = useSingleUser();
   let [njoftimIsOpen, setNjoftimIsOpen] = useSessionStorage(
     "njoftim breaking news",
     1
@@ -67,7 +66,7 @@ function PublicArticle() {
   return (
     <>
       <Header />
-      {token && !article.isPublished && (
+      {loggedUser?.isAdmin && !article.isPublished && (
         <div className="bg-amber-300 flex text-neutral-600   p-4  justify-center items-center  h-16  container mx-auto gap-4 ">
           <FaInfoCircle className="text-3xl" />
           <p className="text-md font-semibold">
@@ -85,7 +84,7 @@ function PublicArticle() {
           />
         </div>
       )}
-      {token && article.isPublished && (
+      {loggedUser?.isAdmin && article.isPublished && (
         <div className="flex flex-col mx-1">
           <div className="mx-auto  bg-green-300 flex text-neutral-600 justify-center items-center  h-16  container gap-2">
             <FaInfoCircle className="text-3xl" />

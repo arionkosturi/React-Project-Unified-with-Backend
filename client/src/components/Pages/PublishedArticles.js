@@ -6,28 +6,28 @@ import CheckHighlighted from "../CheckHighlited";
 import { useNavigate, NavLink } from "react-router-dom";
 import {
   useFetchArticles,
+  useSingleUser,
   useMutateArticle,
   useDeleteArticle,
-} from "../hooks/useFetchArticles";
+} from "../hooks/useFetch";
 import Header from "../Header";
 import { useQueryClient } from "@tanstack/react-query";
 import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
-import useToken from "../useToken";
-import Login from "../Pages/Login";
+import Login from "../../frontend/UserLogin";
 import LeftPanel from "./LeftPanel";
 
 function PublishedArticles() {
   const queryClient = useQueryClient();
+  const { data: loggedUser } = useSingleUser();
   const [currentPage, setCurrentPage] = useState(0);
   const { mutate } = useMutateArticle();
   const { mutate: remove } = useDeleteArticle();
   const { data } = useFetchArticles(currentPage);
   const navigate = useNavigate();
-  const { token, setToken } = useToken();
 
-  if (!token) {
-    return <Login setToken={setToken} />;
+  if (!loggedUser?.isAdmin) {
+    return <Login />;
   }
   return (
     <>

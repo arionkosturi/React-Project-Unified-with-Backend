@@ -19,29 +19,10 @@ router.get("/", (req, res, next) => {
     });
 });
 
-// Post Users
-// router.post("/", (req, res, next) => {
-//   const user = new Users({
-//     // _id: mongoose.Types.ObjectId(),
-//     username: req.body.username,
-//     password: req.body.password,
-//   });
-//   user
-//     .save()
-//     .then((result) => {
-//       console.log(result);
-//       res.status(201).json({
-//         message: "User was created",
-//         createdUser: user,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
-// });
+// Get Users
+router.get("/guest", (req, res, next) => {
+  res.send({ guest: true });
+});
 
 router.post("/", (req, res, next) => {
   const user = new Users({

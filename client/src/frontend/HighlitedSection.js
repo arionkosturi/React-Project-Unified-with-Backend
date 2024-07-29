@@ -2,7 +2,7 @@
 import {
   useFetchHighlightedArticles,
   useFetchHighlightedArticle,
-} from "../components/hooks/useFetchArticles";
+} from "../components/hooks/useFetch";
 import React, { useState } from "react";
 function HighlitedSection() {
   const { data: articles, status } = useFetchHighlightedArticles();

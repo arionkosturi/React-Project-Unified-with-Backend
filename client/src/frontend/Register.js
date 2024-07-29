@@ -1,12 +1,11 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import useToken from "../useToken";
 import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { Button } from "../ui/button";
+import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
+import { Button } from "../components/ui/button";
 import { FaRegNewspaper, FaSpinner } from "react-icons/fa";
-import { Input } from "../ui/input";
+import { Input } from "../components/ui/input";
 import { useNavigate } from "react-router";
 
 async function loginUser(credentials, setAlert) {
@@ -51,7 +50,7 @@ export default function Register() {
   });
 
   return (
-    <section>
+    <section className="container mx-auto">
       <div className="mx-auto max-w-screen-xl py-64 lg:flex  lg:items-center">
         <div className="mx-auto max-w-xl ">
           <h1 className="text-3xl text-center font-extrabold sm:text-5xl">
@@ -61,26 +60,27 @@ export default function Register() {
             </div>
 
             <strong className="font-extrabold text-center text-red-700 sm:block">
-              Admin Panel
+              User Login
             </strong>
           </h1>
 
-          <p className="mt-4 sm:text-xl/relaxed text-center">
-            Ju lutem vendosni username dhe password per te aksesuar
+          <p className="mx-6 mt-4 sm:text-xl/relaxed text-center">
+            Ju lutem vendosni username dhe password per tu loguar
           </p>
 
           {alert && (
             <div>
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Incorrect Credentials</AlertTitle>
+                <AlertTitle>User Error!</AlertTitle>
                 <AlertDescription>
-                  Ky user eshte i krijuar me pare!
+                  Ky user eshte i regjistruar ne sistem!
                 </AlertDescription>
               </Alert>
             </div>
           )}
           <form
+            className="px-4"
             onSubmit={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -189,12 +189,24 @@ export default function Register() {
               selector={(state) => [state.canSubmit, state.isSubmitting]}
               children={([canSubmit, isSubmitting]) => (
                 <div className="mt-4 gap-4 flex justify-center">
-                  <Button type="submit" disabled={!canSubmit}>
+                  <Button
+                    type="submit"
+                    disabled={!canSubmit}
+                    className="flex bg-purple-600 hover:bg-purple-500 shadow border py-1 px-2"
+                  >
                     {isSubmitting ? (
                       <FaSpinner className="animate-spin" />
                     ) : (
-                      "Submit"
+                      "Register"
                     )}
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      navigate("/userlogin");
+                    }}
+                    className="flex bg-green-600 hover:bg-green-500 shadow border py-1 px-2"
+                  >
+                    Login
                   </Button>
                   <Button
                     type="reset"

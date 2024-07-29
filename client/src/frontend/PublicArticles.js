@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import { useFetchArticles } from "../components/hooks/useFetchArticles";
+import { useFetchArticles } from "../components/hooks/useFetch";
 import Paginate from "./Paginate";
 function PublicArticles() {
   const [currentPage, setCurrentPage] = useState(0);

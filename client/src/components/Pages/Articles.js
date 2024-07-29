@@ -10,7 +10,7 @@ import {
   useFetchSearchAllArticles,
   useMutateArticle,
   useDeleteArticle,
-} from "../hooks/useFetchArticles";
+} from "../hooks/useFetch";
 import { useQueryClient } from "@tanstack/react-query";
 import Paginate from "../Paginate";
 import Buttons, { PublishBtn } from "../Buttons";
