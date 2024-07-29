@@ -5,7 +5,7 @@ import useToken from "../useToken";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
-import { FaRegNewspaper } from "react-icons/fa";
+import { FaRegNewspaper, FaSpinner } from "react-icons/fa";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router";
 
@@ -19,9 +19,8 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-export default function Signin() {
+export default function Login({ setToken }) {
   const navigate = useNavigate();
-  const { token, setToken } = useToken();
   const [alert, setAlert] = useState(false);
 
   const form = useForm({
@@ -41,7 +40,6 @@ export default function Signin() {
         setToken(token);
 
         setAlert(false);
-        window.location.reload(true);
       } else setAlert(true);
     },
   });
@@ -89,9 +87,9 @@ export default function Signin() {
                 validators={{
                   onChange: ({ value }) =>
                     !value
-                      ? "A first name is required"
+                      ? "Username is required"
                       : value.length < 3
-                        ? "First name must be at least 3 characters"
+                        ? "Username must be at least 3 characters"
                         : undefined,
                   onChangeAsyncDebounceMs: 500,
                   onChangeAsync: async ({ value }) => {
@@ -123,6 +121,9 @@ export default function Signin() {
                           Username
                         </span>
                       </label>
+                      <p className="text-sm text-red-600 mt-1">
+                        {field.state.meta.errors}
+                      </p>
                     </>
                   );
                 }}
@@ -131,6 +132,22 @@ export default function Signin() {
             <div>
               <form.Field
                 name="password"
+                validators={{
+                  onChange: ({ value }) =>
+                    !value
+                      ? "Password is required"
+                      : value.length < 5
+                        ? "Password must be at least 5 characters"
+                        : undefined,
+                  onChangeAsyncDebounceMs: 100,
+                  onChangeAsync: async ({ value }) => {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    return (
+                      value.includes("error") &&
+                      'No "error" allowed in first name'
+                    );
+                  },
+                }}
                 children={(field) => (
                   <>
                     <label
@@ -142,6 +159,9 @@ export default function Signin() {
                         name={field.name}
                         type="password"
                         placeholder="Password"
+                        validators={{
+                          onChange: () => {},
+                        }}
                         className="h-10 p-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
                         value={field.state.value}
                         onBlur={field.handleBlur}
@@ -151,6 +171,9 @@ export default function Signin() {
                         Password
                       </span>
                     </label>
+                    <p className="text-sm text-red-600 mt-1">
+                      {field.state.meta.errors}
+                    </p>{" "}
                   </>
                 )}
               />
@@ -160,7 +183,11 @@ export default function Signin() {
               children={([canSubmit, isSubmitting]) => (
                 <div className="mt-4 gap-4 flex justify-center">
                   <Button type="submit" disabled={!canSubmit}>
-                    {isSubmitting ? "..." : "Submit"}
+                    {isSubmitting ? (
+                      <FaSpinner className="animate-spin" />
+                    ) : (
+                      "Submit"
+                    )}
                   </Button>
                   <Button
                     type="reset"
