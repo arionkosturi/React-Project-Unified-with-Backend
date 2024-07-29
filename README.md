@@ -19,7 +19,7 @@ Pasi MongoDB Compass eshte instaluar:
 - Shtypim import data per secilin collection.
   ![Fifth Step](/dummy_data/step5.png)
 
-- Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json), [news.categories.json](/dummy_data/news.categories.json) dhe [news.users.json](/dummy_data/news.users.json)qe ndodhen ne folderin [dummy_data](/dummy_data/)
+- Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json), [news.categories.json](/dummy_data/news.categories.json) dhe [news.users.json](/dummy_data/news.users.json) qe ndodhen ne folderin [dummy_data](/dummy_data/)
 
 # Default credentials user/pass for the project webpage are:
 
