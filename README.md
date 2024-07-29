@@ -14,10 +14,12 @@ Pasi MongoDB Compass eshte instaluar:
 - Krijojme dhe nje collection me emrin categories - si ne foto.
   ![Third Step](/dummy_data/step3.png)
 
-- Shtypim import data per secilin collection.
-  ![Third Step](/dummy_data/step4.png)
+- Krijojme nje collection me emrin users
 
-- Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json) dhe [news.categories.json](/dummy_data/news.categories.json) qe ndodhen ne folderin [dummy_data](/dummy_data/)
+- Shtypim import data per secilin collection.
+  ![Fourth Step](/dummy_data/step4.png)
+
+- Perdorim respektivisht [news.articles.json](/dummy_data/news.articles.json), [news.categories.json](/dummy_data/news.categories.json) dhe [news.users.json](/dummy_data/news.users.json)qe ndodhen ne folderin [dummy_data](/dummy_data/)
 
 # Default credentials user/pass for the project webpage are:
 
