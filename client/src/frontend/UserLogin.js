@@ -70,9 +70,7 @@ export default function UserLogin() {
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>User Error!</AlertTitle>
-                <AlertDescription>
-                  Nuk mund te gjendet ky perdorues
-                </AlertDescription>
+                <AlertDescription>Kredenciale te gabuara!</AlertDescription>
               </Alert>
             </div>
           )}
