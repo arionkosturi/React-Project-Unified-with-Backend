@@ -54,6 +54,7 @@ function HighlitedSection() {
                     imgUrl: article.imgUrl,
                     _id: article._id,
                   });
+                  window.scrollTo(0, 0);
                 }}
                 id={index}
                 className="flex mb-2 lg:mt-0 artikull bg-slate-100 dark:bg-neutral-800 opacity-85 hover:opacity-100 hover:shadow-md"
