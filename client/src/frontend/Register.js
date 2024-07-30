@@ -8,7 +8,7 @@ import { FaRegNewspaper, FaSpinner } from "react-icons/fa";
 import { Input } from "../components/ui/input";
 import { useNavigate } from "react-router";
 
-async function loginUser(credentials, setAlert) {
+async function RegisterUser(credentials, setAlert, navigate) {
   return await fetch("http://localhost:3344/users", {
     method: "POST",
     headers: {
@@ -18,20 +18,29 @@ async function loginUser(credentials, setAlert) {
   })
     .then((data) => {
       if (data.status === 201) {
-        setAlert(false);
+        setAlert({
+          value: false,
+          message: "",
+        });
+        navigate("/userlogin");
         return data.json();
       } else throw "User cannot be created";
     })
     .catch((err) => {
-      setAlert(true);
-      console.log(err);
+      setAlert({
+        value: true,
+        message: err,
+        variant: "destructive",
+      });
     });
 }
 
 export default function Register() {
   const navigate = useNavigate();
-  const [alert, setAlert] = useState(false);
-
+  const [alert, setAlert] = useState({
+    value: false,
+    message: "",
+  });
   const form = useForm({
     defaultValues: {
       username: "",
@@ -39,12 +48,13 @@ export default function Register() {
     },
 
     onSubmit: async ({ value }) => {
-      const token = await loginUser(
+      await RegisterUser(
         {
           username: value.username,
           password: value.password,
         },
-        setAlert
+        setAlert,
+        navigate
       );
     },
   });
@@ -68,14 +78,12 @@ export default function Register() {
             Ju lutem vendosni username dhe password per tu loguar
           </p>
 
-          {alert && (
+          {alert.message.length > 0 && (
             <div>
-              <Alert variant="destructive">
+              <Alert variant={alert.variant}>
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>User Error!</AlertTitle>
-                <AlertDescription>
-                  Ky user eshte i regjistruar ne sistem!
-                </AlertDescription>
+                <AlertDescription>{alert.message}</AlertDescription>
               </Alert>
             </div>
           )}
@@ -85,6 +93,7 @@ export default function Register() {
               e.preventDefault();
               e.stopPropagation();
               form.handleSubmit();
+              console.log(alert);
             }}
           >
             <div className="mt-6 mb-3">
@@ -211,7 +220,9 @@ export default function Register() {
                   <Button
                     type="reset"
                     onClick={() => {
-                      setAlert(false);
+                      setAlert({
+                        value: false,
+                      });
                       form.reset();
                     }}
                   >

@@ -39,7 +39,7 @@ export default function UserLogin() {
               saveUser({ ...user[0] });
               navigate("/");
             } else {
-              alert("User does not exist.");
+              setAlert(true);
             }
           }
         })
@@ -71,7 +71,7 @@ export default function UserLogin() {
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>User Error!</AlertTitle>
                 <AlertDescription>
-                  Ky user eshte i regjistruar ne sistem!
+                  Nuk mund te gjendet ky perdorues
                 </AlertDescription>
               </Alert>
             </div>
