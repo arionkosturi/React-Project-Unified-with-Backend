@@ -60,7 +60,7 @@ export default function Register() {
             </div>
 
             <strong className="font-extrabold text-center text-red-700 sm:block">
-              User Login
+              User Registration
             </strong>
           </h1>
 

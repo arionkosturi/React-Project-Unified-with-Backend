@@ -279,7 +279,7 @@ export const useMutateCategory = (category) => {
 const deleteSingleCategory = async (id) => {
   return await apiClient.delete(`/categories/${id}`);
 };
-// Delete Article
+// Delete Category
 export const useDeleteCategory = (id) => {
   const queryClient = useQueryClient();
 
@@ -294,19 +294,61 @@ export const useDeleteCategory = (id) => {
   });
 };
 
-// Fetch Single User
+// User Fetch Single User
 const fetchSingleUser = async (id) => {
   return await apiClient.get(`/users/${id}`);
 };
-// Fetch Single User
+// User Fetch Single User
 export const useSingleUser = () => {
   const [user, setUser] = useLocalStorage("user");
-  // const [queryParameter] = useSearchParams();
-  // let id = queryParameter.get("id");
   let id = user?._id || "guest";
   return useQuery({
     queryFn: async () => {
       const { data } = await fetchSingleUser(id);
+      return data;
+    },
+    queryKey: ["single user", id],
+  });
+};
+
+//Mutate User Profile
+const useMutateUser = async (user) => {
+  let { username, password } = user;
+  return await apiClient.patch(`/users/${user.id}`, {
+    username,
+    password,
+  });
+};
+// Mutate User Profile
+export const useMutateUserProfile = (user) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["single user"],
+    mutationFn: useMutateUser,
+    onSuccess: async (id) => {
+      return await queryClient.invalidateQueries({
+        queryKey: ["single user"],
+      });
+    },
+    onSettled: (category) => {
+      console.log(category.data);
+    },
+  });
+};
+
+// Admin Fetch Single User
+const fetchSingleUserByAdmin = async (id) => {
+  return await apiClient.get(`/users/${id}`);
+};
+// Admin Fetch Single User
+export const useSingleUserByAdmin = () => {
+  const [user, setUser] = useLocalStorage("user");
+  const [queryParameter] = useSearchParams();
+  let id = queryParameter.get("id");
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchSingleUserByAdmin(id);
       return data;
     },
     queryKey: ["single user", id],

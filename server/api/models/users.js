@@ -8,6 +8,8 @@ const userSchema = mongoose.Schema(
       unique: [true, "Username already used."],
     },
     password: String,
+    email: String,
+    imgUrl: String,
     isAdmin: Boolean,
     isLoggedIn: Boolean,
     createdAt: Date,

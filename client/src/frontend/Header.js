@@ -26,15 +26,15 @@ export default function Header() {
   const { data: searchR } = useFetchSearchedArticles(debouncedSearch);
   const { data: loggedUser, isFetched } = useSingleUser();
   const navigate = useNavigate();
-  useEffect(() => {
-    let searchInput = document.querySelector("#search__input");
-    document.addEventListener("keydown", (e) => {
-      searchInput.focus();
-    });
-    return () => {
-      document.removeEventListener("keydown", () => {});
-    };
-  }, []);
+  // useEffect(() => {
+  //   let searchInput = document.querySelector("#search__input");
+  //   document.addEventListener("keydown", (e) => {
+  //     searchInput.focus();
+  //   });
+  //   return () => {
+  //     document.removeEventListener("keydown", () => {});
+  //   };
+  // }, []);
 
   let handleLogin = () => {
     navigate("/dashboard/all");
