@@ -18,6 +18,9 @@ import PublishedArticles from "./components/Pages/PublishedArticles";
 import UserLogin from "./frontend/UserLogin";
 import Register from "./frontend/Register";
 import Profile from "./frontend/Profile";
+import Saved from "./frontend/Saved";
+import Liked from "./frontend/Liked";
+
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -71,10 +74,17 @@ const router = createBrowserRouter([
     element: <PublishedArticles />,
     errorElement: <NotFoundPage />,
   },
-
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/saved",
+    element: <Saved />,
+  },
+  {
+    path: "/liked",
+    element: <Liked />,
   },
   {
     path: "/userlogin",

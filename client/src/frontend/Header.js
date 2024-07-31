@@ -1,6 +1,12 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
-import { FaBars, FaRegNewspaper, FaUser } from "react-icons/fa";
+import {
+  FaBars,
+  FaRegNewspaper,
+  FaUser,
+  FaBookmark,
+  FaHeart,
+} from "react-icons/fa";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -26,15 +32,6 @@ export default function Header() {
   const { data: searchR } = useFetchSearchedArticles(debouncedSearch);
   const { data: loggedUser, isFetched } = useSingleUser();
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   let searchInput = document.querySelector("#search__input");
-  //   document.addEventListener("keydown", (e) => {
-  //     searchInput.focus();
-  //   });
-  //   return () => {
-  //     document.removeEventListener("keydown", () => {});
-  //   };
-  // }, []);
 
   let handleLogin = () => {
     navigate("/dashboard/all");
@@ -106,7 +103,37 @@ export default function Header() {
                                     <FaUser className="text-purple-500 mr-2" />
                                     <span className="text-purple-600">
                                       {" "}
-                                      Profile
+                                      Your Profile
+                                    </span>
+                                  </Button>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                  {" "}
+                                  <Button
+                                    onClick={() => {
+                                      navigate("/liked");
+                                    }}
+                                    className="flex bg-white hover:bg-slate-100 mx-2 py-1 px-2"
+                                  >
+                                    <FaHeart className="text-purple-500 mr-2" />
+                                    <span className="text-purple-600">
+                                      {" "}
+                                      Liked Articles
+                                    </span>
+                                  </Button>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                  {" "}
+                                  <Button
+                                    onClick={() => {
+                                      navigate("/saved");
+                                    }}
+                                    className="flex bg-white hover:bg-slate-100 mx-2 py-1 px-2"
+                                  >
+                                    <FaBookmark className="text-purple-500 mr-2" />
+                                    <span className="text-purple-600">
+                                      {" "}
+                                      Saved Articles
                                     </span>
                                   </Button>
                                 </NavigationMenuLink>
