@@ -24,7 +24,7 @@ import {
 } from "../components/ui/alert";
 import CheckHighlighted from "../components/CheckHighlited";
 import Alert from "../components/Alert";
-import { useSessionStorage } from "@uidotdev/usehooks";
+import { useSessionStorage, useLocalStorage } from "@uidotdev/usehooks";
 
 function PublicArticle() {
   const { mutate } = useMutateArticle();
@@ -34,6 +34,11 @@ function PublicArticle() {
     "njoftim breaking news",
     1
   );
+  const [localArticles, saveLocalArticles] = useLocalStorage(
+    "savedArticles",
+    []
+  );
+
   const { data: article, isLoading, error } = useSingleArticle();
   let articlesDate = new Date(article?.createdAt).toLocaleDateString(
     undefined,
@@ -66,30 +71,36 @@ function PublicArticle() {
   let handleLiked = (user) => {
     let id = loggedUser._id;
     let likedArticles = loggedUser.likedArticles;
-
-    let articleId = article._id;
     addTo({
       id,
-      // articleId,
       likedArticles: [
         ...likedArticles.filter((liked) => liked._id !== article._id),
         article,
       ],
     });
   };
-
   let handleRemoveLiked = (user) => {
     let id = loggedUser._id;
     let likedArticles = loggedUser.likedArticles;
-
-    let articleId = article._id;
     addTo({
       id,
       likedArticles: [
-        ...likedArticles.filter((liked) => liked._id != article._id),
+        ...likedArticles.filter((liked) => liked._id !== article._id),
       ],
     });
   };
+  let handleSaveArticle = () => {
+    saveLocalArticles([
+      ...localArticles.filter((saved) => saved._id !== article._id),
+      article,
+    ]);
+  };
+  let handleRemoveSaveArticle = () => {
+    saveLocalArticles([
+      ...localArticles.filter((saved) => saved._id !== article._id),
+    ]);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -205,8 +216,8 @@ function PublicArticle() {
                 {!loggedUser?.guest && (
                   <>
                     {loggedUser?.likedArticles.filter(
-                      (liked) => liked._id == article._id
-                    ).length == 0 ? (
+                      (liked) => liked._id === article._id
+                    ).length === 0 ? (
                       <FaRegHeart
                         className="text-2xl text-purple-500"
                         onClick={handleLiked}
@@ -217,13 +228,19 @@ function PublicArticle() {
                         onClick={handleRemoveLiked}
                       />
                     )}
-
-                    <FaRegBookmark
-                      className="text-2xl text-purple-500"
-                      onClick={() => {
-                        console.log("saved");
-                      }}
-                    />
+                    {localArticles.filter(
+                      (savedArticles) => savedArticles._id === article._id
+                    ).length === 0 ? (
+                      <FaRegBookmark
+                        className="text-2xl text-purple-500"
+                        onClick={handleSaveArticle}
+                      />
+                    ) : (
+                      <FaBookmark
+                        className="text-2xl text-purple-500"
+                        onClick={handleRemoveSaveArticle}
+                      />
+                    )}
                   </>
                 )}
               </div>
