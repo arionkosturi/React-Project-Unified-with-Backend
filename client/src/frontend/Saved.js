@@ -9,9 +9,10 @@ import {
 } from "../components/hooks/useFetch";
 
 function Saved() {
-  const [localArticles, saveLocalArticles] = useLocalStorage("savedArticles", [
-    {},
-  ]);
+  const [localArticles, saveLocalArticles] = useLocalStorage(
+    "savedArticles",
+    []
+  );
 
   const { data: loggedUser } = useSingleUser();
 

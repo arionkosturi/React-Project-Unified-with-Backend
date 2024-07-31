@@ -91,14 +91,14 @@ export default function Header() {
                                   Pershendetje, {loggedUser.username}
                                 </p>
                               </NavigationMenuTrigger>
-                              <NavigationMenuContent className=" bg-white hover:bg-slate-100">
+                              <NavigationMenuContent>
                                 <NavigationMenuLink>
                                   {" "}
                                   <Button
                                     onClick={() => {
                                       navigate("/profile");
                                     }}
-                                    className="flex bg-white hover:bg-slate-100 mx-2 py-1 px-2"
+                                    className="flex w-[300px] md:w-[200px] bg-white hover:bg-slate-100"
                                   >
                                     <FaUser className="text-purple-500 mr-2" />
                                     <span className="text-purple-600">
@@ -113,7 +113,7 @@ export default function Header() {
                                     onClick={() => {
                                       navigate("/liked");
                                     }}
-                                    className="flex bg-white hover:bg-slate-100 mx-2 py-1 px-2"
+                                    className="flex w-full bg-white hover:bg-slate-100"
                                   >
                                     <FaHeart className="text-purple-500 mr-2" />
                                     <span className="text-purple-600">
@@ -128,7 +128,7 @@ export default function Header() {
                                     onClick={() => {
                                       navigate("/saved");
                                     }}
-                                    className="flex bg-white hover:bg-slate-100 mx-2 py-1 px-2"
+                                    className="flex w-full bg-white hover:bg-slate-100"
                                   >
                                     <FaBookmark className="text-purple-500 mr-2" />
                                     <span className="text-purple-600">

@@ -15,7 +15,7 @@ function Liked() {
       <Header />
       <div className="container px-2 mx-auto flex flex-col gap-2">
         <h1 className="ml-4  p-2 text-purple-600 text-3xl">Liked Articles</h1>
-        {loggedUser &&
+        {!loggedUser.guest &&
           loggedUser.likedArticles.map((article) => {
             return (
               <article
