@@ -70,8 +70,24 @@ function PublicArticle() {
     let articleId = article._id;
     addTo({
       id,
-      articleId,
-      likedArticles: [...likedArticles, article],
+      // articleId,
+      likedArticles: [
+        ...likedArticles.filter((liked) => liked._id !== article._id),
+        article,
+      ],
+    });
+  };
+
+  let handleRemoveLiked = (user) => {
+    let id = loggedUser._id;
+    let likedArticles = loggedUser.likedArticles;
+
+    let articleId = article._id;
+    addTo({
+      id,
+      likedArticles: [
+        ...likedArticles.filter((liked) => liked._id != article._id),
+      ],
     });
   };
   if (isLoading) {
@@ -188,10 +204,20 @@ function PublicArticle() {
                 </p>
                 {!loggedUser?.guest && (
                   <>
-                    <FaRegHeart
-                      className="text-2xl text-purple-500"
-                      onClick={handleLiked}
-                    />
+                    {loggedUser?.likedArticles.filter(
+                      (liked) => liked._id == article._id
+                    ).length == 0 ? (
+                      <FaRegHeart
+                        className="text-2xl text-purple-500"
+                        onClick={handleLiked}
+                      />
+                    ) : (
+                      <FaHeart
+                        className="text-2xl text-purple-500"
+                        onClick={handleRemoveLiked}
+                      />
+                    )}
+
                     <FaRegBookmark
                       className="text-2xl text-purple-500"
                       onClick={() => {
