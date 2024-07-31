@@ -6,8 +6,14 @@ const userSchema = mongoose.Schema(
     username: {
       type: String,
       unique: [true, "Username already used."],
+      required: true,
     },
-    password: String,
+    password: {
+      type: String,
+      min: [5, "Too few chars"],
+      max: [30, "Too many chars"],
+      required: true,
+    },
     email: String,
     imgUrl: String,
     isAdmin: Boolean,

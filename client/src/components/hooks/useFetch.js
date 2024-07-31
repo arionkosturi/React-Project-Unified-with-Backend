@@ -322,7 +322,6 @@ const useMutateUser = async (user) => {
 // Mutate User Profile
 export const useMutateUserProfile = (user) => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationKey: ["single user"],
     mutationFn: useMutateUser,
@@ -331,8 +330,8 @@ export const useMutateUserProfile = (user) => {
         queryKey: ["single user"],
       });
     },
-    onSettled: (category) => {
-      console.log(category.data);
+    onSettled: (user) => {
+      // console.log(user.data);
     },
   });
 };
