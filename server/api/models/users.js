@@ -17,6 +17,10 @@ const userSchema = mongoose.Schema(
     email: String,
     imgUrl: String,
     isAdmin: Boolean,
+    likedArticles: {
+      type: Array,
+    },
+    savedArticles: Array,
     isLoggedIn: Boolean,
     createdAt: Date,
   },

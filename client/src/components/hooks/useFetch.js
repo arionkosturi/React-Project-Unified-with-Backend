@@ -313,10 +313,11 @@ export const useSingleUser = () => {
 
 //Mutate User Profile
 const useMutateUser = async (user) => {
-  let { username, password } = user;
+  let { username, password, likedArticles } = user;
   return await apiClient.patch(`/users/${user.id}`, {
     username,
     password,
+    likedArticles,
   });
 };
 // Mutate User Profile

@@ -4,10 +4,17 @@ import Header from "./Header";
 import Footer from "./Footer";
 import {
   useSingleUser,
+  useMutateUserProfile,
   useSingleArticle,
   useMutateArticle,
 } from "../components/hooks/useFetch";
-import { FaInfoCircle } from "react-icons/fa";
+import {
+  FaInfoCircle,
+  FaBookmark,
+  FaRegBookmark,
+  FaRegHeart,
+  FaHeart,
+} from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import HTMLReactParser from "html-react-parser";
 import {
@@ -21,6 +28,7 @@ import { useSessionStorage } from "@uidotdev/usehooks";
 
 function PublicArticle() {
   const { mutate } = useMutateArticle();
+  const { mutate: addTo } = useMutateUserProfile();
   const { data: loggedUser } = useSingleUser();
   let [njoftimIsOpen, setNjoftimIsOpen] = useSessionStorage(
     "njoftim breaking news",
@@ -53,6 +61,17 @@ function PublicArticle() {
     mutate({
       articleId,
       isHighlighted: !article.isHighlighted,
+    });
+  };
+  let handleLiked = (user) => {
+    let id = loggedUser._id;
+    let likedArticles = loggedUser.likedArticles;
+
+    let articleId = article._id;
+    addTo({
+      id,
+      articleId,
+      likedArticles: [...likedArticles, article],
     });
   };
   if (isLoading) {
@@ -163,9 +182,25 @@ function PublicArticle() {
             )}
 
             <div className="mt-2 lg:-mx-6">
-              <p className="block cursor-pointer mb-4 mx-auto container text-3xl font-semibold text-gray-800 ">
-                {article.title}
-              </p>
+              <div className="flex container mx-auto gap-2">
+                <p className="block cursor-pointer mb-4 mx-auto container text-3xl font-semibold text-gray-800 ">
+                  {article.title}
+                </p>
+                {!loggedUser?.guest && (
+                  <>
+                    <FaRegHeart
+                      className="text-2xl text-purple-500"
+                      onClick={handleLiked}
+                    />
+                    <FaRegBookmark
+                      className="text-2xl text-purple-500"
+                      onClick={() => {
+                        console.log("saved");
+                      }}
+                    />
+                  </>
+                )}
+              </div>
 
               {article.imgUrl ? (
                 <img
