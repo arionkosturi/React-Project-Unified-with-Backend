@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Toaster } from "../ui/toaster";
 import CheckPublished from "../CheckPublished";
 import CheckHighlighted from "../CheckHighlited";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   useFetchArticles,
   useSingleUser,

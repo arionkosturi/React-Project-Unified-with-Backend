@@ -5,7 +5,6 @@ import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
 import { FaRegNewspaper, FaSpinner } from "react-icons/fa";
-import { Input } from "../components/ui/input";
 import { useNavigate } from "react-router";
 
 async function RegisterUser(credentials, setAlert, navigate) {

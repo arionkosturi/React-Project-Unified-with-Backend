@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   FaBars,
   FaRegNewspaper,
@@ -10,12 +10,10 @@ import {
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "../components/ui/navigation-menu";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
@@ -24,18 +22,13 @@ import {
   useFetchSearchedArticles,
   useSingleUser,
 } from "../components/hooks/useFetch";
-import { useLocalStorage } from "@uidotdev/usehooks";
 
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState();
   const debouncedSearch = useDebounce(searchTerm, 1000);
   const { data: searchR } = useFetchSearchedArticles(debouncedSearch);
-  const { data: loggedUser, isFetched } = useSingleUser();
+  const { data: loggedUser } = useSingleUser();
   const navigate = useNavigate();
-
-  let handleLogin = () => {
-    navigate("/dashboard/all");
-  };
 
   let handleSearch = (e) => {
     e.preventDefault();

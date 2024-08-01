@@ -7,7 +7,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
 import Alert from "../Alert";
-import { useNavigate, useSearchParams, Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Sheet,
@@ -80,11 +80,9 @@ function Categories() {
   const [imgUrl, setImgUrl] = useState("");
   const queryClient = useQueryClient();
   let { data: loggedUser } = useSingleUser();
-  const [queryParameter] = useSearchParams();
   let handleOpen = () => {
     setOpenSheet(true);
   };
-  let navigate = useNavigate();
   if (!loggedUser?.isAdmin) {
     return <Dashboard />;
   }

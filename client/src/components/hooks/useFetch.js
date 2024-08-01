@@ -353,25 +353,6 @@ export const useFetchUsers = () => {
     queryKey: ["users"],
   });
 };
-
-// Admin Fetch Single User
-const fetchSingleUserByAdmin = async (id) => {
-  return await apiClient.get(`/users/${id}`);
-};
-// Admin Fetch Single User
-export const useSingleUserByAdmin = () => {
-  const [user, setUser] = useLocalStorage("user");
-  const [queryParameter] = useSearchParams();
-  let id = queryParameter.get("id");
-  return useQuery({
-    queryFn: async () => {
-      const { data } = await fetchSingleUserByAdmin(id);
-      return data;
-    },
-    queryKey: ["single user", id],
-  });
-};
-
 //Delete User
 const deleteSingleUser = async (id) => {
   return await apiClient.delete(`/users/${id}`);

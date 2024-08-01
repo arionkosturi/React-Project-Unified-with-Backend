@@ -1,18 +1,12 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import React from "react";
 import Header from "./Header";
 import { useLocalStorage } from "@uidotdev/usehooks";
 
-import {
-  useSingleUser,
-  useMutateUserProfile,
-} from "../components/hooks/useFetch";
+import { useSingleUser } from "../components/hooks/useFetch";
 
 function Saved() {
-  const [localArticles, saveLocalArticles] = useLocalStorage(
-    "savedArticles",
-    []
-  );
+  const [localArticles] = useLocalStorage("savedArticles", []);
 
   const { data: loggedUser } = useSingleUser();
 

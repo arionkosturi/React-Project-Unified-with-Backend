@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { useSingleUser } from "./hooks/useFetch";
 export default function Header() {
   const navigate = useNavigate();
-  const { data: loggedUser, isFetched } = useSingleUser();
+  const { data: loggedUser } = useSingleUser();
 
   let handleLogin = () => {
     navigate("/dashboard/all");

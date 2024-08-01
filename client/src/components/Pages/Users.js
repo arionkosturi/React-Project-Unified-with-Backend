@@ -5,7 +5,6 @@ import Dashboard from "./Dashboard";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Form } from "../ui/form";
 import {
   Select,
   SelectContent,
@@ -23,8 +22,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import Alert from "../Alert";
-import { useNavigate, useSearchParams, Link, NavLink } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   useFetchUsers,
   useDeleteUser,
@@ -35,7 +32,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -43,7 +39,6 @@ import {
 } from "../ui/table";
 import LeftPanel from "./LeftPanel";
 function FetchUsers({ loggedUser }) {
-  let navigate = useNavigate();
   const { data: users, isPending, error } = useFetchUsers();
   const { mutate: remove } = useDeleteUser();
   const { mutate } = useMutateUsers();
@@ -147,7 +142,7 @@ function FetchUsers({ loggedUser }) {
               alertTriggerButton={
                 <Button
                   variant={"destructive"}
-                  disabled={loggedUser._id == user._id}
+                  disabled={loggedUser._id === user._id}
                 >
                   {" "}
                   Detele{" "}
@@ -162,10 +157,7 @@ function FetchUsers({ loggedUser }) {
 }
 
 function Users() {
-  const queryClient = useQueryClient();
   let { data: loggedUser } = useSingleUser();
-  const [queryParameter] = useSearchParams();
-  let navigate = useNavigate();
   if (!loggedUser?.isAdmin) {
     return <Dashboard />;
   }
