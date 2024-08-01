@@ -6,6 +6,13 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import Alert from "../Alert";
 import { useNavigate, useSearchParams, Link, NavLink } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -43,22 +50,28 @@ function FetchUsers({ loggedUser }) {
           <TableCell className="font-medium">{user.username}</TableCell>
           <TableCell>Active</TableCell>
           <TableCell>
-            <select
-              name="role"
-              id="role"
-              onChange={(e) => {
+            <Select
+              onValueChange={(value) => {
                 let userId = user._id;
-                mutate({
-                  userId,
-                  isAdmin: e.target.value,
-                });
+                if (userId !== loggedUser._id) {
+                  mutate({
+                    userId,
+                    isAdmin: value,
+                  });
+                }
               }}
-              className="px-2"
             >
-              <option>{user.isAdmin ? "Admin" : "User"}</option>
-              <option value="false">User </option>
-              <option value="true">Admin</option>
-            </select>
+              <SelectTrigger
+                className="w-[180px]"
+                disabled={user._id === loggedUser._id}
+              >
+                <SelectValue placeholder={user.isAdmin ? "Admin" : "User"} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="false">User</SelectItem>
+                <SelectItem value="true">Admin</SelectItem>
+              </SelectContent>
+            </Select>
           </TableCell>
           <TableCell className="text-right">
             {" "}
