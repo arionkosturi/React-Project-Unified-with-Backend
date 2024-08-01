@@ -26,7 +26,7 @@ import {
   TableRow,
 } from "../ui/table";
 import LeftPanel from "./LeftPanel";
-function FetchUsers() {
+function FetchUsers({ loggedUser }) {
   let navigate = useNavigate();
   const { data: users, isPending, error } = useFetchUsers();
   const { mutate: remove } = useDeleteUser();
@@ -77,10 +77,18 @@ function FetchUsers() {
               alertMessage={`Deshiron ta fshish perdoruesin: "${user.username}" ?`}
               handleFunction={(e) => {
                 let userId = user._id;
-                remove(userId);
+                if (loggedUser._id !== userId) {
+                  remove(userId);
+                }
               }}
               alertTriggerButton={
-                <Button variant={"destructive"}> Detele </Button>
+                <Button
+                  variant={"destructive"}
+                  disabled={loggedUser._id == user._id}
+                >
+                  {" "}
+                  Detele{" "}
+                </Button>
               }
             />
           </TableCell>
@@ -129,7 +137,7 @@ function Users() {
               </TableHeader>
 
               <TableBody>
-                <FetchUsers />
+                <FetchUsers loggedUser={loggedUser} />
               </TableBody>
             </Table>
           </section>
