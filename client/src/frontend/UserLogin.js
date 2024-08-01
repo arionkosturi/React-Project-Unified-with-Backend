@@ -176,6 +176,17 @@ export default function UserLogin() {
                     <p className="text-sm text-red-600 mt-1">
                       {field.state.meta.errors}
                     </p>{" "}
+                    <p>
+                      Nuk ke nje llogari?{" "}
+                      <span
+                        className="hover:cursor-pointer underline text-blue-700"
+                        onClick={() => {
+                          navigate("/register");
+                        }}
+                      >
+                        Register
+                      </span>
+                    </p>
                   </>
                 )}
               />
@@ -195,14 +206,14 @@ export default function UserLogin() {
                       "Login"
                     )}
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={() => {
                       navigate("/Register");
                     }}
                     className="flex bg-green-600 hover:bg-green-500 shadow border py-1 px-2"
                   >
                     Register
-                  </Button>
+                  </Button> */}
                   <Button
                     type="reset"
                     onClick={() => {

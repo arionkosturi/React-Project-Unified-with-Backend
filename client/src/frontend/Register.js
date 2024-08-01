@@ -165,7 +165,7 @@ export default function Register() {
                   },
                 }}
                 children={(field) => (
-                  <>
+                  <div className="my-4">
                     <label
                       htmlFor={field.name}
                       className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
@@ -190,7 +190,53 @@ export default function Register() {
                     <p className="text-sm text-red-600 mt-1">
                       {field.state.meta.errors}
                     </p>{" "}
-                  </>
+                  </div>
+                )}
+              />
+              <form.Field
+                name="confirmPassword"
+                validators={{
+                  onChangeListenTo: ["password"],
+                  onChange: ({ value, fieldApi }) =>
+                    fieldApi.getMeta().isDirty &&
+                    value !== fieldApi.form.getFieldValue("password") &&
+                    "Passwords do not match",
+                }}
+                children={(field) => (
+                  <div className="">
+                    <label
+                      htmlFor={field.name}
+                      className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+                    >
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        type="password"
+                        placeholder="Password"
+                        className="h-10 p-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+                        Confirm Password
+                      </span>
+                    </label>
+                    <p className="text-sm text-red-600 mt-1">
+                      {field.state.meta.errors}
+                    </p>{" "}
+                    <p>
+                      Je i regjistruar?{" "}
+                      <span
+                        className="hover:cursor-pointer underline text-blue-700"
+                        onClick={() => {
+                          navigate("/userlogin");
+                        }}
+                      >
+                        Login
+                      </span>
+                    </p>
+                  </div>
                 )}
               />
             </div>
@@ -209,14 +255,14 @@ export default function Register() {
                       "Register"
                     )}
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={() => {
                       navigate("/userlogin");
                     }}
                     className="flex bg-green-600 hover:bg-green-500 shadow border py-1 px-2"
                   >
                     Login
-                  </Button>
+                  </Button> */}
                   <Button
                     type="reset"
                     onClick={() => {
