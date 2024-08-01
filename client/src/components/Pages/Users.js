@@ -48,9 +48,9 @@ function FetchUsers({ loggedUser }) {
       return (
         <TableRow key={user._id}>
           <TableCell className="font-medium">{user.username}</TableCell>
-          <TableCell>Active</TableCell>
           <TableCell>
             <Select
+              className="flex justify-end"
               onValueChange={(value) => {
                 let userId = user._id;
                 if (userId !== loggedUser._id) {
@@ -62,7 +62,7 @@ function FetchUsers({ loggedUser }) {
               }}
             >
               <SelectTrigger
-                className="w-[180px]"
+                className="flex items-center w-[170px] md:w-[280px] max-w-[480px]"
                 disabled={user._id === loggedUser._id}
               >
                 <SelectValue placeholder={user.isAdmin ? "Admin" : "User"} />
@@ -132,28 +132,24 @@ function Users() {
           </h1>
         </div>
         <div className="container mx-auto flex gap-4">
-          <LeftPanel />
-          <section
-            className="
-        w-full p-0
-      "
-          >
-            <Table>
-              <TableCaption></TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Username</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead className="text-right">Action</TableHead>
-                </TableRow>
-              </TableHeader>
+          <div className="flex flex-col md:flex-row container mx-auto">
+            <LeftPanel />
+            <section className="container mx-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-center">Username</TableHead>
+                    <TableHead className="text-center">Role</TableHead>
+                    <TableHead className="text-center">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
 
-              <TableBody>
-                <FetchUsers loggedUser={loggedUser} />
-              </TableBody>
-            </Table>
-          </section>
+                <TableBody>
+                  <FetchUsers loggedUser={loggedUser} />
+                </TableBody>
+              </Table>
+            </section>
+          </div>
         </div>
       </>
     )
