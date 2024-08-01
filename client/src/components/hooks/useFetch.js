@@ -313,11 +313,12 @@ export const useSingleUser = () => {
 
 //Mutate User Profile
 const useMutateUser = async (user) => {
-  let { username, password, likedArticles } = user;
+  let { username, password, likedArticles, isAdmin } = user;
   return await apiClient.patch(`/users/${user.id}`, {
     username,
     password,
     likedArticles,
+    isAdmin,
   });
 };
 // Mutate User Profile
@@ -337,6 +338,22 @@ export const useMutateUserProfile = (user) => {
   });
 };
 
+// Fetch All Users
+
+const fetchUsers = async () => {
+  return await apiClient.get(`users/`);
+};
+// Query All Users
+export const useFetchUsers = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchUsers();
+      return data;
+    },
+    queryKey: ["users"],
+  });
+};
+
 // Admin Fetch Single User
 const fetchSingleUserByAdmin = async (id) => {
   return await apiClient.get(`/users/${id}`);
@@ -352,5 +369,48 @@ export const useSingleUserByAdmin = () => {
       return data;
     },
     queryKey: ["single user", id],
+  });
+};
+
+//Delete User
+const deleteSingleUser = async (id) => {
+  return await apiClient.delete(`/users/${id}`);
+};
+// Delete User
+export const useDeleteUser = (id) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["single user"],
+    mutationFn: deleteSingleUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+};
+//Mutate User
+const useMutateSingleUser = async (user) => {
+  let { username, password, isAdmin } = user;
+  return await apiClient.patch(`/users/${user.userId}`, {
+    username,
+    password,
+    isAdmin,
+  });
+};
+// Mutate User
+export const useMutateUsers = (user) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["user"],
+    mutationFn: useMutateSingleUser,
+    onSuccess: async (id) => {
+      return await queryClient.invalidateQueries({
+        queryKey: ["single user"],
+      });
+    },
+    onSettled: (user) => {
+      console.log(user);
+    },
   });
 };

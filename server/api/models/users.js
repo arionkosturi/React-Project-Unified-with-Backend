@@ -20,7 +20,6 @@ const userSchema = mongoose.Schema(
     likedArticles: {
       type: Array,
     },
-    savedArticles: Array,
     isLoggedIn: Boolean,
     createdAt: Date,
   },

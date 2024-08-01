@@ -12,6 +12,7 @@ import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
 import Dashboard from "./components/Pages/Dashboard";
+import Users from "./components/Pages/Users";
 import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";
 import PublishedArticles from "./components/Pages/PublishedArticles";
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/new",
     element: <ArticleForm />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/dashboard/users",
+    element: <Users />,
     errorElement: <NotFoundPage />,
   },
   {
