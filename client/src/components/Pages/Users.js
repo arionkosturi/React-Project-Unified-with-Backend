@@ -35,61 +35,59 @@ function FetchUsers() {
 
   if (error) return "An error has occurred: " + error.message;
 
-  return users?.map((user, index) => {
-    return (
-      <>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">{user.username}</TableCell>
-            <TableCell>Active</TableCell>
-            <TableCell>
+  return (
+    users &&
+    users?.map((user) => {
+      return (
+        <TableRow key={user._id}>
+          <TableCell className="font-medium">{user.username}</TableCell>
+          <TableCell>Active</TableCell>
+          <TableCell>
+            <select
+              name="role"
+              id="role"
+              onChange={(e) => {
+                let userId = user._id;
+                mutate({
+                  userId,
+                  isAdmin: e.target.value,
+                });
+              }}
+              className="px-2"
+            >
+              <option>{user.isAdmin ? "Admin" : "User"}</option>
+              <option value="false">User </option>
+              <option value="true">Admin</option>
+            </select>
+          </TableCell>
+          <TableCell className="text-right">
+            {" "}
+            <Button
+              variant={"secondary"}
+              className="mr-1"
+              onClick={() => {
+                // navigate(`/dashboard/user/?id=${user._id}`);
+              }}
+            >
               {" "}
-              <select
-                name="role"
-                id="role"
-                onChange={(e) => {
-                  let userId = user._id;
-                  mutate({
-                    userId,
-                    isAdmin: e.target.value,
-                  });
-                }}
-                className="px-2"
-              >
-                <option>{user.isAdmin ? "Admin" : "User"}</option>
-                <option value="false">User </option>
-                <option value="true">Admin</option>
-              </select>
-            </TableCell>
-            <TableCell className="text-right">
-              {" "}
-              <Button
-                variant={"secondary"}
-                className="mr-1"
-                onClick={() => {
-                  // navigate(`/dashboard/user/?id=${user._id}`);
-                }}
-              >
-                {" "}
-                Edit{" "}
-              </Button>
-              <Alert
-                alertTitle={"Po fshin perdoruesin"}
-                alertMessage={`Deshiron ta fshish perdoruesin: "${user.username}" ?`}
-                handleFunction={(e) => {
-                  let userId = user._id;
-                  remove(userId);
-                }}
-                alertTriggerButton={
-                  <Button variant={"destructive"}> Detele </Button>
-                }
-              />
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </>
-    );
-  });
+              Edit{" "}
+            </Button>
+            <Alert
+              alertTitle={"Po fshin perdoruesin"}
+              alertMessage={`Deshiron ta fshish perdoruesin: "${user.username}" ?`}
+              handleFunction={(e) => {
+                let userId = user._id;
+                remove(userId);
+              }}
+              alertTriggerButton={
+                <Button variant={"destructive"}> Detele </Button>
+              }
+            />
+          </TableCell>
+        </TableRow>
+      );
+    })
+  );
 }
 
 function Users() {
@@ -130,7 +128,9 @@ function Users() {
                 </TableRow>
               </TableHeader>
 
-              <FetchUsers />
+              <TableBody>
+                <FetchUsers />
+              </TableBody>
             </Table>
           </section>
         </div>
