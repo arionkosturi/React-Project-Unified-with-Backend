@@ -13,6 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import Alert from "../Alert";
 import { useNavigate, useSearchParams, Link, NavLink } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -38,6 +47,7 @@ function FetchUsers({ loggedUser }) {
   const { data: users, isPending, error } = useFetchUsers();
   const { mutate: remove } = useDeleteUser();
   const { mutate } = useMutateUsers();
+  const [newPassword, setNewPassword] = useState();
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
@@ -75,16 +85,56 @@ function FetchUsers({ loggedUser }) {
           </TableCell>
           <TableCell className="text-right">
             {" "}
-            <Button
-              variant={"secondary"}
-              className="mr-1"
-              onClick={() => {
-                // navigate(`/dashboard/user/?id=${user._id}`);
-              }}
-            >
-              {" "}
-              Edit{" "}
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="mr-2">
+                  Edit
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Change User Password</DialogTitle>
+                  <DialogDescription>
+                    <div className="mt-2">
+                      Jeni duke ndryshuar passwordin per perdoruesin:{" "}
+                      <span className="text-md text-red-600">
+                        {user.username}
+                      </span>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Password
+                    </Label>
+                    <Input
+                      autoComplete="off"
+                      id="password"
+                      defaultValue=""
+                      onChange={(e) => {
+                        setNewPassword(e.target.value);
+                      }}
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      let userId = user._id;
+                      mutate({
+                        userId,
+                        password: newPassword,
+                      });
+                    }}
+                  >
+                    Save changes
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
             <Alert
               alertTitle={"Po fshin perdoruesin"}
               alertMessage={`Deshiron ta fshish perdoruesin: "${user.username}" ?`}
