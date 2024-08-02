@@ -1,14 +1,13 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import Header from "../../components/Header";
-import useToken from "../useToken";
 import Dashboard from "../../components/Pages/Dashboard";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
 import Alert from "../Alert";
-import { useNavigate, useSearchParams, Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Sheet,
@@ -24,12 +23,11 @@ import {
   useFetchCategories,
   useAddCategory,
   useDeleteCategory,
-} from "../hooks/useFetchArticles";
+} from "../hooks/useFetch";
 import LeftPanel from "./LeftPanel";
-
+import { useSingleUser } from "../hooks/useFetch";
 function FetchCategories() {
   let navigate = useNavigate();
-
   const { data: categories, isPending, error } = useFetchCategories();
   const { mutate: remove } = useDeleteCategory();
 
@@ -75,27 +73,21 @@ function FetchCategories() {
 }
 
 function Categories() {
-  const { token } = useToken();
-
   const { mutate: addCategory } = useAddCategory();
   const [openSheet, setOpenSheet] = useState(false);
   const [nameRequired, setNameRequired] = useState(false);
-
   const [name, setName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
-  // Fetch Categories
   const queryClient = useQueryClient();
-
-  const [queryParameter] = useSearchParams();
+  let { data: loggedUser } = useSingleUser();
   let handleOpen = () => {
     setOpenSheet(true);
   };
-  let navigate = useNavigate();
-  if (!token) {
+  if (!loggedUser?.isAdmin) {
     return <Dashboard />;
   }
   return (
-    token && (
+    loggedUser?.isAdmin && (
       <>
         <Header />
         <div className="container mx-auto mb-2">

@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import useToken from "../useToken";
 import Dashboard from "./Dashboard";
+import { useSingleUser } from "../hooks/useFetch";
 
 function AddArticle({ className }) {
-  const { token } = useToken();
-  if (!token) {
+  const { data: loggedUser } = useSingleUser();
+  if (!loggedUser.isAdmin) {
     return <Dashboard />;
   }
   return (

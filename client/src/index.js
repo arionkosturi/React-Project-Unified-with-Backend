@@ -12,10 +12,16 @@ import NotFoundPage from "./components/Pages/NotFoundPage";
 import ArticleForm from "./components/ArticleForm";
 import EditArticle from "./components/Pages/EditArticle";
 import Dashboard from "./components/Pages/Dashboard";
+import Users from "./components/Pages/Users";
 import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";
 import PublishedArticles from "./components/Pages/PublishedArticles";
-import Login from "./components/Pages/Login";
+import UserLogin from "./frontend/UserLogin";
+import Register from "./frontend/Register";
+import Profile from "./frontend/Profile";
+import Saved from "./frontend/Saved";
+import Liked from "./frontend/Liked";
+
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -45,6 +51,11 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
+    path: "/dashboard/users",
+    element: <Users />,
+    errorElement: <NotFoundPage />,
+  },
+  {
     path: "/dashboard/edit",
     element: <EditArticle />,
     errorElement: <NotFoundPage />,
@@ -70,8 +81,24 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/saved",
+    element: <Saved />,
+  },
+  {
+    path: "/liked",
+    element: <Liked />,
+  },
+  {
+    path: "/userlogin",
+    element: <UserLogin />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/dashboard/categories",

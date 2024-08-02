@@ -1,31 +1,34 @@
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { FaBars, FaRegNewspaper } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaBars,
+  FaRegNewspaper,
+  FaUser,
+  FaBookmark,
+  FaHeart,
+} from "react-icons/fa";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../components/ui/navigation-menu";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import useToken from "../components/useToken";
 import useDebounce from "./useDebounce";
-import { useFetchSearchedArticles } from "../components/hooks/useFetchArticles";
+import {
+  useFetchSearchedArticles,
+  useSingleUser,
+} from "../components/hooks/useFetch";
+
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState();
-  const { token } = useToken();
   const debouncedSearch = useDebounce(searchTerm, 1000);
   const { data: searchR } = useFetchSearchedArticles(debouncedSearch);
+  const { data: loggedUser } = useSingleUser();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let searchInput = document.querySelector("#search__input");
-    document.addEventListener("keydown", (e) => {
-      searchInput.focus();
-    });
-    return () => {
-      document.removeEventListener("keydown", () => {});
-    };
-  }, []);
-
-  let handleLogin = () => {
-    navigate("/dashboard/all");
-  };
 
   let handleSearch = (e) => {
     e.preventDefault();
@@ -35,7 +38,6 @@ export default function Header() {
 
   let handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("token");
     localStorage.removeItem("user");
     sessionStorage.clear();
     window.location.href = "/";
@@ -67,34 +69,108 @@ export default function Header() {
           </label>
           <input type="checkbox" id="menu-toggler" className="hidden peer" />
 
-          <nav className="container mx-auto peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-end lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+          <nav className="container mx-auto peer-checked:block  z-30 xl:relative top-16 xl:top-0 absolute xl:flex justify-start lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
             <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-2 px-2 text-left text-purple-700">
               <div className=" xl:relative top-16 xl:top-0 flex flex-col md:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
-                {!token ? (
-                  <Button
-                    className="flex bg-purple-600 hover:bg-purple-500 m-4 shadow border py-1 px-2"
-                    onClick={handleLogin}
-                  >
-                    Login
-                  </Button>
-                ) : (
-                  <div className="xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+                <div className="xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+                  <p className="px-3 xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none py-2 w-full">
+                    {!loggedUser?.guest && loggedUser ? (
+                      <>
+                        <NavigationMenu>
+                          <NavigationMenuList>
+                            <NavigationMenuItem>
+                              <NavigationMenuTrigger>
+                                <p className="flex text-purple-500 mr-2">
+                                  Pershendetje, {loggedUser.username}
+                                </p>
+                              </NavigationMenuTrigger>
+                              <NavigationMenuContent>
+                                <NavigationMenuLink>
+                                  {" "}
+                                  <Button
+                                    onClick={() => {
+                                      navigate("/profile");
+                                    }}
+                                    className="flex w-[300px] md:w-[200px] bg-white hover:bg-slate-100"
+                                  >
+                                    <FaUser className="text-purple-500 mr-2" />
+                                    <span className="text-purple-600">
+                                      {" "}
+                                      Your Profile
+                                    </span>
+                                  </Button>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                  {" "}
+                                  <Button
+                                    onClick={() => {
+                                      navigate("/liked");
+                                    }}
+                                    className="flex w-full bg-white hover:bg-slate-100"
+                                  >
+                                    <FaHeart className="text-purple-500 mr-2" />
+                                    <span className="text-purple-600">
+                                      {" "}
+                                      Liked Articles
+                                    </span>
+                                  </Button>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                  {" "}
+                                  <Button
+                                    onClick={() => {
+                                      navigate("/saved");
+                                    }}
+                                    className="flex w-full bg-white hover:bg-slate-100"
+                                  >
+                                    <FaBookmark className="text-purple-500 mr-2" />
+                                    <span className="text-purple-600">
+                                      {" "}
+                                      Saved Articles
+                                    </span>
+                                  </Button>
+                                </NavigationMenuLink>
+                              </NavigationMenuContent>
+                            </NavigationMenuItem>
+                          </NavigationMenuList>
+                        </NavigationMenu>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </p>
+
+                  {loggedUser?.isAdmin && (
                     <Button
                       onClick={() => {
                         navigate("/dashboard/all");
                       }}
-                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
+                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2 my-2"
                     >
                       Dashboard
                     </Button>
+                  )}
+
+                  {loggedUser?.guest ? (
                     <Button
-                      className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border py-1 px-2"
-                      onClick={handleLogout}
+                      className="flex bg-purple-600 hover:bg-purple-500 m-2 shadow border py-1 px-2"
+                      onClick={() => {
+                        navigate("/userlogin");
+                      }}
                     >
-                      Logout
+                      Log in
                     </Button>
-                  </div>
-                )}
+                  ) : (
+                    <>
+                      <Button
+                        className="flex bg-purple-600 hover:bg-purple-500 mx-2 shadow border px-2 my-2"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </Button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </nav>

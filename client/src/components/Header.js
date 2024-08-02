@@ -3,10 +3,10 @@ import React from "react";
 import { FaRegNewspaper } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import useToken from "../components/useToken";
+import { useSingleUser } from "./hooks/useFetch";
 export default function Header() {
-  const { token } = useToken();
   const navigate = useNavigate();
+  const { data: loggedUser } = useSingleUser();
 
   let handleLogin = () => {
     navigate("/dashboard/all");
@@ -14,7 +14,6 @@ export default function Header() {
 
   let handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("token");
     localStorage.removeItem("user");
     sessionStorage.clear();
     window.location.href = "/";
@@ -29,7 +28,7 @@ export default function Header() {
           <p>News</p>
         </a>
       </div>
-      {!token ? (
+      {!loggedUser?.isAdmin ? (
         <Button
           className="flex hover:bg-slate-50 m-4 shadow border py-1 px-2"
           onClick={handleLogin}

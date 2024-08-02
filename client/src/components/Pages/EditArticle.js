@@ -8,7 +8,7 @@ import { FaTrash } from "react-icons/fa";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
-import { useFetchCategories } from "../hooks/useFetchArticles";
+import { useFetchCategories } from "../hooks/useFetch";
 const api = axios.create({
   baseURL: "http://localhost:3344/news/",
 });

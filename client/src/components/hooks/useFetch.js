@@ -3,6 +3,7 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/apiClient";
 import { useToast } from "../ui/use-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 // Fetch All Articles
 const fetchArticles = async (currentPage, fetchTerm) => {
@@ -278,7 +279,7 @@ export const useMutateCategory = (category) => {
 const deleteSingleCategory = async (id) => {
   return await apiClient.delete(`/categories/${id}`);
 };
-// Delete Article
+// Delete Category
 export const useDeleteCategory = (id) => {
   const queryClient = useQueryClient();
 
@@ -290,5 +291,125 @@ export const useDeleteCategory = (id) => {
 
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
+  });
+};
+
+// User Fetch Single User
+const fetchSingleUser = async (id) => {
+  return await apiClient.get(`/users/${id}`);
+};
+// User Fetch Single User
+export const useSingleUser = () => {
+  const [user, setUser] = useLocalStorage("user");
+  let id = user?._id || "guest";
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchSingleUser(id);
+      return data;
+    },
+    queryKey: ["single user", id],
+  });
+};
+
+//Mutate User Profile
+const useMutateUser = async (user) => {
+  let { username, password, likedArticles, isAdmin } = user;
+  return await apiClient.patch(`/users/${user.id}`, {
+    username,
+    password,
+    likedArticles,
+    isAdmin,
+  });
+};
+// Mutate User Profile
+export const useMutateUserProfile = (user) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["single user"],
+    mutationFn: useMutateUser,
+    onSuccess: async (id) => {
+      return await queryClient.invalidateQueries({
+        queryKey: ["single user"],
+      });
+    },
+    onSettled: (user) => {
+      // console.log(user.data);
+    },
+  });
+};
+
+// Fetch All Users
+
+const fetchUsers = async () => {
+  return await apiClient.get(`users/`);
+};
+// Query All Users
+export const useFetchUsers = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchUsers();
+      return data;
+    },
+    queryKey: ["users"],
+  });
+};
+//Delete User
+const deleteSingleUser = async (id) => {
+  return await apiClient.delete(`/users/${id}`);
+};
+// Delete User
+export const useDeleteUser = (id) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["single user"],
+    mutationFn: deleteSingleUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        { queryKey: ["users"] },
+        queryClient.invalidateQueries({ queryKey: ["searched users"] })
+      );
+    },
+  });
+};
+//Mutate User
+const useMutateSingleUser = async (user) => {
+  let { username, password, isAdmin } = user;
+  return await apiClient.patch(`/users/${user.userId}`, {
+    username,
+    password,
+    isAdmin,
+  });
+};
+// Mutate User
+export const useMutateUsers = (user) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["user"],
+    mutationFn: useMutateSingleUser,
+    onSuccess: async (id) => {
+      return await queryClient.invalidateQueries({
+        queryKey: ["single user"],
+      });
+    },
+  });
+};
+// Fetch Searched Users
+const fetchSearchedUsers = async (q) => {
+  let query = q.queryKey[1]?.q;
+  if (query === undefined) return;
+  return await apiClient.get(`/users/search/${q.queryKey[1].q}`);
+};
+
+// Fetch Searched Users
+export const useFetchSearchedUsers = (q) => {
+  return useQuery({
+    queryFn: async (q) => {
+      if (!q) return;
+      const { data } = await fetchSearchedUsers(q);
+      return data;
+    },
+    queryKey: ["searched users", { q }],
   });
 };

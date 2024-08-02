@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 const newsRoutes = require("./api/routes/news");
 const categoriesRoutes = require("./api/routes/categories");
+const usersRoutes = require("./api/routes/users");
 
 mongoose.connect("mongodb://mongodb:27017/news");
 app.use(morgan("dev"));
@@ -35,16 +36,8 @@ app.use((req, res, next) => {
 
 app.use("/news", newsRoutes);
 app.use("/categories", categoriesRoutes);
+app.use("/users", usersRoutes);
 
-app.use("/login", (req, res) => {
-  res.send({
-    token: "test123",
-    user: {
-      username: "admin",
-      password: "admin",
-    },
-  });
-});
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;

@@ -1,11 +1,10 @@
 # Use a lighter version of Node as a parent image
-FROM node:alpine as base
+FROM node as base
 # Set the working directory to /api
 WORKDIR /api
 
 # copy package.json into the container at /api
 COPY package*.json /api/
-
 # install dependencies
 RUN npm install
 

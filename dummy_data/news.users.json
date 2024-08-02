@@ -1,0 +1,31 @@
+[
+  {
+    "_id": {
+      "$oid": "66a7a956c5fb5cb1fa5c115a"
+    },
+    "username": "admin",
+    "password": "admin",
+    "createdAt": {
+      "$date": "2024-07-29T14:38:14.215Z"
+    },
+    "updatedAt": {
+      "$date": "2024-07-29T15:09:37.799Z"
+    },
+    "__v": 0,
+    "isAdmin": true
+  },
+  {
+    "_id": {
+      "$oid": "66a7a9a2c5fb5cb1fa5c1179"
+    },
+    "username": "user",
+    "password": "user",
+    "createdAt": {
+      "$date": "2024-07-29T14:39:30.286Z"
+    },
+    "updatedAt": {
+      "$date": "2024-07-29T14:39:30.286Z"
+    },
+    "__v": 0
+  }
+]

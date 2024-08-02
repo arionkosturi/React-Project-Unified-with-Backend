@@ -3,12 +3,19 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import {
+  useSingleUser,
+  useMutateUserProfile,
   useSingleArticle,
   useMutateArticle,
-} from "../components/hooks/useFetchArticles";
-import { FaInfoCircle } from "react-icons/fa";
+} from "../components/hooks/useFetch";
+import {
+  FaInfoCircle,
+  FaBookmark,
+  FaRegBookmark,
+  FaRegHeart,
+  FaHeart,
+} from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
-import useToken from "../components/useToken";
 import HTMLReactParser from "html-react-parser";
 import {
   Alert as Njoftim,
@@ -17,16 +24,21 @@ import {
 } from "../components/ui/alert";
 import CheckHighlighted from "../components/CheckHighlited";
 import Alert from "../components/Alert";
-import { useSessionStorage } from "@uidotdev/usehooks";
+import { useSessionStorage, useLocalStorage } from "@uidotdev/usehooks";
 
 function PublicArticle() {
-  const { token } = useToken();
   const { mutate } = useMutateArticle();
-
+  const { mutate: addTo } = useMutateUserProfile();
+  const { data: loggedUser } = useSingleUser();
   let [njoftimIsOpen, setNjoftimIsOpen] = useSessionStorage(
     "njoftim breaking news",
     1
   );
+  const [localArticles, saveLocalArticles] = useLocalStorage(
+    "savedArticles",
+    []
+  );
+
   const { data: article, isLoading, error } = useSingleArticle();
   let articlesDate = new Date(article?.createdAt).toLocaleDateString(
     undefined,
@@ -56,6 +68,39 @@ function PublicArticle() {
       isHighlighted: !article.isHighlighted,
     });
   };
+  let handleLiked = (user) => {
+    let id = loggedUser._id;
+    let likedArticles = loggedUser.likedArticles;
+    addTo({
+      id,
+      likedArticles: [
+        ...likedArticles.filter((liked) => liked._id !== article._id),
+        article,
+      ],
+    });
+  };
+  let handleRemoveLiked = (user) => {
+    let id = loggedUser._id;
+    let likedArticles = loggedUser.likedArticles;
+    addTo({
+      id,
+      likedArticles: [
+        ...likedArticles.filter((liked) => liked._id !== article._id),
+      ],
+    });
+  };
+  let handleSaveArticle = () => {
+    saveLocalArticles([
+      ...localArticles.filter((saved) => saved._id !== article._id),
+      article,
+    ]);
+  };
+  let handleRemoveSaveArticle = () => {
+    saveLocalArticles([
+      ...localArticles.filter((saved) => saved._id !== article._id),
+    ]);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -67,7 +112,7 @@ function PublicArticle() {
   return (
     <>
       <Header />
-      {token && !article.isPublished && (
+      {loggedUser?.isAdmin && !article.isPublished && (
         <div className="bg-amber-300 flex text-neutral-600   p-4  justify-center items-center  h-16  container mx-auto gap-4 ">
           <FaInfoCircle className="text-3xl" />
           <p className="text-md font-semibold">
@@ -85,7 +130,7 @@ function PublicArticle() {
           />
         </div>
       )}
-      {token && article.isPublished && (
+      {loggedUser?.isAdmin && article.isPublished && (
         <div className="flex flex-col mx-1">
           <div className="mx-auto  bg-green-300 flex text-neutral-600 justify-center items-center  h-16  container gap-2">
             <FaInfoCircle className="text-3xl" />
@@ -164,9 +209,41 @@ function PublicArticle() {
             )}
 
             <div className="mt-2 lg:-mx-6">
-              <p className="block cursor-pointer mb-4 mx-auto container text-3xl font-semibold text-gray-800 ">
-                {article.title}
-              </p>
+              <div className="flex container mx-auto gap-2">
+                <p className="block cursor-pointer mb-4 mx-auto container text-3xl font-semibold text-gray-800 ">
+                  {article.title}
+                </p>
+                {!loggedUser?.guest && (
+                  <>
+                    {loggedUser?.likedArticles.filter(
+                      (liked) => liked._id === article._id
+                    ).length === 0 ? (
+                      <FaRegHeart
+                        className="text-2xl text-purple-500"
+                        onClick={handleLiked}
+                      />
+                    ) : (
+                      <FaHeart
+                        className="text-2xl text-purple-500"
+                        onClick={handleRemoveLiked}
+                      />
+                    )}
+                    {localArticles.filter(
+                      (savedArticles) => savedArticles._id === article._id
+                    ).length === 0 ? (
+                      <FaRegBookmark
+                        className="text-2xl text-purple-500"
+                        onClick={handleSaveArticle}
+                      />
+                    ) : (
+                      <FaBookmark
+                        className="text-2xl text-purple-500"
+                        onClick={handleRemoveSaveArticle}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
 
               {article.imgUrl ? (
                 <img
