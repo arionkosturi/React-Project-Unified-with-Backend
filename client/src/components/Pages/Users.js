@@ -38,18 +38,6 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import {
-  Column,
-  ColumnDef,
-  ColumnFiltersState,
-  RowData,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 import LeftPanel from "./LeftPanel";
 import useDebounce from "../../frontend/useDebounce";
 
