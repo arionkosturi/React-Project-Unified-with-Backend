@@ -365,7 +365,10 @@ export const useDeleteUser = (id) => {
     mutationKey: ["single user"],
     mutationFn: deleteSingleUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries(
+        { queryKey: ["users"] },
+        queryClient.invalidateQueries({ queryKey: ["searched users"] })
+      );
     },
   });
 };
@@ -390,8 +393,23 @@ export const useMutateUsers = (user) => {
         queryKey: ["single user"],
       });
     },
-    onSettled: (user) => {
-      console.log(user);
+  });
+};
+// Fetch Searched Users
+const fetchSearchedUsers = async (q) => {
+  let query = q.queryKey[1]?.q;
+  if (query === undefined) return;
+  return await apiClient.get(`/users/search/${q.queryKey[1].q}`);
+};
+
+// Fetch Searched Users
+export const useFetchSearchedUsers = (q) => {
+  return useQuery({
+    queryFn: async (q) => {
+      if (!q) return;
+      const { data } = await fetchSearchedUsers(q);
+      return data;
     },
+    queryKey: ["searched users", { q }],
   });
 };
