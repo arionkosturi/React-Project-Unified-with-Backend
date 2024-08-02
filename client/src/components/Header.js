@@ -41,7 +41,7 @@ export default function Header() {
             onClick={() => {
               navigate("/");
             }}
-            className="h-12 mt-3 cursor-pointer border p-3 hover:bg-slate-100"
+            className="h-12 mt-3 cursor-pointer border p-3 hover:bg-slate-100 text-sm "
           >
             Public View
           </p>
@@ -49,7 +49,7 @@ export default function Header() {
             onClick={() => {
               navigate("/dashboard/all");
             }}
-            className="h-12 mt-3 cursor-pointer border p-3 hover:bg-slate-100"
+            className="h-12 mt-3 cursor-pointer border p-3 hover:bg-slate-100 text-sm"
           >
             Dashboard
           </p>

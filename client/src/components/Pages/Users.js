@@ -294,6 +294,7 @@ function Users() {
         </div>
         <div className="container mx-auto flex gap-4">
           <div className="flex flex-col md:flex-row container mx-auto">
+            
             <LeftPanel />
             <section className="container mx-auto">
               <Table>
@@ -302,15 +303,18 @@ function Users() {
                     <TableHead>
                       {" "}
                       <div className="flex items-center">
-                        <label htmlFor="search__input" className="flex">
+                        <label
+                          htmlFor="search__input"
+                          className="hidden md:flex"
+                        >
                           Username
                         </label>
-                        <div className="flex w-3/5 mx-auto text-purple-700 dark:text-purple-300 group hover:ring ring-purple-300">
+                        <div className="flex mx-auto text-purple-700 dark:text-purple-300 group hover:ring ring-purple-300">
                           <input
                             type="search"
                             id="search__input"
                             onChange={handleSearch}
-                            className=" border-purple-600 bg-white dark:bg-neutral-900 focus:ring-opacity-70 p-1 border border-opacity-30 w-full focus:outline-none focus:ring focus:ring-purple-600"
+                            className=" border-purple-600 w-full bg-white dark:bg-neutral-900 focus:ring-opacity-70 p-1 border border-opacity-30 focus:outline-none focus:ring focus:ring-purple-600"
                             placeholder="Username"
                           />
                         </div>

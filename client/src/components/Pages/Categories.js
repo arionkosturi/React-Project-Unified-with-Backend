@@ -98,8 +98,8 @@ function Categories() {
             </span>
           </h1>
         </div>
-        <div className="container mx-auto flex gap-4">
-          <LeftPanel />
+        <div className="container mx-auto flex flex-col sm:flex-row gap-4">
+          <LeftPanel className />
           <section
             className="
       container mx-auto flex flex-col 
