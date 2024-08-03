@@ -69,14 +69,14 @@ export default function Header({ className }) {
           </label>
           <input type="checkbox" id="menu-toggler" className="hidden peer" />
 
-          <nav className="z-10 lg:z-0 container mx-auto peer-checked:block  xl:relative top-16 xl:top-0 absolute xl:flex justify-start lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
+          <nav className="z-10 container mx-auto peer-checked:block  xl:relative top-16 xl:top-0 absolute xl:flex justify-start lg:items-center hidden bg-white  shadow-md lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
             <div className="flex xl:flex-row flex-col shadow-md xl:shadow-none mx-2 px-2 text-left text-purple-700">
               <div className=" xl:relative top-16 xl:top-0 flex flex-col md:flex-row justify-start md:items-left bg-white lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
                 <div className="xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white   lg:shadow-none sm:mt-0 xl:mr-10 py-2 w-full">
-                  <p className="px-3 xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none py-2 w-full">
+                  <div className="px-3 xl:relative top-16 xl:top-0 flex flex-col lg:flex-row justify-start md:items-left bg-white lg:shadow-none py-2 w-full">
                     {!loggedUser?.guest && loggedUser ? (
-                      <>
-                        <NavigationMenu>
+                      <div className="z-10">
+                        <NavigationMenu className="">
                           <NavigationMenuList>
                             <NavigationMenuItem>
                               <NavigationMenuTrigger>
@@ -134,11 +134,11 @@ export default function Header({ className }) {
                             </NavigationMenuItem>
                           </NavigationMenuList>
                         </NavigationMenu>
-                      </>
+                      </div>
                     ) : (
                       ""
                     )}
-                  </p>
+                  </div>
 
                   {loggedUser?.isAdmin && (
                     <Button
@@ -180,10 +180,7 @@ export default function Header({ className }) {
       <div className="bg-purple-200 flex flex-col">
         {searchTerm?.length >= 3 && searchR ? (
           <div className="flex flex-col ">
-            <p
-              // key={Math.random()}
-              className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2"
-            >
+            <p className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2">
               Searching For
               <span className="ml-2 text-purple-600 dark:text-purple-100 font-bold text-xl">
                 {searchTerm}

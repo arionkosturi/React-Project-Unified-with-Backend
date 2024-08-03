@@ -6,6 +6,7 @@ import {
   useSingleUser,
   useMutateUserProfile,
   useSingleArticle,
+  useFetchSearchedArticles,
   useMutateArticle,
 } from "../components/hooks/useFetch";
 import {
@@ -40,6 +41,7 @@ function PublicArticle() {
   );
 
   const { data: article, isLoading, error } = useSingleArticle();
+  const { data: related } = useFetchSearchedArticles(article?.category);
   let articlesDate = new Date(article?.createdAt).toLocaleDateString(
     undefined,
     {
@@ -209,7 +211,6 @@ function PublicArticle() {
             ) : (
               ""
             )}
-
             <div className="mt-2 lg:-mx-6">
               <div className="flex container mx-auto gap-2">
                 <p className="block cursor-pointer mb-4 mx-auto container text-3xl font-semibold text-gray-800 ">
@@ -246,7 +247,6 @@ function PublicArticle() {
                   </>
                 )}
               </div>
-
               {article.imgUrl ? (
                 <img
                   className="object-contain w-[90%] lg:mx-6 rounded-xl h-72 text-center"
@@ -262,7 +262,6 @@ function PublicArticle() {
                   }
                 />
               )}
-
               <div className="mt-8  lg:mt-0 lg:mx-6 ">
                 <a href={`/category/${article.category}`}>
                   <p className="cursor-pointer text-lg mt-2 p-2 text-purple-700 font-bold uppercase">
@@ -299,6 +298,39 @@ function PublicArticle() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {related?.filter((f) => f._id != article._id).length > 0 && (
+            <div className="bg-gray-100 dark:bg-neutral-700 w-full dark:text-gray-200 mt-10">
+              <div className="border-t-8 border-red-600 w-2/12"></div>
+              <h1 className="text-2xl">More to read:</h1>
+              <div className="border-red-600 border-b-8 w-2/12"></div>
+            </div>
+          )}
+          <div className="p-2 grid md:grid-cols-2 gap-2">
+            {related
+              ?.filter((f) => f._id != article._id)
+              .map((article) => {
+                return (
+                  <div key={article._id}>
+                    <a
+                      href={`article?id=${article._id}`}
+                      className="hover:text-purple-950 hover:bg-slate-50"
+                    >
+                      <div className="flex border items-center">
+                        <img
+                          className="w-32 h-24 p-2"
+                          src={article.imgUrl}
+                          alt={article.title}
+                        />
+                        <div className="flex flex-col gap-2">
+                          <h1 className="text line-clamp-3">{article.title}</h1>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                );
+              })}
           </div>
         </section>
       </div>
