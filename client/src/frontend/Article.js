@@ -110,8 +110,10 @@ function PublicArticle() {
   }
 
   return (
-    <>
-      <Header />
+    <div>
+      <div>
+        <Header />
+      </div>
       {loggedUser?.isAdmin && !article.isPublished && (
         <div className="bg-amber-300 flex text-neutral-600   p-4  justify-center items-center  h-16  container mx-auto gap-4 ">
           <FaInfoCircle className="text-3xl" />
@@ -301,7 +303,7 @@ function PublicArticle() {
         </section>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import Header from "../frontend/Header";
-import Categories from "../frontend/Categories";
-import Footer from "../frontend/Footer";
-import PublicArticles from "../frontend/PublicArticles";
-import HighlitedSection from "../frontend/HighlitedSection";
+import Header from "./Header";
+import Categories from "./Categories";
+import Footer from "./Footer";
+import PublicArticles from "./PublicArticles";
+import HighlitedSection from "./HighlitedSection";
 function Home() {
   let [currentPage] = useState("0");
 

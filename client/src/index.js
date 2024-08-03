@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import "@radix-ui/themes/styles.css";
-import Home from "./components/Home";
+import Home from "./frontend/Home";
 import Categories from "./components/Pages/Categories";
 import Category from "./components/Pages/Category";
 import PublicCategory from "./frontend/Category";
