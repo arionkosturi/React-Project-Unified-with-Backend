@@ -13,7 +13,7 @@ function LeftPanel() {
         className="hidden peer absolute right-4 top-[90px]"
       />
 
-      <div className="lg:flex  gap-2 md:max-w-40 w-full mr-1 peer-checked:block hidden">
+      <div className="md:flex md:mt-10 pt-2 gap-2 md:max-w-40 w-full mr-1 peer-checked:block hidden">
         <div className="flex flex-col">
           <Link
             className="hover:bg-slate-100 p-2 text-center sm:text-left"
