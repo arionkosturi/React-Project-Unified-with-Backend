@@ -310,6 +310,7 @@ function PublicArticle() {
           <div className="p-2 grid md:grid-cols-2 gap-2">
             {related
               ?.filter((f) => f._id !== article._id)
+              .slice(0, 10)
               .map((article) => {
                 return (
                   <div key={article._id}>
