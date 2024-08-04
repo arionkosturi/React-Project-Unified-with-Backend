@@ -23,13 +23,19 @@ async function RegisterUser(credentials, setAlert, navigate) {
         });
         navigate("/userlogin");
         return data.json();
-      } else if (!credentials.password) throw "Please confirm password";
-      else throw "Maybe this user exists or there is an error in the server!";
+      } else if (!credentials.password)
+        throw {
+          message: "Please confirm password",
+        };
+      else
+        throw {
+          message: "Maybe this user exists or there is an error in the server!",
+        };
     })
     .catch((err) => {
       setAlert({
         value: true,
-        message: err,
+        message: err.message,
         variant: "destructive",
       });
     });

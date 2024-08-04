@@ -112,7 +112,7 @@ function Article() {
     if (!editorContent) {
       setIsEditingContent(false);
     }
-    if (editorContent) {
+    if (editorContent.length > 0) {
       mutate(
         {
           articleId,
@@ -350,7 +350,6 @@ function Article() {
                       <option value={article.category}>
                         {article.category || "Select Category"}
                       </option>
-                      {/* <option value=""></option> */}
                       {categories?.map((category, index) => {
                         return (
                           <option key={index} defaultValue={category}>
@@ -359,19 +358,7 @@ function Article() {
                         );
                       })}
                     </select>
-                    {/* <textarea
-                      autoFocus
-                      type="text"
-                      id="category"
-                      placeholder="Enter Category"
-                      name="category"
-                      className="w-1/5 h-10 text-lg p-2 mt-2 text-purple-700 font-bold uppercase"
-                      value={article.category}
-                      onChange={editCategory}
-                      onBlur={(e) => {
-                        setIsEditingCategory(false);
-                      }}
-                    /> */}
+
                     <Badge
                       className="m-4  justify-center"
                       variant="destructive"

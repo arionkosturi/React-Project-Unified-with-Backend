@@ -34,11 +34,17 @@ function Profile() {
               style: "p-2 text-green-600",
             });
           },
+          onError: () => {
+            setAlert({
+              message: "Username nuk mund te ndryshohet!",
+              style: "p-2 text-red-600",
+            });
+          },
         }
       );
     } else
       setAlert({
-        message: "Username nuk mund te ndryshohet",
+        message: "Username nuk mund te ndryshohet!",
         style: "p-2 text-red-600",
       });
   };
