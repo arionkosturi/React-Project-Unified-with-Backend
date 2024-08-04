@@ -188,7 +188,7 @@ function EditArticle() {
       <div className="mx-auto container ">
         <form>
           <div className="flex">
-            <Link to="/">
+            <Link to="/dashboard/all  ">
               <button className="mx-4 py-2 px-4 border shadow w-48">
                 Cancel
               </button>

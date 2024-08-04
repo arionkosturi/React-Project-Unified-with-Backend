@@ -28,7 +28,7 @@ function Paginate({ currentPage, setCurrentPage, isPreviousData, articles }) {
               className="text-purple-800 hover:text-purple-500"
               onClick={() => {
                 console.log("click");
-                if (articles.length < 9) return;
+                if (articles.length < 8) return;
                 setCurrentPage((prevPage) => +prevPage + 1);
               }}
             />

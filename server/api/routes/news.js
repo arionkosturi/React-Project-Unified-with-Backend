@@ -26,7 +26,7 @@ router.get("/all", (req, res, next) => {
 // ALL Published
 router.get("/", (req, res, next) => {
   const page = req.query.p || 0;
-  const articlesPerPage = 9;
+  const articlesPerPage = 8;
 
   Article.find({ $and: [{ isPublished: true }] })
     .sort({ createdAt: -1 })

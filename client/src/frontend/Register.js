@@ -23,12 +23,19 @@ async function RegisterUser(credentials, setAlert, navigate) {
         });
         navigate("/userlogin");
         return data.json();
-      } else throw "User cannot be created";
+      } else if (!credentials.password)
+        throw {
+          message: "Please confirm password",
+        };
+      else
+        throw {
+          message: "Maybe this user exists or there is an error in the server!",
+        };
     })
     .catch((err) => {
       setAlert({
         value: true,
-        message: err,
+        message: err.message,
         variant: "destructive",
       });
     });
@@ -50,7 +57,7 @@ export default function Register() {
       await RegisterUser(
         {
           username: value.username,
-          password: value.password,
+          password: value.confirmPassword,
         },
         setAlert,
         navigate
@@ -115,7 +122,6 @@ export default function Register() {
                   },
                 }}
                 children={(field) => {
-                  // Avoid hasty abstractions. Render props are great!
                   return (
                     <>
                       <label
@@ -159,7 +165,7 @@ export default function Register() {
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                     return (
                       value.includes("error") &&
-                      'No "error" allowed in first name'
+                      'No "error" allowed in username'
                     );
                   },
                 }}
@@ -254,14 +260,6 @@ export default function Register() {
                       "Register"
                     )}
                   </Button>
-                  {/* <Button
-                    onClick={() => {
-                      navigate("/userlogin");
-                    }}
-                    className="flex bg-green-600 hover:bg-green-500 shadow border py-1 px-2"
-                  >
-                    Login
-                  </Button> */}
                   <Button
                     type="reset"
                     onClick={() => {

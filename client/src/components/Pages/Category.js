@@ -38,8 +38,8 @@ function Category() {
     <>
       {" "}
       <Header />
-      <div className="container mx-auto flex gap-4">
-        <div className="mx-auto w-44 ">
+      <div className="container mx-auto flex flex-col sm:flex-row gap-4">
+        <div className="mx-auto w-full sm:w-44">
           <LeftPanel />
           <p className="mt-2 bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left">
             Editing Category

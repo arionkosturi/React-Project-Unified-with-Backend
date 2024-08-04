@@ -27,7 +27,7 @@ function Paginate({ currentPage, setCurrentPage, articles }) {
             <PaginationNext
               className="text-purple-800 hover:text-purple-500"
               onClick={() => {
-                if (articles.length < 9) return;
+                if (articles.length < 8) return;
                 setCurrentPage((prevPage) => +prevPage + 1);
               }}
             />

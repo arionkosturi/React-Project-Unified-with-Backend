@@ -37,7 +37,7 @@ function Buttons({
                 (article.isHighlighted === true
                   ? "Deshiron ta heqesh artikullin nga Highlighted?"
                   : "Artikulli nuk eshte i publikuar dhe nuk do te shfaqet ne highlighted!")
-              : "Artikulli nuk eshte i publikuar! Deshiron ta heqesh artikullin nga highlighted?"
+              : "Deshiron ta besh artikullin Highlighted?"
           }
         />
       )}
