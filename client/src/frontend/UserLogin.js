@@ -6,42 +6,29 @@ import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
 import { FaRegNewspaper, FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useFetchUsers } from "../components/hooks/useFetch";
 export default function UserLogin() {
   const [user, saveUser] = useLocalStorage("user", {});
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
-
+  const { data: users } = useFetchUsers();
   const form = useForm({
     defaultValues: {
       username: "",
       password: "",
     },
-
     onSubmit: async ({ value }) => {
-      axios({
-        method: "GET",
-        url: `http://localhost:3344/users`,
-      })
-        .then((resp) => {
-          if (resp.status === 200) {
-            const users = resp.data;
-            const user = users.filter(
-              (user) =>
-                user.username === value.username &&
-                user.password === value.password
-            );
-
-            if (user.length > 0) {
-              saveUser({ _id: user[0]._id });
-              navigate("/");
-            } else {
-              setAlert(true);
-            }
-          }
-        })
-        .catch((e) => console.log(e));
+      const user = users?.filter(
+        (user) =>
+          user.username === value.username && user.password === value.password
+      );
+      if (user.length > 0) {
+        saveUser({ _id: user[0]._id });
+        navigate("/");
+      } else {
+        setAlert(true);
+      }
     },
   });
   return (
