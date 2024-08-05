@@ -25,7 +25,9 @@ export default function UserLogin() {
       );
       if (user.length > 0) {
         saveUser({ _id: user[0]._id });
-        navigate("/");
+        if (user[0].isAdmin) {
+          navigate("/dashboard/all");
+        } else navigate("/");
       } else {
         setAlert(true);
       }
