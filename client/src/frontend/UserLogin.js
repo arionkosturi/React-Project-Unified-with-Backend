@@ -34,8 +34,7 @@ export default function UserLogin() {
             );
 
             if (user.length > 0) {
-              delete user[0].password;
-              saveUser({ ...user[0] });
+              saveUser({ _id: user[0]._id });
               navigate("/");
             } else {
               setAlert(true);
