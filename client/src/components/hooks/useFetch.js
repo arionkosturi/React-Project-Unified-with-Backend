@@ -339,7 +339,6 @@ export const useMutateUserProfile = (user) => {
 };
 
 // Fetch All Users
-
 const fetchUsers = async () => {
   return await apiClient.get(`users/`);
 };
@@ -411,5 +410,20 @@ export const useFetchSearchedUsers = (q) => {
       return data;
     },
     queryKey: ["searched users", { q }],
+  });
+};
+
+// Fetch All Reklama
+const fetchReklama = async () => {
+  return await apiClient.get(`/reklama`);
+};
+// Query All Users
+export const useFetchReklama = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchReklama();
+      return data;
+    },
+    queryKey: ["reklama"],
   });
 };
