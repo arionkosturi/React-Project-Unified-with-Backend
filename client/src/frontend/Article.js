@@ -222,12 +222,12 @@ function PublicArticle() {
                       (liked) => liked._id === article._id
                     ).length === 0 ? (
                       <FaRegHeart
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleLiked}
                       />
                     ) : (
                       <FaHeart
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleRemoveLiked}
                       />
                     )}
@@ -235,12 +235,12 @@ function PublicArticle() {
                       (savedArticles) => savedArticles._id === article._id
                     ).length === 0 ? (
                       <FaRegBookmark
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleSaveArticle}
                       />
                     ) : (
                       <FaBookmark
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleRemoveSaveArticle}
                       />
                     )}
