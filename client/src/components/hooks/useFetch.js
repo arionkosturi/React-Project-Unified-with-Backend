@@ -81,7 +81,7 @@ export const useFetchSearchedArticles = (q) => {
     queryFn: async (q) => {
       if (!q) return;
       const { data } = await fetchSearchedArticles(q);
-      console.log(q);
+      // console.log(q);
       return data;
     },
     queryKey: ["searched articles", { q }],

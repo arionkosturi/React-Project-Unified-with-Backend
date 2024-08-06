@@ -48,7 +48,7 @@ function Articles() {
           placeholder="Start typing to search..."
         />
       </div>
-      <div className="bg-purple-200 flex flex-col">
+      <div className="container mx-auto bg-purple-200 flex flex-col">
         {searchTerm?.length >= 3 && searchR ? (
           <div className="flex flex-col ">
             <p

@@ -315,7 +315,7 @@ function PublicArticle() {
                 return (
                   <div key={article._id}>
                     <a
-                      href={`article?id=${article._id}`}
+                      href={`?id=${article._id}`}
                       className="hover:text-purple-800 "
                     >
                       <div className="flex border items-center hover:bg-slate-50">
