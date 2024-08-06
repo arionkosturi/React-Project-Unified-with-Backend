@@ -21,9 +21,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useNavigate } from "react-router";
 import Alert from "../Alert";
-import { useFetchReklama, useSingleUser } from "../hooks/useFetch";
+import {
+  useFetchReklama,
+  useDeleteReklama,
+  useSingleUser,
+  useMutateUsers,
+  useFetchSearchedUsers,
+  useMutateReklama,
+} from "../hooks/useFetch";
 
 import {
   Table,
@@ -33,184 +39,286 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetClose,
-} from "../ui/sheet";
 import LeftPanel from "./LeftPanel";
 import useDebounce from "../../frontend/useDebounce";
 
-function FetchReklama() {
-  let navigate = useNavigate();
+function FetchReklama({ loggedUser, searchTerm }) {
   const { data: reklama, isPending, error } = useFetchReklama();
-  // const { mutate: remove } = useDeleteCategory();
+  const { mutate: remove } = useDeleteReklama();
+  const { mutate } = useMutateReklama();
+  const [newTitle, setNewTitle] = useState();
+  const debouncedSearch = useDebounce(searchTerm, 500);
+  const { data: searchUsers } = useFetchSearchedUsers(debouncedSearch);
 
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
 
-  return reklama?.map((reklama, index) => {
-    return (
-      <div className="border justify-between flex gap-2" key={index}>
-        <div className=" flex p-4 text-lg cursor-pointer gap-2">
-          {reklama.title}
-          {reklama.imgUrl && (
-            <img className="w-1/3 mx-auto" src={reklama.imgUrl} alt="" />
-          )}
-
-          <Button
-            variant={"secondary"}
-            category={reklama}
-            onClick={() => {
-              navigate(`/dashboard/reklama/?id=${reklama._id}`);
-            }}
-          >
-            {" "}
-            Edit{" "}
-          </Button>
-
-          <Alert
-            alertTitle={"Po fshin reklamen"}
-            alertMessage={`Deshiron ta fshish reklamen: "${reklama.name}" ?`}
-            handleFunction={(e) => {
-              let reklamaId = reklama._id;
-              // remove(reklamaId);
-            }}
-            alertTriggerButton={
-              <Button variant={"destructive"}> Detele </Button>
-            }
-          />
-        </div>
-      </div>
-    );
-  });
+  return searchTerm
+    ? searchUsers?.map((reklama) => {
+        return (
+          <TableRow key={reklama._id}>
+            <TableCell className="font-medium">{reklama.title}</TableCell>
+            <TableCell>
+              <Select
+                className="flex justify-end"
+                onValueChange={(value) => {
+                  let reklamaId = reklama._id;
+                  mutate({
+                    reklama,
+                    isPublished: value,
+                  });
+                }}
+              >
+                <SelectTrigger className="flex items-center w-[170px] md:w-[280px] max-w-[480px]">
+                  <SelectValue
+                    placeholder={
+                      reklama.isPublished ? "Published" : "Not Published"
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="false">User</SelectItem>
+                  <SelectItem value="true">Admin</SelectItem>
+                </SelectContent>
+              </Select>
+            </TableCell>
+            <TableCell className="text-right">
+              {" "}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="mr-2">
+                    Edit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Change User Password</DialogTitle>
+                    <DialogDescription>
+                      <div className="mt-2">
+                        Jeni duke ndryshuar passwordin per perdoruesin:{" "}
+                        <span className="text-md text-red-600">
+                          {reklama.username}
+                        </span>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="username" className="text-right">
+                        Password
+                      </Label>
+                      <Input
+                        autoComplete="off"
+                        id="password"
+                        defaultValue=""
+                        onChange={(e) => {
+                          setNewTitle(e.target.value);
+                        }}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        let reklamaId = reklama._id;
+                        mutate({
+                          reklamaId,
+                          title: newTitle,
+                        });
+                      }}
+                    >
+                      Save changes
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              <Alert
+                alertTitle={"Po fshin perdoruesin"}
+                alertMessage={`Deshiron ta fshish perdoruesin: "${reklama.title}" ?`}
+                handleFunction={(e) => {
+                  let reklamaId = reklama._id;
+                  remove(reklamaId);
+                }}
+                alertTriggerButton={
+                  <Button variant={"destructive"}> Detele </Button>
+                }
+              />
+            </TableCell>
+          </TableRow>
+        );
+      })
+    : reklama &&
+        reklama?.map((reklama) => {
+          return (
+            <TableRow key={reklama._id}>
+              <TableCell className="font-medium">{reklama.title}</TableCell>
+              <TableCell>
+                <Select
+                  className="flex justify-end"
+                  onValueChange={(value) => {
+                    let reklamaId = reklama._id;
+                    mutate({
+                      reklamaId,
+                      isPublished: value,
+                    });
+                  }}
+                >
+                  <SelectTrigger className="flex items-center w-[170px] md:w-[280px] max-w-[480px]">
+                    <SelectValue
+                      placeholder={
+                        reklama.isPublished ? "Published" : "Not Published"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="false">Not Published</SelectItem>
+                    <SelectItem value="true">Published</SelectItem>
+                  </SelectContent>
+                </Select>
+              </TableCell>
+              <TableCell className="text-right">
+                {" "}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="mr-2">
+                      Edit
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Change User Password</DialogTitle>
+                      <DialogDescription>
+                        <div className="mt-2">
+                          Jeni duke ndryshuar passwordin per perdoruesin:{" "}
+                          <span className="text-md text-red-600">
+                            {reklama.title}
+                          </span>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="title" className="text-right">
+                          Title
+                        </Label>
+                        <Input
+                          autoComplete="off"
+                          id="title"
+                          defaultValue=""
+                          onChange={(e) => {
+                            setNewTitle(e.target.value);
+                          }}
+                          className="col-span-3"
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          let reklamaId = reklama._id;
+                          mutate({
+                            reklamaId,
+                            title: newTitle,
+                          });
+                        }}
+                      >
+                        Save changes
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                <Alert
+                  alertTitle={"Po fshin perdoruesin"}
+                  alertMessage={`Deshiron ta fshish perdoruesin: "${reklama.title}" ?`}
+                  handleFunction={(e) => {
+                    let reklamaId = reklama._id;
+                    remove(reklamaId);
+                  }}
+                  alertTriggerButton={
+                    <Button variant={"destructive"}> Detele </Button>
+                  }
+                />
+              </TableCell>
+            </TableRow>
+          );
+        });
 }
 
 function Reklama() {
-  // const { mutate: addCategory } = useAddCategory();
-  const [openSheet, setOpenSheet] = useState(false);
-  const [nameRequired, setNameRequired] = useState(false);
-  const [name, setName] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  // const queryClient = useQueryClient();
   let { data: loggedUser } = useSingleUser();
-  let handleOpen = () => {
-    setOpenSheet(true);
+  const [searchTerm, setSearchTerm] = useState();
+
+  let handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
   };
+
   if (!loggedUser?.isAdmin) {
     return <Dashboard />;
   }
+
   return (
     loggedUser?.isAdmin && (
       <>
         <Header />
         <div className="container mx-auto mb-2">
           <h1 className="text-3xl">
-            Article
+            Users
             <span className="bg-green-500 text-white ml-2 px-2 py-1">
-              Categories
+              Management
             </span>
           </h1>
         </div>
-        <div className="container mx-auto flex flex-col sm:flex-row gap-4">
-          <LeftPanel />
-          <section
-            className="
-      container mx-auto flex flex-col 
-      "
-          >
-            <h1 onClick={() => {}} className="text-xl font-semibold">
-              Reklama:
-            </h1>
-            <FetchReklama />
-            <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-              <SheetTrigger className="mx-auto mt-2 p-2">
-                <Button onClick={handleOpen}>Krijo Reklame</Button>
-              </SheetTrigger>
-              <SheetContent side={"right"}>
-                <SheetHeader>
-                  <SheetTitle>A je i sigurt?</SheetTitle>
-                  <SheetDescription>
-                    Je duke krijuar nje kategori te re.
-                  </SheetDescription>
-                </SheetHeader>
-                <form>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Emri i kategorise
-                      </Label>
-                      <Input
-                        id="name"
-                        defaultValue={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          setNameRequired(false);
-                        }}
-                        className="col-span-3"
-                      />
-                    </div>
-                    {nameRequired && (
-                      <div className="text-center text-sm text-red-500">
-                        Emri i kategorise eshte i detyrueshem!
+        <div className="container mx-auto flex gap-4">
+          <div className="flex flex-col md:flex-row container mx-auto">
+            <LeftPanel />
+            <section className="container mx-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>
+                      {" "}
+                      <div className="flex items-center">
+                        <label
+                          htmlFor="search__input"
+                          className="hidden md:flex"
+                        >
+                          Username
+                        </label>
+                        <div className="flex mx-auto text-purple-700 dark:text-purple-300 group hover:ring ring-purple-300">
+                          <input
+                            type="search"
+                            id="search__input"
+                            onChange={handleSearch}
+                            className=" border-purple-600 w-full bg-white dark:bg-neutral-900 focus:ring-opacity-70 p-1 border border-opacity-30 focus:outline-none focus:ring focus:ring-purple-600"
+                            placeholder="Username"
+                          />
+                        </div>
                       </div>
-                    )}
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="imgSource" className="text-right">
-                        Burimi i imazhit
-                      </Label>
-                      <Input
-                        id="imgSource"
-                        defaultValue={imgUrl}
-                        onChange={(e) => setImgUrl(e.target.value)}
-                        className="col-span-3"
-                      />
-                    </div>
-                  </div>
-                  <SheetFooter>
-                    <SheetClose asChild>
-                      {/* <Button
-                        type="button"
-                        //onClick={(e) => {
-                        // e.preventDefault();
-                        // !name && setNameRequired(true);
-                        // name &&
-                        //   addCategory(
-                        //     {
-                        //       name,
-                        //       imgUrl,
-                        //     },
-                        //     {
-                        //       onSuccess: () => {
-                        //         queryClient.invalidateQueries({
-                        //           queryKey: ["categories"],
-                        //         });
-                        //         setName("");
-                        //         setImgUrl("");
-                        //         setOpenSheet(false);
-                        //         setNameRequired(false);
-                        //       },
-                        //     }
-                        //   );
-                        // }}
-                      >
-                        Ruaj te dhenat
-                      </Button> */}
-                    </SheetClose>
-                  </SheetFooter>
-                </form>
-              </SheetContent>
-            </Sheet>
-          </section>
+                    </TableHead>
+                    {/* <TableHead className="text-center">Username</TableHead> */}
+                    <TableHead className="text-center">Role</TableHead>
+                    <TableHead className="text-center">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  <FetchReklama
+                    loggedUser={loggedUser}
+                    searchTerm={searchTerm}
+                  />
+                </TableBody>
+              </Table>
+            </section>
+          </div>
         </div>
       </>
     )
   );
 }
+
 export default Reklama;

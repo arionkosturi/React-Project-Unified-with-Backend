@@ -417,7 +417,7 @@ export const useFetchSearchedUsers = (q) => {
 const fetchReklama = async () => {
   return await apiClient.get(`/reklama`);
 };
-// Query All Users
+// Query All Reklama
 export const useFetchReklama = () => {
   return useQuery({
     queryFn: async () => {
@@ -425,5 +425,84 @@ export const useFetchReklama = () => {
       return data;
     },
     queryKey: ["reklama"],
+  });
+};
+
+//Add Reklama
+const addReklama = async (reklama) => {
+  return await apiClient.post("/reklama", reklama);
+};
+export const useAddReklama = () => {
+  const { toast } = useToast();
+  return useMutation({
+    mutationFn: addReklama,
+    mutationKey: ["single reklama"],
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Success",
+        description: "Reklama u modifikuan me sukses!",
+      });
+    },
+  });
+};
+
+//Mutate Reklama
+const useMutateSingleReklama = async (reklama) => {
+  let { title, imgUrl, isPublished, partner } = reklama;
+  return await apiClient.patch(`/reklama/${reklama.reklamaId}`, {
+    title,
+    imgUrl,
+    isPublished,
+    partner,
+  });
+};
+// Mutate Reklama
+export const useMutateReklama = (reklama) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["mutate reklama"],
+    mutationFn: useMutateSingleReklama,
+    onSuccess: async (id) => {
+      return await queryClient.invalidateQueries({
+        queryKey: ["reklama"],
+      });
+    },
+  });
+};
+
+//Delete Reklama
+const deleteSingleReklama = async (id) => {
+  return await apiClient.delete(`/reklama/${id}`);
+};
+// Delete Reklama
+export const useDeleteReklama = (id) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["delete reklama"],
+    mutationFn: deleteSingleReklama,
+    onSuccess: () => {
+      console.log("applyed");
+
+      queryClient.invalidateQueries({
+        queryKey: ["reklama"],
+      });
+    },
+  });
+};
+// User Fetch Single Reklame
+const fetchSingleReklama = async (id) => {
+  return await apiClient.get(`/reklama/${id}`);
+};
+// User Fetch Single Reklame
+export const useSingleReklama = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchSingleReklama(id);
+      return data;
+    },
+    queryKey: ["single reklama", id],
   });
 };

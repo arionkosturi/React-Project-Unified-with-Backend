@@ -17,26 +17,29 @@ function Reklama() {
       <Carousel
         plugins={[
           Autoplay({
-            delay: 10000,
+            delay: 2000,
           }),
         ]}
       >
         <CarouselContent>
-          {reklamaData?.map((reklama) => {
-            return (
-              <CarouselItem key={reklama._id}>
-                <a href={reklama?.targetUrl}>
-                  <div className="w-full h-60">
-                    <img
-                      src={reklama.imgUrl}
-                      alt={reklama.title}
-                      className="w-full object-contain"
-                    />
-                  </div>
-                </a>
-              </CarouselItem>
-            );
-          })}
+          {reklamaData &&
+            reklamaData?.map((reklama) => {
+              if (reklama.isPublished) {
+                return (
+                  <CarouselItem key={reklama._id}>
+                    <a href={reklama?.targetUrl}>
+                      <div className="w-full h-60">
+                        <img
+                          src={reklama.imgUrl}
+                          alt={reklama.title}
+                          className="w-full object-contain"
+                        />
+                      </div>
+                    </a>
+                  </CarouselItem>
+                );
+              }
+            })}
         </CarouselContent>
 
         {/* <CarouselPrevious />
