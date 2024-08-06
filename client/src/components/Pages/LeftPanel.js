@@ -54,6 +54,16 @@ function LeftPanel() {
             Categories
           </NavLink>
           <NavLink
+            to="/dashboard/reklama"
+            className={({ isActive }) => {
+              return !isActive
+                ? " hover:bg-slate-100 p-2 text-center sm:text-left"
+                : "bg-slate-200 text-purple-500  hover:bg-slate-100 p-2 text-center sm:text-left";
+            }}
+          >
+            Reklama
+          </NavLink>
+          <NavLink
             to="/dashboard/users"
             className={({ isActive }) => {
               return !isActive

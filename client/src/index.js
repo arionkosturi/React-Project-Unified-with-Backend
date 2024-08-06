@@ -16,6 +16,7 @@ import Users from "./components/Pages/Users";
 import Article from "./components/Pages/Article";
 import PublicArticle from "./frontend/Article";
 import PublishedArticles from "./components/Pages/PublishedArticles";
+import Reklama from "./components/Pages/Reklama";
 import UserLogin from "./frontend/UserLogin";
 import Register from "./frontend/Register";
 import Profile from "./frontend/Profile";
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/users",
     element: <Users />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/dashboard/reklama",
+    element: <Reklama />,
     errorElement: <NotFoundPage />,
   },
   {
