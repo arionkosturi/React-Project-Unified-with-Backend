@@ -294,7 +294,6 @@ function Users() {
         </div>
         <div className="container mx-auto flex gap-4">
           <div className="flex flex-col md:flex-row container mx-auto">
-            
             <LeftPanel />
             <section className="container mx-auto">
               <Table>

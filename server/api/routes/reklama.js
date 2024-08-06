@@ -115,4 +115,30 @@ router.delete("/:reklamaId", (req, res, next) => {
     });
 });
 
+// Search Endpoint
+router.get("/search/:q", (req, res, next) => {
+  Reklama.find({
+    title: {
+      $regex: req.params.q,
+      $options: "i",
+    },
+
+    // $and: [{ isAdmin: true }],
+  })
+    .sort()
+    .exec()
+    .then((doc) => {
+      if (doc) {
+        res.status(200).json(doc);
+      } else {
+        res.status(404).json({
+          message: "No valid entry found for this id",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+});
 module.exports = router;

@@ -433,15 +433,14 @@ const addReklama = async (reklama) => {
   return await apiClient.post("/reklama", reklama);
 };
 export const useAddReklama = () => {
-  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: addReklama,
     mutationKey: ["single reklama"],
     onSuccess: () => {
-      toast({
-        variant: "success",
-        title: "Success",
-        description: "Reklama u modifikuan me sukses!",
+      queryClient.invalidateQueries({
+        queryKey: ["reklama"],
       });
     },
   });
@@ -449,12 +448,13 @@ export const useAddReklama = () => {
 
 //Mutate Reklama
 const useMutateSingleReklama = async (reklama) => {
-  let { title, imgUrl, isPublished, partner } = reklama;
+  let { title, imgUrl, isPublished, partner, partnerUrl } = reklama;
   return await apiClient.patch(`/reklama/${reklama.reklamaId}`, {
     title,
     imgUrl,
     isPublished,
     partner,
+    partnerUrl,
   });
 };
 // Mutate Reklama
@@ -484,8 +484,6 @@ export const useDeleteReklama = (id) => {
     mutationKey: ["delete reklama"],
     mutationFn: deleteSingleReklama,
     onSuccess: () => {
-      console.log("applyed");
-
       queryClient.invalidateQueries({
         queryKey: ["reklama"],
       });
@@ -497,12 +495,30 @@ const fetchSingleReklama = async (id) => {
   return await apiClient.get(`/reklama/${id}`);
 };
 // User Fetch Single Reklame
-export const useSingleReklama = () => {
+export const useSingleReklama = (id) => {
   return useQuery({
-    queryFn: async () => {
+    queryFn: async (id) => {
       const { data } = await fetchSingleReklama(id);
       return data;
     },
     queryKey: ["single reklama", id],
+  });
+};
+// Fetch Searched Reklama
+const fetchSearchedReklama = async (q) => {
+  let query = q.queryKey[1]?.q;
+  if (query === undefined) return;
+  return await apiClient.get(`/reklama/search/${q.queryKey[1].q}`);
+};
+
+// Fetch Searched Users
+export const useFetchSearchedReklama = (q) => {
+  return useQuery({
+    queryFn: async (q) => {
+      if (!q) return;
+      const { data } = await fetchSearchedReklama(q);
+      return data;
+    },
+    queryKey: ["searched reklama", { q }],
   });
 };

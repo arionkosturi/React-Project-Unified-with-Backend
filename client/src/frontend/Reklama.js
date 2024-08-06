@@ -17,7 +17,7 @@ function Reklama() {
       <Carousel
         plugins={[
           Autoplay({
-            delay: 2000,
+            delay: 3000,
           }),
         ]}
       >
@@ -42,8 +42,8 @@ function Reklama() {
             })}
         </CarouselContent>
 
-        {/* <CarouselPrevious />
-        <CarouselNext /> */}
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
     </div>
   );

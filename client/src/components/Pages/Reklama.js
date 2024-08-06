@@ -20,6 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "../ui/dialog";
 import Alert from "../Alert";
 import {
@@ -27,8 +28,10 @@ import {
   useDeleteReklama,
   useSingleUser,
   useMutateUsers,
-  useFetchSearchedUsers,
+  useFetchSearchedReklama,
   useMutateReklama,
+  useAddArticle,
+  useAddReklama,
 } from "../hooks/useFetch";
 
 import {
@@ -41,21 +44,27 @@ import {
 } from "../ui/table";
 import LeftPanel from "./LeftPanel";
 import useDebounce from "../../frontend/useDebounce";
+import { useNavigate } from "react-router";
+import AddArticle from "./AddArticle";
 
 function FetchReklama({ loggedUser, searchTerm }) {
   const { data: reklama, isPending, error } = useFetchReklama();
   const { mutate: remove } = useDeleteReklama();
   const { mutate } = useMutateReklama();
-  const [newTitle, setNewTitle] = useState();
+  const [title, setTitle] = useState();
+  const [partner, setPartner] = useState();
+  const [imgUrl, setImgUrl] = useState();
+  const [partnerUrl, setPartnerUrl] = useState();
   const debouncedSearch = useDebounce(searchTerm, 500);
-  const { data: searchUsers } = useFetchSearchedUsers(debouncedSearch);
-
+  const { data: searchReklama } = useFetchSearchedReklama(debouncedSearch);
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
 
   return searchTerm
-    ? searchUsers?.map((reklama) => {
+    ? searchReklama?.map((reklama) => {
         return (
           <TableRow key={reklama._id}>
             <TableCell className="font-medium">{reklama.title}</TableCell>
@@ -78,8 +87,8 @@ function FetchReklama({ loggedUser, searchTerm }) {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="false">User</SelectItem>
-                  <SelectItem value="true">Admin</SelectItem>
+                  <SelectItem value="false">Not Published</SelectItem>
+                  <SelectItem value="true">Published</SelectItem>
                 </SelectContent>
               </Select>
             </TableCell>
@@ -87,16 +96,22 @@ function FetchReklama({ loggedUser, searchTerm }) {
               {" "}
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="mr-2">
+                  <Button
+                    variant="outline"
+                    className="mr-2"
+                    onClick={() => {
+                      console.log(reklama.title);
+                    }}
+                  >
                     Edit
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle>Change User Password</DialogTitle>
+                    <DialogTitle>Change Reklama</DialogTitle>
                     <DialogDescription>
                       <div className="mt-2">
-                        Jeni duke ndryshuar passwordin per perdoruesin:{" "}
+                        Jeni duke ndryshuar titullin e reklames:{" "}
                         <span className="text-md text-red-600">
                           {reklama.username}
                         </span>
@@ -105,15 +120,15 @@ function FetchReklama({ loggedUser, searchTerm }) {
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="username" className="text-right">
-                        Password
+                      <Label htmlFor="title" className="text-right">
+                        Title
                       </Label>
                       <Input
                         autoComplete="off"
-                        id="password"
+                        id="title"
                         defaultValue=""
                         onChange={(e) => {
-                          setNewTitle(e.target.value);
+                          setTitle(e.target.value);
                         }}
                         className="col-span-3"
                       />
@@ -126,7 +141,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                         let reklamaId = reklama._id;
                         mutate({
                           reklamaId,
-                          title: newTitle,
+                          title,
                         });
                       }}
                     >
@@ -156,6 +171,10 @@ function FetchReklama({ loggedUser, searchTerm }) {
             <TableRow key={reklama._id}>
               <TableCell className="font-medium">{reklama.title}</TableCell>
               <TableCell>
+                <img src={reklama.imgUrl} className="w-64" />
+              </TableCell>
+              <TableCell>{reklama.partner}</TableCell>
+              <TableCell>
                 <Select
                   className="flex justify-end"
                   onValueChange={(value) => {
@@ -166,7 +185,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                     });
                   }}
                 >
-                  <SelectTrigger className="flex items-center w-[170px] md:w-[280px] max-w-[480px]">
+                  <SelectTrigger className="flex items-center w-[170px]">
                     <SelectValue
                       placeholder={
                         reklama.isPublished ? "Published" : "Not Published"
@@ -179,20 +198,29 @@ function FetchReklama({ loggedUser, searchTerm }) {
                   </SelectContent>
                 </Select>
               </TableCell>
+
               <TableCell className="text-right">
                 {" "}
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="mr-2">
+                    <Button
+                      variant="outline"
+                      className="mr-2"
+                      onClick={() => {
+                        setTitle(reklama.title);
+                        setPartner(reklama.partner);
+                        setImgUrl(reklama.imgUrl);
+                      }}
+                    >
                       Edit
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                      <DialogTitle>Change User Password</DialogTitle>
+                      <DialogTitle>Change Ads Data</DialogTitle>
                       <DialogDescription>
                         <div className="mt-2">
-                          Jeni duke ndryshuar passwordin per perdoruesin:{" "}
+                          Jeni duke ndryshuar titullin per reklamen:{" "}
                           <span className="text-md text-red-600">
                             {reklama.title}
                           </span>
@@ -207,9 +235,36 @@ function FetchReklama({ loggedUser, searchTerm }) {
                         <Input
                           autoComplete="off"
                           id="title"
-                          defaultValue=""
+                          defaultValue={reklama.title}
                           onChange={(e) => {
-                            setNewTitle(e.target.value);
+                            if (e.target.value.length > 0) {
+                              setTitle(e.target.value);
+                            }
+                          }}
+                          className="col-span-3"
+                        />
+                        <Label htmlFor="img" className="text-right">
+                          Image
+                        </Label>
+                        <Input
+                          id="img"
+                          defaultValue={reklama.imgUrl}
+                          onChange={(e) => {
+                            setImgUrl(e.target.value);
+                          }}
+                          className="col-span-3"
+                        />
+                        <Label htmlFor="partner" className="text-right">
+                          Partner
+                        </Label>
+                        <Input
+                          autoComplete="off"
+                          id="partner"
+                          defaultValue={reklama.partner}
+                          onChange={(e) => {
+                            if (e.target.value.length > 0) {
+                              setPartner(e.target.value);
+                            }
                           }}
                           className="col-span-3"
                         />
@@ -220,10 +275,21 @@ function FetchReklama({ loggedUser, searchTerm }) {
                         type="button"
                         onClick={() => {
                           let reklamaId = reklama._id;
-                          mutate({
-                            reklamaId,
-                            title: newTitle,
-                          });
+                          mutate(
+                            {
+                              reklamaId,
+                              title,
+                              partner: partner,
+                              imgUrl,
+                            },
+                            {
+                              onSuccess: () => {
+                                // setTitle("");
+                                // setPartner("");
+                                // setOpen(false);
+                              },
+                            }
+                          );
                         }}
                       >
                         Save changes
@@ -248,9 +314,95 @@ function FetchReklama({ loggedUser, searchTerm }) {
         });
 }
 
+function AddNewReklama() {
+  const { mutate: addReklama } = useAddReklama();
+  let [title, setTitle] = useState();
+  let [imgUrl, setImgUrl] = useState();
+  let [open, setOpen] = useState(false);
+  let handleCreate = () => {
+    addReklama(
+      {
+        title,
+        imgUrl,
+      },
+      {
+        onSuccess: () => {
+          setOpen(false);
+        },
+      }
+    );
+  };
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="mr-2">
+          Create New Ad
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Change Ads Data</DialogTitle>
+          <DialogDescription>
+            <div className="mt-2">
+              Jeni duke krijuar nje reklame te re!
+              {/* <span className="text-md text-red-600">{reklama.title}</span> */}
+            </div>
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="title" className="text-right">
+              Title
+            </Label>
+            <Input
+              autoComplete="off"
+              id="title"
+              defaultValue=""
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              className="col-span-3"
+            />
+            <Label htmlFor="img" className="text-right">
+              Image
+            </Label>
+            <Input
+              id="img"
+              defaultValue=""
+              onChange={(e) => {
+                setImgUrl(e.target.value);
+              }}
+              className="col-span-3"
+            />
+            <Label htmlFor="partner" className="text-right">
+              Partner
+            </Label>
+            <Input
+              autoComplete="off"
+              id="partner"
+              onChange={(e) => {
+                if (e.target.value.length > 0) {
+                  // setPartner(e.target.value);
+                }
+              }}
+              className="col-span-3"
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="button" onClick={handleCreate}>
+            Save changes
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
 function Reklama() {
   let { data: loggedUser } = useSingleUser();
   const [searchTerm, setSearchTerm] = useState();
+  const [title, setTitle] = useState();
+  const [imgUrl, setImgUrl] = useState();
 
   let handleSearch = (e) => {
     e.preventDefault();
@@ -267,7 +419,7 @@ function Reklama() {
         <Header />
         <div className="container mx-auto mb-2">
           <h1 className="text-3xl">
-            Users
+            Ads
             <span className="bg-green-500 text-white ml-2 px-2 py-1">
               Management
             </span>
@@ -283,29 +435,23 @@ function Reklama() {
                     <TableHead>
                       {" "}
                       <div className="flex items-center">
-                        <label
-                          htmlFor="search__input"
-                          className="hidden md:flex"
-                        >
-                          Username
-                        </label>
                         <div className="flex mx-auto text-purple-700 dark:text-purple-300 group hover:ring ring-purple-300">
                           <input
                             type="search"
                             id="search__input"
                             onChange={handleSearch}
                             className=" border-purple-600 w-full bg-white dark:bg-neutral-900 focus:ring-opacity-70 p-1 border border-opacity-30 focus:outline-none focus:ring focus:ring-purple-600"
-                            placeholder="Username"
+                            placeholder="Title"
                           />
                         </div>
                       </div>
                     </TableHead>
-                    {/* <TableHead className="text-center">Username</TableHead> */}
-                    <TableHead className="text-center">Role</TableHead>
+                    <TableHead className="text-center">Image</TableHead>
+                    <TableHead className="text-center">Partner</TableHead>
+                    <TableHead className="text-center">Published?</TableHead>
                     <TableHead className="text-center">Action</TableHead>
                   </TableRow>
                 </TableHeader>
-
                 <TableBody>
                   <FetchReklama
                     loggedUser={loggedUser}
@@ -313,6 +459,7 @@ function Reklama() {
                   />
                 </TableBody>
               </Table>
+              <AddNewReklama />
             </section>
           </div>
         </div>
