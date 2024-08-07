@@ -1,10 +1,18 @@
 // @ts-nocheck
 import React, { useState } from "react";
+import { addDays, format } from "date-fns";
 import Header from "../Header";
 import Dashboard from "./Dashboard";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { DateRange, DayPicker } from "react-day-picker";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
+import { Toast as toast } from "../ui/toast";
+import { cn } from "../../lib/utils";
+import DatePicker from "react-datepicker";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
   Select,
   SelectContent,
@@ -42,6 +50,15 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import LeftPanel from "./LeftPanel";
 import useDebounce from "../../frontend/useDebounce";
 import { useNavigate } from "react-router";
@@ -59,6 +76,9 @@ function FetchReklama({ loggedUser, searchTerm }) {
   const { data: searchReklama } = useFetchSearchedReklama(debouncedSearch);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [date, setDate] = useState();
+  const [endsDate, setEndsDate] = useState();
+
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
@@ -68,6 +88,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
         return (
           <TableRow key={reklama._id}>
             <TableCell className="font-medium">{reklama.title}</TableCell>
+
             <TableCell>
               <Select
                 className="flex justify-end"
@@ -92,6 +113,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                 </SelectContent>
               </Select>
             </TableCell>
+
             <TableCell className="text-right">
               {" "}
               <Dialog>
@@ -198,7 +220,100 @@ function FetchReklama({ loggedUser, searchTerm }) {
                   </SelectContent>
                 </Select>
               </TableCell>
-
+              {/* Starts at */}
+              <TableCell>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[280px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {reklama?.startsAt ? (
+                        format(reklama.startsAt, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+                    <div className="flex items-center">
+                      <div className="rounded-md border items-center flex flex-col">
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={setDate}
+                        />
+                        <div className="flex items-center mb-2">
+                          <button
+                            className="border bg-green-500 text-center px-3 py-2 hover:bg-green-600"
+                            onClick={(value) => {
+                              let reklamaId = reklama._id;
+                              setDate(addDays(new Date(), parseInt(value)));
+                              mutate({
+                                reklamaId,
+                                startsAt: date,
+                              });
+                            }}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </TableCell>
+              {/* Ends at */}
+              <TableCell>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[280px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {reklama?.endsAt ? (
+                        format(reklama.endsAt, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+                    <div className="flex items-center">
+                      <div className="rounded-md border items-center flex flex-col">
+                        <Calendar
+                          mode="single"
+                          selected={endsDate}
+                          onSelect={setEndsDate}
+                        />
+                        <div className="flex items-center mb-2">
+                          <button
+                            className="border bg-green-500 text-center px-3 py-2 hover:bg-green-600"
+                            onClick={(value) => {
+                              let reklamaId = reklama._id;
+                              setDate(addDays(new Date(), parseInt(value)));
+                              mutate({
+                                reklamaId,
+                                endsAt: endsDate,
+                              });
+                            }}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </TableCell>
               <TableCell className="text-right">
                 {" "}
                 <Dialog>

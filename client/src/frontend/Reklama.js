@@ -7,11 +7,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../components/ui/carousel";
+// import { addDays, format } from "date-fns/fp";
 import Autoplay from "embla-carousel-autoplay";
 import { useFetchReklama } from "../components/hooks/useFetch";
 
 function Reklama() {
   const { data: reklamaData } = useFetchReklama();
+
   return (
     <div>
       <Carousel
@@ -24,7 +26,17 @@ function Reklama() {
         <CarouselContent>
           {reklamaData &&
             reklamaData?.map((reklama) => {
-              if (reklama.isPublished) {
+              let today = new Date();
+              let startsAt = new Date(reklama.startsAt);
+              let endsAt = new Date(reklama.endsAt);
+
+              console.log("today: ", today);
+              console.log("starts at: ", startsAt);
+              console.log("after starts at: ", today >= startsAt);
+              console.log("ends at: ", endsAt);
+              console.log("before ends at: ", today <= endsAt);
+
+              if (reklama.isPublished && startsAt <= today && today <= endsAt) {
                 return (
                   <CarouselItem key={reklama._id}>
                     <a href={reklama?.targetUrl}>
@@ -42,8 +54,8 @@ function Reklama() {
             })}
         </CarouselContent>
 
-        <CarouselPrevious />
-        <CarouselNext />
+        {/* <CarouselPrevious />
+        <CarouselNext /> */}
       </Carousel>
     </div>
   );

@@ -448,13 +448,16 @@ export const useAddReklama = () => {
 
 //Mutate Reklama
 const useMutateSingleReklama = async (reklama) => {
-  let { title, imgUrl, isPublished, partner, partnerUrl } = reklama;
+  let { title, imgUrl, isPublished, partner, partnerUrl, startsAt, endsAt } =
+    reklama;
   return await apiClient.patch(`/reklama/${reklama.reklamaId}`, {
     title,
     imgUrl,
     isPublished,
     partner,
     partnerUrl,
+    startsAt,
+    endsAt,
   });
 };
 // Mutate Reklama
