@@ -4,14 +4,11 @@ import { addDays, format } from "date-fns";
 import Header from "../Header";
 import Dashboard from "./Dashboard";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { DateRange, DayPicker } from "react-day-picker";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
-import { Toast as toast } from "../ui/toast";
 import { cn } from "../../lib/utils";
-import DatePicker from "react-datepicker";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
   Select,
@@ -28,17 +25,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "../ui/dialog";
 import Alert from "../Alert";
 import {
   useFetchReklama,
   useDeleteReklama,
   useSingleUser,
-  useMutateUsers,
   useFetchSearchedReklama,
   useMutateReklama,
-  useAddArticle,
   useAddReklama,
 } from "../hooks/useFetch";
 
@@ -50,19 +44,8 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
 import LeftPanel from "./LeftPanel";
 import useDebounce from "../../frontend/useDebounce";
-import { useNavigate } from "react-router";
-import AddArticle from "./AddArticle";
 
 function FetchReklama({ loggedUser, searchTerm }) {
   const { data: reklama, isPending, error } = useFetchReklama();
@@ -74,8 +57,6 @@ function FetchReklama({ loggedUser, searchTerm }) {
   const [partnerUrl, setPartnerUrl] = useState();
   const debouncedSearch = useDebounce(searchTerm, 500);
   const { data: searchReklama } = useFetchSearchedReklama(debouncedSearch);
-  const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
   const [date, setDate] = useState();
   const [endsDate, setEndsDate] = useState();
 
@@ -95,7 +76,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                 onValueChange={(value) => {
                   let reklamaId = reklama._id;
                   mutate({
-                    reklama,
+                    reklamaId,
                     isPublished: value,
                   });
                 }}
@@ -196,6 +177,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                 <img src={reklama.imgUrl} className="w-64" />
               </TableCell>
               <TableCell>{reklama.partner}</TableCell>
+              <TableCell>{reklama.targetUrl}</TableCell>
               <TableCell>
                 <Select
                   className="flex justify-end"
@@ -390,21 +372,12 @@ function FetchReklama({ loggedUser, searchTerm }) {
                         type="button"
                         onClick={() => {
                           let reklamaId = reklama._id;
-                          mutate(
-                            {
-                              reklamaId,
-                              title,
-                              partner: partner,
-                              imgUrl,
-                            },
-                            {
-                              onSuccess: () => {
-                                // setTitle("");
-                                // setPartner("");
-                                // setOpen(false);
-                              },
-                            }
-                          );
+                          mutate({
+                            reklamaId,
+                            title,
+                            partner: partner,
+                            imgUrl,
+                          });
                         }}
                       >
                         Save changes
@@ -433,16 +406,21 @@ function AddNewReklama() {
   const { mutate: addReklama } = useAddReklama();
   let [title, setTitle] = useState();
   let [imgUrl, setImgUrl] = useState();
+  let [partner, setPartner] = useState();
+  let [targetUrl, setTargetUrl] = useState();
   let [open, setOpen] = useState(false);
   let handleCreate = () => {
     addReklama(
       {
         title,
         imgUrl,
+        partner,
+        targetUrl,
       },
       {
         onSuccess: () => {
           setOpen(false);
+          console.log(partner);
         },
       }
     );
@@ -496,9 +474,18 @@ function AddNewReklama() {
               autoComplete="off"
               id="partner"
               onChange={(e) => {
-                if (e.target.value.length > 0) {
-                  // setPartner(e.target.value);
-                }
+                setPartner(e.target.value);
+              }}
+              className="col-span-3"
+            />
+            <Label htmlFor="targetUrl" className="text-right">
+              Target Url
+            </Label>
+            <Input
+              autoComplete="off"
+              id="targetUrl"
+              onChange={(e) => {
+                setTargetUrl(e.target.value);
               }}
               className="col-span-3"
             />

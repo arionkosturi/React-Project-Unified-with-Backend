@@ -25,6 +25,8 @@ router.post("/", (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     title: req.body.title,
     imgUrl: req.body.imgUrl,
+    partner: req.body.partner,
+    targetUrl: req.body.targetUrl,
   });
   reklama
     .save()
