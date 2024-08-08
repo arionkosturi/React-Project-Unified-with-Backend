@@ -27,6 +27,7 @@ router.post("/", (req, res, next) => {
     imgUrl: req.body.imgUrl,
     partner: req.body.partner,
     targetUrl: req.body.targetUrl,
+    buttonMessage: req.body.buttonMessage,
   });
   reklama
     .save()

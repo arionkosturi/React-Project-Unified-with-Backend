@@ -42,7 +42,9 @@ function Reklama() {
                         />
                       </div>
                       <div className="block w-1/5 bg-red-500 hover:bg-red-400 mx-2 px-5 py-3 font-bold text-center text-gray-100 text-xs uppercase transition hover:scale-110">
-                        Shop Now!
+                        {reklama.buttonMessage.length > 1
+                          ? reklama.buttonMessage
+                          : "Shop Now!"}
                       </div>
                     </a>
                   </CarouselItem>

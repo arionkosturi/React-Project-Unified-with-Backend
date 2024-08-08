@@ -10,7 +10,7 @@ const reklamaSchema = mongoose.Schema(
     startsAt: Date,
     endsAt: Date,
     isPublished: Boolean,
-    paymentStatus: String,
+    buttonMessage: String,
     createdAt: Date,
   },
   { timestamps: true }

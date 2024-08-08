@@ -56,6 +56,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
   const [imgUrl, setImgUrl] = useState();
   const [partnerUrl, setPartnerUrl] = useState();
   const [targetUrl, setTargetUrl] = useState();
+  const [buttonMessage, setButtonMessage] = useState();
   const debouncedSearch = useDebounce(searchTerm, 500);
   const { data: searchReklama } = useFetchSearchedReklama(debouncedSearch);
   const [date, setDate] = useState();
@@ -68,99 +69,6 @@ function FetchReklama({ loggedUser, searchTerm }) {
   return searchTerm
     ? searchReklama?.map((reklama) => {
         return (
-          // <TableRow key={reklama._id}>
-          //   <TableCell className="font-medium">{reklama.title}</TableCell>
-
-          //   <TableCell>
-          //     <Select
-          //       className="flex justify-end"
-          //       onValueChange={(value) => {
-          //         let reklamaId = reklama._id;
-          //         mutate({
-          //           reklamaId,
-          //           isPublished: value,
-          //         });
-          //       }}
-          //     >
-          //       <SelectTrigger className="flex items-center w-[170px] md:w-[280px] max-w-[480px]">
-          //         <SelectValue
-          //           placeholder={
-          //             reklama.isPublished ? "Published" : "Not Published"
-          //           }
-          //         />
-          //       </SelectTrigger>
-          //       <SelectContent>
-          //         <SelectItem value="false">Not Published</SelectItem>
-          //         <SelectItem value="true">Published</SelectItem>
-          //       </SelectContent>
-          //     </Select>
-          //   </TableCell>
-
-          //   <TableCell className="text-right">
-          //     {" "}
-          //     <Dialog>
-          //       <DialogTrigger asChild>
-          //         <Button variant="outline" className="mr-2">
-          //           Edit
-          //         </Button>
-          //       </DialogTrigger>
-          //       <DialogContent className="sm:max-w-[425px]">
-          //         <DialogHeader>
-          //           <DialogTitle>Change Reklama</DialogTitle>
-          //           <DialogDescription>
-          //             <div className="mt-2">
-          //               Jeni duke ndryshuar titullin e reklames:{" "}
-          //               <span className="text-md text-red-600">
-          //                 {reklama.username}
-          //               </span>
-          //             </div>
-          //           </DialogDescription>
-          //         </DialogHeader>
-          //         <div className="grid gap-4 py-4">
-          //           <div className="grid grid-cols-4 items-center gap-4">
-          //             <Label htmlFor="title" className="text-right">
-          //               Title
-          //             </Label>
-          //             <Input
-          //               autoComplete="off"
-          //               id="title"
-          //               defaultValue=""
-          //               onChange={(e) => {
-          //                 setTitle(e.target.value);
-          //               }}
-          //               className="col-span-3"
-          //             />
-          //           </div>
-          //         </div>
-          //         <DialogFooter>
-          //           <Button
-          //             type="button"
-          //             onClick={() => {
-          //               let reklamaId = reklama._id;
-          //               mutate({
-          //                 reklamaId,
-          //                 title,
-          //               });
-          //             }}
-          //           >
-          //             Save changes
-          //           </Button>
-          //         </DialogFooter>
-          //       </DialogContent>
-          //     </Dialog>
-          //     <Alert
-          //       alertTitle={"Po fshin perdoruesin"}
-          //       alertMessage={`Deshiron ta fshish perdoruesin: "${reklama.title}" ?`}
-          //       handleFunction={(e) => {
-          //         let reklamaId = reklama._id;
-          //         remove(reklamaId);
-          //       }}
-          //       alertTriggerButton={
-          //         <Button variant={"destructive"}> Detele </Button>
-          //       }
-          //     />
-          //   </TableCell>
-          // </TableRow>
           <TableRow key={reklama._id}>
             <TableCell className="font-medium">{reklama.title}</TableCell>
             <TableCell>
@@ -377,6 +285,18 @@ function FetchReklama({ loggedUser, searchTerm }) {
                         }}
                         className="col-span-3"
                       />
+                      <Label htmlFor="buttonMessage" className="text-right">
+                        Button Message
+                      </Label>
+                      <Input
+                        autoComplete="off"
+                        id="buttonMessage"
+                        defaultValue={reklama.buttonMessage}
+                        onChange={(e) => {
+                          setButtonMessage(e.target.value);
+                        }}
+                        className="col-span-3"
+                      />
                     </div>
                   </div>
                   <DialogFooter>
@@ -390,6 +310,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                           partner,
                           imgUrl,
                           targetUrl,
+                          buttonMessage,
                         });
                       }}
                     >
@@ -632,6 +553,19 @@ function FetchReklama({ loggedUser, searchTerm }) {
                           }}
                           className="col-span-3"
                         />
+                        <Label htmlFor="buttonMessage" className="text-right">
+                          Button Message
+                        </Label>
+                        <Input
+                          id="buttonMessage"
+                          defaultValue={reklama.buttonMessage}
+                          onChange={(e) => {
+                            if (e.target.value.length > 0) {
+                              setButtonMessage(e.target.value);
+                            }
+                          }}
+                          className="col-span-3"
+                        />
                       </div>
                     </div>
                     <DialogFooter>
@@ -645,6 +579,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                             partner,
                             imgUrl,
                             targetUrl,
+                            buttonMessage,
                           });
                         }}
                       >
