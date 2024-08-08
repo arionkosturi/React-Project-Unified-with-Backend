@@ -2,6 +2,7 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import Reklama from "./Reklama";
 import {
   useSingleUser,
   useMutateUserProfile,
@@ -307,6 +308,8 @@ function PublicArticle() {
               <div className="border-red-600 border-b-8 w-2/12"></div>
             </div>
           )}
+
+          {/* Related section */}
           <div className="p-2 grid md:grid-cols-2 gap-2">
             {related
               ?.filter((f) => f._id !== article._id)
@@ -333,6 +336,7 @@ function PublicArticle() {
                 );
               })}
           </div>
+          <Reklama />
         </section>
       </div>
       <Footer />

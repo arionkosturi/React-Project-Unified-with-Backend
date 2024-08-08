@@ -55,6 +55,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
   const [partner, setPartner] = useState();
   const [imgUrl, setImgUrl] = useState();
   const [partnerUrl, setPartnerUrl] = useState();
+  const [targetUrl, setTargetUrl] = useState();
   const debouncedSearch = useDebounce(searchTerm, 500);
   const { data: searchReklama } = useFetchSearchedReklama(debouncedSearch);
   const [date, setDate] = useState();
@@ -67,9 +68,114 @@ function FetchReklama({ loggedUser, searchTerm }) {
   return searchTerm
     ? searchReklama?.map((reklama) => {
         return (
+          // <TableRow key={reklama._id}>
+          //   <TableCell className="font-medium">{reklama.title}</TableCell>
+
+          //   <TableCell>
+          //     <Select
+          //       className="flex justify-end"
+          //       onValueChange={(value) => {
+          //         let reklamaId = reklama._id;
+          //         mutate({
+          //           reklamaId,
+          //           isPublished: value,
+          //         });
+          //       }}
+          //     >
+          //       <SelectTrigger className="flex items-center w-[170px] md:w-[280px] max-w-[480px]">
+          //         <SelectValue
+          //           placeholder={
+          //             reklama.isPublished ? "Published" : "Not Published"
+          //           }
+          //         />
+          //       </SelectTrigger>
+          //       <SelectContent>
+          //         <SelectItem value="false">Not Published</SelectItem>
+          //         <SelectItem value="true">Published</SelectItem>
+          //       </SelectContent>
+          //     </Select>
+          //   </TableCell>
+
+          //   <TableCell className="text-right">
+          //     {" "}
+          //     <Dialog>
+          //       <DialogTrigger asChild>
+          //         <Button variant="outline" className="mr-2">
+          //           Edit
+          //         </Button>
+          //       </DialogTrigger>
+          //       <DialogContent className="sm:max-w-[425px]">
+          //         <DialogHeader>
+          //           <DialogTitle>Change Reklama</DialogTitle>
+          //           <DialogDescription>
+          //             <div className="mt-2">
+          //               Jeni duke ndryshuar titullin e reklames:{" "}
+          //               <span className="text-md text-red-600">
+          //                 {reklama.username}
+          //               </span>
+          //             </div>
+          //           </DialogDescription>
+          //         </DialogHeader>
+          //         <div className="grid gap-4 py-4">
+          //           <div className="grid grid-cols-4 items-center gap-4">
+          //             <Label htmlFor="title" className="text-right">
+          //               Title
+          //             </Label>
+          //             <Input
+          //               autoComplete="off"
+          //               id="title"
+          //               defaultValue=""
+          //               onChange={(e) => {
+          //                 setTitle(e.target.value);
+          //               }}
+          //               className="col-span-3"
+          //             />
+          //           </div>
+          //         </div>
+          //         <DialogFooter>
+          //           <Button
+          //             type="button"
+          //             onClick={() => {
+          //               let reklamaId = reklama._id;
+          //               mutate({
+          //                 reklamaId,
+          //                 title,
+          //               });
+          //             }}
+          //           >
+          //             Save changes
+          //           </Button>
+          //         </DialogFooter>
+          //       </DialogContent>
+          //     </Dialog>
+          //     <Alert
+          //       alertTitle={"Po fshin perdoruesin"}
+          //       alertMessage={`Deshiron ta fshish perdoruesin: "${reklama.title}" ?`}
+          //       handleFunction={(e) => {
+          //         let reklamaId = reklama._id;
+          //         remove(reklamaId);
+          //       }}
+          //       alertTriggerButton={
+          //         <Button variant={"destructive"}> Detele </Button>
+          //       }
+          //     />
+          //   </TableCell>
+          // </TableRow>
           <TableRow key={reklama._id}>
             <TableCell className="font-medium">{reklama.title}</TableCell>
-
+            <TableCell>
+              <img src={reklama.imgUrl} className="w-64" />
+            </TableCell>
+            <TableCell>{reklama.partner}</TableCell>
+            <TableCell>
+              <a
+                href={reklama.targetUrl}
+                target="_blank"
+                className="text-blue-500"
+              >
+                {reklama.targetUrl}
+              </a>
+            </TableCell>
             <TableCell>
               <Select
                 className="flex justify-end"
@@ -81,7 +187,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                   });
                 }}
               >
-                <SelectTrigger className="flex items-center w-[170px] md:w-[280px] max-w-[480px]">
+                <SelectTrigger className="flex items-center w-[170px]">
                   <SelectValue
                     placeholder={
                       reklama.isPublished ? "Published" : "Not Published"
@@ -94,7 +200,100 @@ function FetchReklama({ loggedUser, searchTerm }) {
                 </SelectContent>
               </Select>
             </TableCell>
-
+            {/* Starts at */}
+            <TableCell>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[180px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {reklama?.startsAt ? (
+                      format(reklama.startsAt, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+                  <div className="flex items-center">
+                    <div className="rounded-md border items-center flex flex-col">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                      />
+                      <div className="flex items-center mb-2">
+                        <button
+                          className="border bg-green-500 text-center px-3 py-2 hover:bg-green-600"
+                          onClick={(value) => {
+                            let reklamaId = reklama._id;
+                            setDate(addDays(new Date(), parseInt(value)));
+                            mutate({
+                              reklamaId,
+                              startsAt: date,
+                            });
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </TableCell>
+            {/* Ends at */}
+            <TableCell>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[180px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {reklama?.endsAt ? (
+                      format(reklama.endsAt, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+                  <div className="flex items-center">
+                    <div className="rounded-md border items-center flex flex-col">
+                      <Calendar
+                        mode="single"
+                        selected={endsDate}
+                        onSelect={setEndsDate}
+                      />
+                      <div className="flex items-center mb-2">
+                        <button
+                          className="border bg-green-500 text-center px-3 py-2 hover:bg-green-600"
+                          onClick={(value) => {
+                            let reklamaId = reklama._id;
+                            setDate(addDays(new Date(), parseInt(value)));
+                            mutate({
+                              reklamaId,
+                              endsAt: endsDate,
+                            });
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </TableCell>
             <TableCell className="text-right">
               {" "}
               <Dialog>
@@ -103,7 +302,9 @@ function FetchReklama({ loggedUser, searchTerm }) {
                     variant="outline"
                     className="mr-2"
                     onClick={() => {
-                      console.log(reklama.title);
+                      setTitle(reklama.title);
+                      setPartner(reklama.partner);
+                      setImgUrl(reklama.imgUrl);
                     }}
                   >
                     Edit
@@ -111,12 +312,12 @@ function FetchReklama({ loggedUser, searchTerm }) {
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle>Change Reklama</DialogTitle>
+                    <DialogTitle>Change Ads Data</DialogTitle>
                     <DialogDescription>
                       <div className="mt-2">
-                        Jeni duke ndryshuar titullin e reklames:{" "}
+                        Jeni duke ndryshuar te dhenat per reklamen:{" "}
                         <span className="text-md text-red-600">
-                          {reklama.username}
+                          {reklama.title}
                         </span>
                       </div>
                     </DialogDescription>
@@ -129,9 +330,50 @@ function FetchReklama({ loggedUser, searchTerm }) {
                       <Input
                         autoComplete="off"
                         id="title"
-                        defaultValue=""
+                        defaultValue={reklama.title}
                         onChange={(e) => {
-                          setTitle(e.target.value);
+                          if (e.target.value.length > 0) {
+                            setTitle(e.target.value);
+                          }
+                        }}
+                        className="col-span-3"
+                      />
+                      <Label htmlFor="img" className="text-right">
+                        Image
+                      </Label>
+                      <Input
+                        id="img"
+                        defaultValue={reklama.imgUrl}
+                        onChange={(e) => {
+                          setImgUrl(e.target.value);
+                        }}
+                        className="col-span-3"
+                      />
+                      <Label htmlFor="partner" className="text-right">
+                        Partner
+                      </Label>
+                      <Input
+                        autoComplete="off"
+                        id="partner"
+                        defaultValue={reklama.partner}
+                        onChange={(e) => {
+                          if (e.target.value.length > 0) {
+                            setPartner(e.target.value);
+                          }
+                        }}
+                        className="col-span-3"
+                      />
+                      <Label htmlFor="targetUrl" className="text-right">
+                        Target URL
+                      </Label>
+                      <Input
+                        autoComplete="off"
+                        id="targetUrl"
+                        defaultValue={reklama.targetUrl}
+                        onChange={(e) => {
+                          if (e.target.value.length > 0) {
+                            setTargetUrl(e.target.value);
+                          }
                         }}
                         className="col-span-3"
                       />
@@ -145,6 +387,9 @@ function FetchReklama({ loggedUser, searchTerm }) {
                         mutate({
                           reklamaId,
                           title,
+                          partner,
+                          imgUrl,
+                          targetUrl,
                         });
                       }}
                     >
@@ -177,7 +422,15 @@ function FetchReklama({ loggedUser, searchTerm }) {
                 <img src={reklama.imgUrl} className="w-64" />
               </TableCell>
               <TableCell>{reklama.partner}</TableCell>
-              <TableCell>{reklama.targetUrl}</TableCell>
+              <TableCell>
+                <a
+                  href={reklama.targetUrl}
+                  target="_blank"
+                  className="text-blue-600 hover:underline"
+                >
+                  {reklama.targetUrl}
+                </a>
+              </TableCell>
               <TableCell>
                 <Select
                   className="flex justify-end"
@@ -209,7 +462,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[280px] justify-start text-left font-normal",
+                        "w-[180px] justify-start text-left font-normal",
                         !date && "text-muted-foreground"
                       )}
                     >
@@ -256,7 +509,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[280px] justify-start text-left font-normal",
+                        "w-[180px] justify-start text-left font-normal",
                         !date && "text-muted-foreground"
                       )}
                     >
@@ -317,7 +570,7 @@ function FetchReklama({ loggedUser, searchTerm }) {
                       <DialogTitle>Change Ads Data</DialogTitle>
                       <DialogDescription>
                         <div className="mt-2">
-                          Jeni duke ndryshuar titullin per reklamen:{" "}
+                          Jeni duke ndryshuar te dhenat per reklamen:{" "}
                           <span className="text-md text-red-600">
                             {reklama.title}
                           </span>
@@ -365,6 +618,20 @@ function FetchReklama({ loggedUser, searchTerm }) {
                           }}
                           className="col-span-3"
                         />
+                        <Label htmlFor="targetUrl" className="text-right">
+                          Target URL
+                        </Label>
+                        <Input
+                          autoComplete="off"
+                          id="targetUrl"
+                          defaultValue={reklama.targetUrl}
+                          onChange={(e) => {
+                            if (e.target.value.length > 0) {
+                              setTargetUrl(e.target.value);
+                            }
+                          }}
+                          className="col-span-3"
+                        />
                       </div>
                     </div>
                     <DialogFooter>
@@ -375,8 +642,9 @@ function FetchReklama({ loggedUser, searchTerm }) {
                           mutate({
                             reklamaId,
                             title,
-                            partner: partner,
+                            partner,
                             imgUrl,
+                            targetUrl,
                           });
                         }}
                       >
@@ -550,7 +818,10 @@ function Reklama() {
                     </TableHead>
                     <TableHead className="text-center">Image</TableHead>
                     <TableHead className="text-center">Partner</TableHead>
+                    <TableHead className="text-center">Target URL</TableHead>
                     <TableHead className="text-center">Published?</TableHead>
+                    <TableHead className="text-center">Starts at</TableHead>
+                    <TableHead className="text-center">Ends at</TableHead>
                     <TableHead className="text-center">Action</TableHead>
                   </TableRow>
                 </TableHeader>

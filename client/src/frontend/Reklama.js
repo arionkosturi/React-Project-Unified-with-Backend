@@ -16,7 +16,7 @@ function Reklama() {
       <Carousel
         plugins={[
           Autoplay({
-            delay: 3000,
+            delay: 2000,
           }),
         ]}
       >
@@ -29,22 +29,22 @@ function Reklama() {
               if (reklama.isPublished && startsAt <= today && today <= endsAt) {
                 return (
                   <CarouselItem key={reklama._id}>
-                    {/* <a href={reklama.targetUrl}> */}
-                    <div
-                      className="w-full h-60"
-                      onClick={() => {
-                        if (reklama?.targetUrl) {
-                          window.location.href = `${reklama?.targetUrl}`;
-                        }
-                      }}
+                    <a
+                      href={reklama.targetUrl}
+                      target="_blank"
+                      className="flex flex-col items-center"
                     >
-                      <img
-                        src={reklama.imgUrl}
-                        alt={reklama.title}
-                        className="w-full object-contain"
-                      />
-                    </div>
-                    {/* </a> */}
+                      <div className="w-full h-64 cursor-pointer p-2">
+                        <img
+                          src={reklama.imgUrl}
+                          alt={reklama.title}
+                          className="w-full object-contain"
+                        />
+                      </div>
+                      <div className="block w-1/5 bg-red-500 hover:bg-red-400 mx-2 px-5 py-3 font-bold text-center text-gray-100 text-xs uppercase transition hover:scale-110">
+                        Shop Now!
+                      </div>
+                    </a>
                   </CarouselItem>
                 );
               }
