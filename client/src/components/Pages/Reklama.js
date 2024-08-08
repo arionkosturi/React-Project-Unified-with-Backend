@@ -611,6 +611,7 @@ function AddNewReklama() {
   let [imgUrl, setImgUrl] = useState();
   let [partner, setPartner] = useState();
   let [targetUrl, setTargetUrl] = useState();
+  let [buttonMessage, setButtonMessage] = useState();
   let [open, setOpen] = useState(false);
   let handleCreate = () => {
     addReklama(
@@ -619,6 +620,7 @@ function AddNewReklama() {
         imgUrl,
         partner,
         targetUrl,
+        buttonMessage,
       },
       {
         onSuccess: () => {
@@ -631,18 +633,15 @@ function AddNewReklama() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="mr-2">
+        <Button variant="outline" className="mr-2 mt-4">
           Create New Ad
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Change Ads Data</DialogTitle>
+          <DialogTitle>Create new Ad!</DialogTitle>
           <DialogDescription>
-            <div className="mt-2">
-              Jeni duke krijuar nje reklame te re!
-              {/* <span className="text-md text-red-600">{reklama.title}</span> */}
-            </div>
+            <div className="mt-2">Jeni duke krijuar nje reklame te re!</div>
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -689,6 +688,17 @@ function AddNewReklama() {
               id="targetUrl"
               onChange={(e) => {
                 setTargetUrl(e.target.value);
+              }}
+              className="col-span-3"
+            />
+            <Label htmlFor="buttonMessage" className="text-right">
+              Button Message
+            </Label>
+            <Input
+              autoComplete="off"
+              id="buttonMessage"
+              onChange={(e) => {
+                setButtonMessage(e.target.value);
               }}
               className="col-span-3"
             />
