@@ -5,6 +5,8 @@ import Categories from "./Categories";
 import Footer from "./Footer";
 import PublicArticles from "./PublicArticles";
 import HighlitedSection from "./HighlitedSection";
+import Reklama from "./Reklama";
+
 function Home() {
   let [currentPage] = useState("0");
 
@@ -12,6 +14,7 @@ function Home() {
     <div className="container mx-auto">
       <Header />
       <HighlitedSection />
+      <Reklama />
       <PublicArticles currentPage={currentPage} />
       <Categories />
       <Footer />

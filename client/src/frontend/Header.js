@@ -177,7 +177,7 @@ export default function Header({ className }) {
         </div>
       </div>
 
-      <div className="bg-purple-200 flex flex-col">
+      <div className="bg-purple-200 flex flex-col container mx-auto">
         {searchTerm?.length >= 3 && searchR ? (
           <div className="flex flex-col ">
             <p className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2">
@@ -186,10 +186,7 @@ export default function Header({ className }) {
                 {searchTerm}
               </span>{" "}
             </p>
-            <p
-              // key={Math.random()}
-              className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2"
-            >
+            <p className=" bg-purple-200 container mx-auto dark:text-gray-300 p-2">
               <span className="text-purple-600 dark:text-purple-100 font-bold">
                 {searchR?.length}
               </span>{" "}
@@ -203,15 +200,15 @@ export default function Header({ className }) {
           searchR &&
           searchR?.map((result) => {
             return (
-              <>
-                <article
-                  key={result._id}
-                  className="flex w-[95%] ml-4 bg-white shadow-xl hover:shadow-xl my-3"
-                >
-                  <div className="flex flex-row w-1/3">
+              <article
+                key={result._id}
+                className="flex w-[95%] ml-4 bg-white shadow-xl hover:shadow-xl my-3"
+              >
+                <div className="flex flex-row w-1/3">
+                  <a href={`/article/?id=${result._id}`} className="flex">
                     {result.imgUrl ? (
                       <img
-                        className="w-full p-2 h-48 my-2"
+                        className="w-96 p-2 h-50 my-2"
                         alt="article"
                         src={result.imgUrl}
                       />
@@ -224,32 +221,31 @@ export default function Header({ className }) {
                         }
                       />
                     )}
-                  </div>
-                  <div className="flex flex-col justify-between dark:bg-neutral-900 w-2/3">
+                  </a>
+                </div>
+                <div className="flex flex-col justify-between dark:bg-neutral-900 w-2/3">
+                  <a href={`/article/?id=${result._id}`} className="flex">
                     <div className="border-gray-900/10 border-s p-2 sm:p-4 sm:border-l-transparent">
-                      <a href={`article?id=${result._id}`} rel="noopener">
-                        <h3 className="line-clamp-2 sm:line-clamp-3 font-bold text-gray-900 dark:text-white uppercase">
-                          {result.title}
-                        </h3>
-                      </a>
-
+                      <h3 className="line-clamp-2 sm:line-clamp-3 font-bold text-gray-900 dark:text-white uppercase">
+                        {result.title}
+                      </h3>
                       <p className="line-clamp-4 dark:text-gray-100">
                         {" "}
                         {result.description}
                       </p>
                     </div>
+                  </a>
 
-                    <div className="sm:flex sm:justify-end sm:items-end">
-                      <a
-                        href={`/article/?id=${result._id}`}
-                        className="block bg-purple-500 hover:bg-purple-400 mx-2 px-5 py-3 font-bold text-center text-gray-100 text-xs uppercase transition"
-                      >
-                        Lexo me shume
-                      </a>
-                    </div>
+                  <div className="sm:flex sm:justify-end sm:items-end">
+                    <a
+                      href={`/article/?id=${result._id}`}
+                      className="block bg-purple-500 hover:bg-purple-400 mx-2 px-5 py-3 font-bold text-center text-gray-100 text-xs uppercase transition"
+                    >
+                      Lexo me shume
+                    </a>
                   </div>
-                </article>
-              </>
+                </div>
+              </article>
             );
           })}
       </div>

@@ -81,7 +81,7 @@ export const useFetchSearchedArticles = (q) => {
     queryFn: async (q) => {
       if (!q) return;
       const { data } = await fetchSearchedArticles(q);
-      console.log(q);
+      // console.log(q);
       return data;
     },
     queryKey: ["searched articles", { q }],
@@ -339,7 +339,6 @@ export const useMutateUserProfile = (user) => {
 };
 
 // Fetch All Users
-
 const fetchUsers = async () => {
   return await apiClient.get(`users/`);
 };
@@ -411,5 +410,127 @@ export const useFetchSearchedUsers = (q) => {
       return data;
     },
     queryKey: ["searched users", { q }],
+  });
+};
+
+// Fetch All Reklama
+const fetchReklama = async () => {
+  return await apiClient.get(`/reklama`);
+};
+// Query All Reklama
+export const useFetchReklama = () => {
+  return useQuery({
+    queryFn: async () => {
+      const { data } = await fetchReklama();
+      return data;
+    },
+    queryKey: ["reklama"],
+  });
+};
+
+//Add Reklama
+const addReklama = async (reklama) => {
+  return await apiClient.post("/reklama", reklama);
+};
+export const useAddReklama = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: addReklama,
+    mutationKey: ["single reklama"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reklama"],
+      });
+    },
+  });
+};
+
+//Mutate Reklama
+const useMutateSingleReklama = async (reklama) => {
+  let {
+    title,
+    imgUrl,
+    isPublished,
+    partner,
+    targetUrl,
+    startsAt,
+    endsAt,
+    buttonMessage,
+  } = reklama;
+  return await apiClient.patch(`/reklama/${reklama.reklamaId}`, {
+    title,
+    imgUrl,
+    isPublished,
+    partner,
+    targetUrl,
+    startsAt,
+    endsAt,
+    buttonMessage,
+  });
+};
+// Mutate Reklama
+export const useMutateReklama = (reklama) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["mutate reklama"],
+    mutationFn: useMutateSingleReklama,
+    onSuccess: async (id) => {
+      return await queryClient.invalidateQueries({
+        queryKey: ["reklama"],
+      });
+    },
+  });
+};
+
+//Delete Reklama
+const deleteSingleReklama = async (id) => {
+  return await apiClient.delete(`/reklama/${id}`);
+};
+// Delete Reklama
+export const useDeleteReklama = (id) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["delete reklama"],
+    mutationFn: deleteSingleReklama,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reklama"],
+      });
+    },
+  });
+};
+// User Fetch Single Reklame
+const fetchSingleReklama = async (id) => {
+  return await apiClient.get(`/reklama/${id}`);
+};
+// User Fetch Single Reklame
+export const useSingleReklama = (id) => {
+  return useQuery({
+    queryFn: async (id) => {
+      const { data } = await fetchSingleReklama(id);
+      return data;
+    },
+    queryKey: ["single reklama", id],
+  });
+};
+// Fetch Searched Reklama
+const fetchSearchedReklama = async (q) => {
+  let query = q.queryKey[1]?.q;
+  if (query === undefined) return;
+  return await apiClient.get(`/reklama/search/${q.queryKey[1].q}`);
+};
+
+// Fetch Searched Users
+export const useFetchSearchedReklama = (q) => {
+  return useQuery({
+    queryFn: async (q) => {
+      if (!q) return;
+      const { data } = await fetchSearchedReklama(q);
+      return data;
+    },
+    queryKey: ["searched reklama", { q }],
   });
 };

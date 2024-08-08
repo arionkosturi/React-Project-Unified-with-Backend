@@ -2,6 +2,7 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import Reklama from "./Reklama";
 import {
   useSingleUser,
   useMutateUserProfile,
@@ -222,12 +223,12 @@ function PublicArticle() {
                       (liked) => liked._id === article._id
                     ).length === 0 ? (
                       <FaRegHeart
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleLiked}
                       />
                     ) : (
                       <FaHeart
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleRemoveLiked}
                       />
                     )}
@@ -235,12 +236,12 @@ function PublicArticle() {
                       (savedArticles) => savedArticles._id === article._id
                     ).length === 0 ? (
                       <FaRegBookmark
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleSaveArticle}
                       />
                     ) : (
                       <FaBookmark
-                        className="text-2xl text-purple-500"
+                        className="text-2xl text-purple-500 hover:text-purple-600 hover:scale-110"
                         onClick={handleRemoveSaveArticle}
                       />
                     )}
@@ -307,6 +308,8 @@ function PublicArticle() {
               <div className="border-red-600 border-b-8 w-2/12"></div>
             </div>
           )}
+
+          {/* Related section */}
           <div className="p-2 grid md:grid-cols-2 gap-2">
             {related
               ?.filter((f) => f._id !== article._id)
@@ -315,7 +318,7 @@ function PublicArticle() {
                 return (
                   <div key={article._id}>
                     <a
-                      href={`article?id=${article._id}`}
+                      href={`?id=${article._id}`}
                       className="hover:text-purple-800 "
                     >
                       <div className="flex border items-center hover:bg-slate-50">
@@ -333,6 +336,7 @@ function PublicArticle() {
                 );
               })}
           </div>
+          <Reklama />
         </section>
       </div>
       <Footer />
